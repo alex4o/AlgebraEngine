@@ -76,7 +76,7 @@ int main()
         Polynomial a(s);
         getline(cin, s);
         Polynomial b(s);
-        Polynomial c = a*b;
+        Polynomial c = a+b;
         c.print();
         cout<<endl;
     }
