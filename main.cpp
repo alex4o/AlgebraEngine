@@ -50,15 +50,6 @@ TO DO списък:
 
 #include <iostream>
 #include <vector>
-#include <cmath>
-#include <string>
-#include <algorithm>
-#include <map>
-
-
-
-
-
 
 
 using namespace std;
@@ -76,7 +67,7 @@ int main()
         Polynomial a(s);
         getline(cin, s);
         Polynomial b(s);
-        Polynomial c = a+b;
+        Polynomial c = a*b;
         c.print();
         cout<<endl;
     }
