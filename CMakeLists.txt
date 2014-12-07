@@ -13,6 +13,11 @@ set(SOURCE_FILES
     Polynomial.cpp
     Polynomial.hpp
     Simple.cpp
-    Simple.hpp)
+    Simple.hpp
+    Debug.cpp
+    CoefDescriptor.hpp
+    RootDescriptor.hpp
+    Generator.cpp
+    Generator.hpp)
 
 add_executable(Algebra_Engine ${SOURCE_FILES})

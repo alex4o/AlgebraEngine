@@ -26,7 +26,7 @@ public:
 
     void print() const
     {
-        if(not (coef.isNatural() and coef.fraction.up==1)) std::cout<<coef.fraction.up;
+        coef.print();
         for(int i = 0; i < simples.size(); i++)
         {
             if(simples[i].pow==1) std::cout<<simples[i].letter;

@@ -1,10 +1,6 @@
-extern "C"{
-	#include<stdio.h>
+#include "Debug.hpp"
 
-	void debug_msg(const char* msg) {
-		#ifdef DEBUG
-			printf(msg);
-		#undif
-	}
-
+void debug(std::string s)
+{
+        std::cout<<s<<std::endl;
 }

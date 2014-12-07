@@ -49,35 +49,44 @@ TO DO списък:
 */
 
 #include <iostream>
+#include <sstream>
 #include <vector>
-#include <cmath>
-#include <string>
-#include <algorithm>
-#include <map>
-
-
-
-
-
-
 
 using namespace std;
-#define DEBUG false
-#include "Polynomial.hpp"
+#define DEBUG true
+#include "Generator.hpp"
 
+
+int parse(string s)
+{
+    int n = 0;
+    for(int i = 0; i < s.size(); i++)
+    {
+        n*=10;
+        n+=s[i]-'0';
+    }
+    return n;
+}
 
 int main()
 {
+    init();
+
+    RootDescriptor rd;
+    rd.pFraction=0;
+    rd.pNatural=100;
+    rd.pIrational=0;
+    rd.upHigh=10;
+    rd.upLow=1;
+    rd.downLow=2;
+    rd.downHigh=10;
 
     while(true)
     {
-        string s;
-        getline(cin, s);
-        Polynomial a(s);
-        getline(cin, s);
-        Polynomial b(s);
-        Polynomial c = a+b;
+        Polynomial c = generate(2, rd, 'z');
         c.print();
         cout<<endl;
+        getchar();
     }
+
 }

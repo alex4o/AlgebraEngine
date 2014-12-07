@@ -43,10 +43,14 @@ public:               //Което може да е леко гадно, но с
     {
         return type&rational;
     }
+
+    void print() const;
 };
 
 Number operator+(const Number &n1, const Number &n2);
 Number operator-(const Number &n1, const Number &n2);
 Number operator*(const Number &n1, const Number &n2);
 Number operator/(const Number &n1, const Number &n2);
+
+Number parseNum(std::string s);
 #endif

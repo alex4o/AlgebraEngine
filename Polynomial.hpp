@@ -4,8 +4,6 @@
 #include "Monomial.hpp"
 #include <iostream>
 
-
-
 class Polynomial
 {
 public:
@@ -28,6 +26,12 @@ public:
     Polynomial() //За общи цели
     {
         totalPower=0;
+    }
+
+    Polynomial(Number n)
+    {
+        totalPower=0;
+        monos.push_back(Monomial(n));
     }
 
     Polynomial(std::string s)
@@ -70,6 +74,7 @@ public:
         for(int i = 0; i < monos.size(); i++)
         {
             monos[i].print();
+            //std::cout<<"["<<monos[i].totalPower<<"]";
             if(i!=monos.size()-1) std::cout<<" + ";
         }
     }
@@ -78,4 +83,5 @@ public:
 Polynomial operator+(const Polynomial &p1, const Polynomial &p2);
 Polynomial operator*(const Polynomial &p1, const Polynomial &p2);
 Polynomial multByMono(const Polynomial &p, const Monomial &m);
+Polynomial pow(Polynomial p, int num);
 #endif
