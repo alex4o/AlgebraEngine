@@ -73,17 +73,19 @@ int main()
     init();
 
     RootDescriptor rd;
-    rd.pFraction=50;
-    rd.pNatural=50;
+    rd.pFraction=100;
+    rd.pNatural=0;
     rd.pIrational=0;
-    rd.upHigh=10;
+    rd.upHigh=20;
     rd.upLow=1;
     rd.downLow=2;
-    rd.downHigh=10;
+    rd.downHigh=20;
 
     while(true)
     {
-        Polynomial c = generate(2, rd, 'z');
+        Monomial m(Number(rng(1, 20)));
+        Polynomial c = generate(4, rd, 'x');
+        c = multByMono(c, m);
         c.print();
         cout<<endl;
         getchar();

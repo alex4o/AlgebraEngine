@@ -122,7 +122,10 @@ void Number::print() const
 {
     if(isNatural() and fraction.up==1) return;
     if(isNatural()) cout<<fraction.up;
-    else if(isRational()) cout<<fraction.up<<"/"<<fraction.down;
+    else if(isRational())
+    {
+        cout<<"\\frac{"<<fraction.up<<"}{"<<fraction.down<<"}";
+    }
     //cout<<" ["<<null<<isRational()<<isNatural()<<"] ";
 }
 
