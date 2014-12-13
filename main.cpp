@@ -73,8 +73,8 @@ int main()
     init();
 
     RootDescriptor rd;
-    rd.pFraction=0;
-    rd.pNatural=100;
+    rd.pFraction=50;
+    rd.pNatural=50;
     rd.pIrational=0;
     rd.upHigh=10;
     rd.upLow=1;
