@@ -21,5 +21,5 @@ set(SOURCE_FILES
     Generator.cpp
     Generator.hpp)
 
-add_executable(AlgebraEngine ${SOURCE_FILES})
+#add_executable(AlgebraEngine ${SOURCE_FILES})
 add_library(AlgebraEngine SHARED ${SOURCE_FILES})
