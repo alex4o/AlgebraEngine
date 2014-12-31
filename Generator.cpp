@@ -3,31 +3,30 @@
 
 using namespace std;
 
-int rng(int low, int high, std::random_device *rd)
+int Generator::rng(int low, int high)
 {
      std::uniform_int_distribution<int> d(low, high);
-     return d(*rd);
+     return d(this->rand_dev);
 
 }
 
-Number gen(RootDescriptor &rd, char t,std::random_device *rand_dev)
+Number Generator::gen(char t)
 {
     int sign = -1;
     if(rand()%2) sign=1;
 
     if(t=='n')
     {
-        return Number(rng(sign*rd.upLow, rd.upHigh,rand_dev));
+        return Number(rng(sign*this->descriptor.upLow, this->descriptor.upHigh));
     }
     if(t=='f')
     {
-        return Number(rng(sign*rd.upLow, rd.upHigh,rand_dev), rng(rd.downLow, rd.downHigh,rand_dev));
+        return Number(rng(sign*this->descriptor.upLow, this->descriptor.upHigh), rng(this->descriptor.downLow, this->descriptor.downHigh));
     }
     return Number(0);
 }
 
-Polynomial generate(int power, RootDescriptor rd, char letter,std::random_device *rand_dev)
-{
+Polynomial Generator::generate(int power, char letter){
     Simple s(letter, 1);
     std::vector<Simple> vs;
     vs.push_back(s);
@@ -45,29 +44,29 @@ Polynomial generate(int power, RootDescriptor rd, char letter,std::random_device
     char type[3];
     int rem[3];
 
-    if(rd.pNatural>0)
+    if(this->descriptor.pNatural>0)
     {
         last++;
         type[last]='n';
-        rem[last]=(rd.pNatural*power)/100+1;
+        rem[last]=(this->descriptor.pNatural*power)/100+1;
     }
-    if(rd.pFraction>0)
+    if(this->descriptor.pFraction>0)
     {
         last++;
         type[last]='f';
-        rem[last]=(rd.pFraction*power)/100+1;
+        rem[last]=(this->descriptor.pFraction*power)/100+1;
     }
-    if(rd.pIrational>0)
+    if(this->descriptor.pIrational>0)
     {
         last++;
         type[last]='i';
-        rem[last]=(rd.pIrational*power)/100+1;
+        rem[last]=(this->descriptor.pIrational*power)/100+1;
     }
 
 
     for(int i = 0; i < power; i++)
     {
-        int r = rng(0, last,rand_dev);
+        int r = rng(0, last);
         char t = type[r];
 
         rem[r]--;
@@ -78,7 +77,7 @@ Polynomial generate(int power, RootDescriptor rd, char letter,std::random_device
             last--;
         }
 
-        Number nc = gen(rd, t,rand_dev);
+        Number nc = gen(t);
         cout<<"Root: "<<nc.fraction.up<<"/"<<nc.fraction.down<<endl;
 
         if(nc.null==false)po.monos[1].coef = nc;

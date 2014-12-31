@@ -49,7 +49,6 @@ TO DO списък:
 */
 
 #include <iostream>
-#include <sstream>
 #include <vector>
 
 using namespace std;
@@ -70,25 +69,25 @@ int parse(string s)
 
 int main()
 {
-    init();
 
-    RootDescriptor rd;
-    rd.pFraction=100;
-    rd.pNatural=0;
-    rd.pIrational=0;
-    rd.upHigh=20;
-    rd.upLow=1;
-    rd.downLow=2;
-    rd.downHigh=20;
+    Generator gen;
+
+    gen.descriptor.pFraction=100;
+    gen.descriptor.pNatural=0;
+    gen.descriptor.pIrational=0;
+    gen.descriptor.upHigh=20;
+    gen.descriptor.upLow=1;
+    gen.descriptor.downLow=2;
+    gen.descriptor.downHigh=20;
 
     while(true)
     {
-        Monomial m(Number(rng(1, 20)));
-        Polynomial c = generate(4, rd, 'x');
-        c = multByMono(c, m);
+
+        Polynomial c = gen.generate(4, 'x');
         c.print();
-        cout<<endl;
+        cout<<"\n";
         getchar();
+
     }
 
 }

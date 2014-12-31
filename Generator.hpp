@@ -6,10 +6,20 @@
 #include "CoefDescriptor.hpp"
 #include <ctime>
 #include <random>
+class Generator{
+private:
 
-int rng(int low, int high,std::random_device *rand_dev);
-Number gen(RootDescriptor &rd, char type, std::random_device *rand_dev);
-Polynomial generate(int power, RootDescriptor rd, char letter,std::random_device *rand_dev);
+	std::random_device rand_dev;
+
+public:
+	RootDescriptor descriptor;
+
+	int rng(int low, int high);
+	Polynomial generate(int power, char letter);
+
+	Number gen(char t);
+};
+
 Polynomial generate(int power, CoefDescriptor cd, char letter);
 
 #endif
