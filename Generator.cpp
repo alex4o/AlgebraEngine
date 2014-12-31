@@ -1,34 +1,32 @@
 #include "Generator.hpp"
 
+
 using namespace std;
 
-void init()
+int rng(int low, int high, std::random_device *rd)
 {
-    srand(time(0));
+     std::uniform_int_distribution<int> d(low, high);
+     return d(*rd);
+
 }
 
-int rng(int low, int high)
-{
-    return rand()%(high-low+1) + low;
-}
-
-Number gen(RootDescriptor &rd, char t)
+Number gen(RootDescriptor &rd, char t,std::random_device *rand_dev)
 {
     int sign = -1;
     if(rand()%2) sign=1;
 
     if(t=='n')
     {
-        return Number(rng(sign*rd.upLow, rd.upHigh));
+        return Number(rng(sign*rd.upLow, rd.upHigh,rand_dev));
     }
     if(t=='f')
     {
-        return Number(rng(sign*rd.upLow, rd.upHigh), rng(rd.downLow, rd.downHigh));
+        return Number(rng(sign*rd.upLow, rd.upHigh,rand_dev), rng(rd.downLow, rd.downHigh,rand_dev));
     }
     return Number(0);
 }
 
-Polynomial generate(int power, RootDescriptor rd, char letter)
+Polynomial generate(int power, RootDescriptor rd, char letter,std::random_device *rand_dev)
 {
     Simple s(letter, 1);
     std::vector<Simple> vs;
@@ -69,7 +67,7 @@ Polynomial generate(int power, RootDescriptor rd, char letter)
 
     for(int i = 0; i < power; i++)
     {
-        int r = rng(0, last);
+        int r = rng(0, last,rand_dev);
         char t = type[r];
 
         rem[r]--;
@@ -80,7 +78,7 @@ Polynomial generate(int power, RootDescriptor rd, char letter)
             last--;
         }
 
-        Number nc = gen(rd, t);
+        Number nc = gen(rd, t,rand_dev);
         cout<<"Root: "<<nc.fraction.up<<"/"<<nc.fraction.down<<endl;
 
         if(nc.null==false)po.monos[1].coef = nc;
