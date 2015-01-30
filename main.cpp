@@ -70,6 +70,7 @@ int parse(string s)
 
 int main()
 {
+	cout<<"Aide na zadachite!\n";
 
     Generator gen;
 
