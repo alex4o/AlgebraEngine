@@ -44,6 +44,27 @@ public:               //Което може да е леко гадно, но с
         return type&rational;
     }
 
+    void operator+=(const Number &n1);
+    void operator-=(const Number &n1);
+
+    bool operator==(int k)
+    {
+        if(isNatural()) return fraction.up==k;
+        return false;
+    }
+
+    bool operator==(const Number& n1)
+    {
+        if(null and n1.null) return true;
+        return type==n1.type and fraction.up==n1.fraction.up and fraction.down==n1.fraction.down;
+    }
+
+    bool operator!=(int k)
+    {
+        if(isNatural()) return fraction.up!=k;
+        return true;
+    }
+
     void print() const;
 };
 
@@ -51,6 +72,8 @@ Number operator+(const Number &n1, const Number &n2);
 Number operator-(const Number &n1, const Number &n2);
 Number operator*(const Number &n1, const Number &n2);
 Number operator/(const Number &n1, const Number &n2);
+
+
 
 Number parseNum(std::string s);
 #endif

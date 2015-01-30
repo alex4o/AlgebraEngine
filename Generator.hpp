@@ -1,6 +1,7 @@
 #ifndef GeneratorH
 #define GeneratorH
 
+#include "RNG.hpp"
 #include "Polynomial.hpp"
 #include "RootDescriptor.hpp"
 #include "CoefDescriptor.hpp"
@@ -8,8 +9,7 @@
 #include <random>
 class Generator{
 private:
-
-	std::random_device rand_dev;
+    RNJ rnGenerator;
 
 public:
 	RootDescriptor descriptor;

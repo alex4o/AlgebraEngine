@@ -54,6 +54,7 @@ TO DO списък:
 using namespace std;
 #define DEBUG true
 #include "Generator.hpp"
+#include "SPolynomial.hpp"
 
 
 int parse(string s)
@@ -80,7 +81,29 @@ int main()
     gen.descriptor.downLow=2;
     gen.descriptor.downHigh=20;
 
-    while(true)
+    SPolynomial a, b;
+    a.letter='x';
+    b.letter='x';
+    a.power=1;
+    a.coef[0]=-2;
+    a.coef[1]=1;
+    //a.coef[2]=2;
+
+    b.power=1;
+    b.coef[0]=0;
+    b.coef[1]=2;
+
+    a.print();
+    cout<<endl;
+    b.print();
+    cout<<endl;
+
+    SPolynomial c= a*b;
+    c.letter='x';
+    c.print();
+
+
+    /*while(true)
     {
 
         Polynomial c = gen.generate(4, 'x');
@@ -88,6 +111,6 @@ int main()
         cout<<"\n";
         getchar();
 
-    }
+    }*/
 
 }

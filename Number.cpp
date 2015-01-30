@@ -6,6 +6,9 @@ using namespace std;
 Number::Number() //Стандартен конструктор. Нулира по образец на C#
 {
     null=true;
+    fraction.up=0;
+    fraction.down=1;
+    type= natural | rational;
 }
 
 Number::Number(int n) //Конструктор за естествено число
@@ -120,13 +123,14 @@ Number parseNum(string s)
 
 void Number::print() const
 {
-    if(isNatural() and fraction.up==1) return;
+    //if(isNatural() and fraction.up==1) return;
     if(isNatural()) cout<<fraction.up;
     else if(isRational())
     {
         cout<<"\\frac{"<<fraction.up<<"}{"<<fraction.down<<"}";
     }
     //cout<<" ["<<null<<isRational()<<isNatural()<<"] ";
+    //cout<<fraction.up<<"/"<<fraction.down;
 }
 
 
@@ -163,6 +167,65 @@ Number operator+(const Number &n1, const Number &n2) //Събиране на 2 �
     }
     //cout<<"\t we shouldn't be here\n";
     return Number(); //Часта за ирационални числа
+}
+
+void Number::operator+=(const Number &n1) //Добавяне
+{
+    /*cout<<"Old: ";
+    print();
+    cout<<"\nAdding: ";
+    n1.print();*/
+
+    if(n1.null) return;
+
+    if(n1.isRational()) //Ако и двете числа са естествени
+    {
+        int nu = fraction.up*n1.fraction.down + n1.fraction.up*fraction.down;
+        int nd = fraction.down*n1.fraction.down;
+
+        if(nd<0) nu*=-1;
+
+        int g = gcd(nu, nd);
+        fraction.up = nu/g;
+        fraction.down = nd/g;
+        fraction.up=nu;
+        fraction.down=nd;
+    }
+
+    null=false;
+
+    /*cout<<"\nResult: ";
+    print();*/
+
+    //cout<<"\t we shouldn't be here\n";
+    return; //Часта за ирационални числа
+}
+
+void Number::operator-=(const Number &n1) //Добавяне
+{
+    /*cout<<"[Sum] ";
+    n1.print();
+    cout<<" and ";
+    n2.print();
+    cout<<endl;*/
+    if(n1.null) return;
+
+    if(n1.isRational()) //Ако и двете числа са естествени
+    {
+        int nu = fraction.up*n1.fraction.down - n1.fraction.up*fraction.down;
+        int nd = fraction.down*n1.fraction.down;
+
+        if(nd<0) nu*=-1;
+
+        int g = gcd(nu, nd);
+        fraction.up = nu/g;
+        fraction.down = nd/g;
+        fraction.up=nu;
+        fraction.down=nd;
+    }
+
+    //cout<<"\t we shouldn't be here\n";
+    return; //Часта за ирационални числа
 }
 
 Number operator-(const Number &n1, const Number &n2) //Изваждането, всичко е аналогично на събирането

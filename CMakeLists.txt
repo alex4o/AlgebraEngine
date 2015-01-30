@@ -19,7 +19,9 @@ set(SOURCE_FILES
     CoefDescriptor.hpp
     RootDescriptor.hpp
     Generator.cpp
-    Generator.hpp)
+    Generator.hpp
+    RNG.hpp
+    SPolynomial.hpp)
 
 add_executable(AlgebraEngine ${SOURCE_FILES})
 #add_library(AlgebraEngine SHARED ${SOURCE_FILES})

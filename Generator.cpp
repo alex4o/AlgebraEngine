@@ -5,8 +5,7 @@ using namespace std;
 
 int Generator::rng(int low, int high)
 {
-     std::uniform_int_distribution<int> d(low, high);
-     return d(this->rand_dev);
+     rnGenerator.nextInt(low, high);
 
 }
 
