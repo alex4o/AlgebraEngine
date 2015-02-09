@@ -3,6 +3,7 @@
 
 #include "Fraction.hpp"
 #include <vector>
+#include <string>
 
 #define natural 0x1
 #define rational 0x2

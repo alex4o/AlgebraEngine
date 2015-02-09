@@ -23,6 +23,11 @@ class Expression
     Polynomial free;
     vector<Term> terms;
 
+    Expression()
+    {
+
+    }
+
     Expression(Number n)
     {
         free = Polynomial(n);

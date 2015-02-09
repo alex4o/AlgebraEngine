@@ -4,9 +4,12 @@
 class CoefDescriptor
 {
 public:
-    bool _natural;
-    bool _rational;
-    bool _irational;
+    int pNatural;
+    int pRational;
+    int pIrational;
+
+    int pNegative;
+
     int upLow, upHigh, downLow, downHigh;
 };
 
