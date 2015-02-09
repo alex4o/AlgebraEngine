@@ -23,5 +23,5 @@ set(SOURCE_FILES
     RNG.hpp
     SPolynomial.hpp)
 
-add_executable(AlgebraEngine ${SOURCE_FILES})
-#add_library(AlgebraEngine SHARED ${SOURCE_FILES})
+#add_executable(AlgebraEngine ${SOURCE_FILES})
+add_library(AlgebraEngine SHARED ${SOURCE_FILES})
