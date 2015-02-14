@@ -7,6 +7,7 @@
 #include "CoefDescriptor.hpp"
 #include <ctime>
 #include <random>
+#include <string.h>
 class Generator{
 private:
     RNJ rnGenerator;

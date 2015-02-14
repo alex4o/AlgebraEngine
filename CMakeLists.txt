@@ -23,6 +23,8 @@ set(SOURCE_FILES
     RNG.hpp
     SPolynomial.hpp
     ChooseList.hpp
+    Expression.hpp
+    ExpressionDescriptor.hpp
     7klas.hpp)
 
 add_executable(AlgebraEngine ${SOURCE_FILES})

@@ -50,12 +50,14 @@ TO DO списък:
 
 #include <iostream>
 #include <vector>
+#include <string.h>
 
 using namespace std;
 #define DEBUG true
 #include "Generator.hpp"
 #include "SPolynomial.hpp"
 #include "7klas.hpp"
+
 
 
 int parse(string s)
@@ -80,6 +82,7 @@ int main()
         cin>>cNums>>sum;
         int arr[cNums];
         createListOfInts(arr, cNums, sum, &jesus);
+        for(int i = 0; i < cNums; i++) cout<<arr[i]<<" ";
         cout<<endl;
         getchar();
     }
