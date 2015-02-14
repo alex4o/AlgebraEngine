@@ -3,6 +3,76 @@
 
 using namespace std;
 
+void createListOfInts(int* array, int size, int sum, RNJ* jesus)
+{
+    memset(array+4, 0, (size-1)*4);
+    array[0]=sum;
+
+    int chArr[size];
+
+    for(int i = 0; i < size - 1; i++)
+    {
+        int chArrLen = 0;
+        for(int j = 0; j <= i; j++)
+        {
+            if(array[j]>1) chArr[chArrLen++] = j;
+        }
+
+        int choice = jesus->nextInt(0, chArrLen-1);
+
+        int newInt = jesus->nextInt(1, array[chArr[choice]]-1);
+        array[i+1] = newInt;
+        array[chArr[choice]] -= newInt;
+    }
+}
+
+void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed)
+{
+    RNJ jesus;
+
+    if(ed.factored=true)
+    {
+        int cTerms = jesus.nextInt(ed.minTerms, ed.maxTerms);
+
+        for(int i = 0; i < cTerms; i++)//Term
+        {
+            Term currentTerm;
+
+            int cSubTerms = jesus.nextInt(ed.minSubTerm, ed.maxSubTerm); //number of subterms for current term
+            int power = jesus.nextInt(cSubTerms, ed.maxPow); //distrbution of power to subterms
+
+            int powers[cSubTerms];
+            createListOfInts(powers, cSubTerms, power, &jesus);
+
+            for(int j = 0; j < cSubTerms; j++)//Subterm(aka Polynomial)
+            {
+                int cPower = powers[j];
+
+                ChooseList cl(ed.letters.size(), &jesus);
+                int cLetters = jesus.nextInt(ed.minLetters, ed.maxLetters);
+
+                Polynomial poly;
+
+                for (int k = 0; k < cLetters; k++)//Letters
+                {
+                    char letter = ed.letters[cl.choose()];
+                    Number coef = jesus.nextNumber(ed.cf);
+
+                    Monomial mono(coef, letter);
+                    poly.monos.push_back(mono);
+                }
+
+                currentTerm.polys.push_back(poly);
+                currentTerm.powers.push_back(cPower);
+            }
+
+            e1.addTerm(currentTerm, false);
+            e2.addTerm(currentTerm, true);
+        }
+
+    }
+}
+
 int Generator::rng(int low, int high)
 {
      rnGenerator.nextInt(low, high);

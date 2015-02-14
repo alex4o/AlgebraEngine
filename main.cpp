@@ -50,13 +50,11 @@ TO DO списък:
 
 #include <iostream>
 #include <vector>
+#include <string.h>
 
 using namespace std;
 #define DEBUG true
 #include "Generator.hpp"
-#include "SPolynomial.hpp"
-#include "7klas.hpp"
-
 
 int parse(string s)
 {
@@ -73,6 +71,29 @@ int main()
 {
     RNJ jesus;
 
+    ExpressionDescriptor ed;
+    ed.minTerms=1;
+    ed.maxTerms=4;
+
+    ed.factored=true;
+    ed.letters="abcd";
+
+    ed.minLetters=2;
+    ed.maxLetters=3;
+
+    ed.cf.pNatural=100;
+    ed.cf.upHigh=10;
+    ed.cf.upLow=1;
+
+    ed.transformCF.pNatural=100;
+    ed.transformCF.upHigh=3;
+    ed.transformCF.upLow=1;
+
+    ed.maxPow=5;
+
+    Expression e1, e2;
+
+    createEquivalentExpressions(e1, e2, ed);
 
     while(true)
     {
@@ -80,6 +101,7 @@ int main()
         cin>>cNums>>sum;
         int arr[cNums];
         createListOfInts(arr, cNums, sum, &jesus);
+        for(int i = 0; i < cNums; i++) cout<<arr[i]<<" ";
         cout<<endl;
         getchar();
     }

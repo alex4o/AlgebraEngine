@@ -65,6 +65,14 @@ Monomial::Monomial(Number c, std::vector<Simple> v)//Конструктор съ
     sortSimple();
 }
 
+Monomial::Monomial(Number c, char letter)
+{
+    coef=c;
+    Simple s(letter, 1);
+    simples.push_back(s);
+    totalPower=1;
+}
+
 Monomial operator*(const Monomial &m1, const Monomial &m2) //Умножението
 {   //Мап за прости едночлени - но не като клас, а като двойка, където char е ключа
     std::map<char, int> powers; //Смятах да ползвам масив char от 256 елемента, но сметнах, че така ще е по-бързо(надявам се)

@@ -2,6 +2,9 @@
 #define ExpH
 
 #include "Polynomial.hpp"
+#include <vector>
+
+using namespace std;
 
 class Term
 {
@@ -15,7 +18,7 @@ public:
 
     }
 
-    Term(Number& c)
+    Term(Number c)
     {
         coef=c;
     }
@@ -39,6 +42,7 @@ Polynomial calc(Term& t)
 
 class Expression
 {
+public:
     Polynomial free;
     vector<Term> terms;
 

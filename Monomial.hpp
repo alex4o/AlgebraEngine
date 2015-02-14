@@ -24,6 +24,8 @@ public:
 
     Monomial(Number c, std::vector<Simple> v);
 
+    Monomial(Number c, char letter);
+
     void print() const
     {
         coef.print();
