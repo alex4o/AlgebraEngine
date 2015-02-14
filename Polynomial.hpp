@@ -84,4 +84,5 @@ Polynomial operator+(const Polynomial &p1, const Polynomial &p2);
 Polynomial operator*(const Polynomial &p1, const Polynomial &p2);
 Polynomial multByMono(const Polynomial &p, const Monomial &m);
 Polynomial pow(Polynomial p, int num);
+Polynomial pow(Polynomial p, Number num);
 #endif

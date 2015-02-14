@@ -2,21 +2,40 @@
 #define ExpH
 
 #include "Polynomial.hpp"
-#include "../Polynomial.hpp"
 
 class Term
 {
 public:
-    Polynomial p;
-    Number power;
+    vector<Polynomial> polys;
+    vector<Number> powers;
     Number coef;
+
+    Term()
+    {
+
+    }
+
+    Term(Number& c)
+    {
+        coef=c;
+    }
 
     Term(Polynomial pol, Number n)
     {
-        p = pol;
-        power = n;
+        polys.push_back(pol);
+        coef = n;
     }
 };
+
+Polynomial calc(Term& t)
+{
+    Polynomial result = pow(t.polys[0], t.powers[0]);
+    for(int i = 1; i < t.polys.size(); i++)
+    {
+        result = result * pow(t.polys[i], t.powers[i]);
+    }
+    return result;
+}
 
 class Expression
 {
@@ -33,11 +52,11 @@ class Expression
         free = Polynomial(n);
     }
 
-    void addTerm(Term t, bool add)
+    void addTerm(Term& t, bool add)
     {
         if(add)
         {
-            free = free + pow(t.p, t.power);
+            free = free + calc(t);
         }
         else
         {
@@ -47,7 +66,7 @@ class Expression
 
     void multByNum(Number n)
     {
-        free.multByMono(Monomial(n));
+        free = multByMono(free, Monomial(n));
         for(int i = 0; i < terms.size(); i++)
         {
             terms[i].coef = terms[i].coef*n;
