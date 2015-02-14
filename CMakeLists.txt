@@ -21,7 +21,9 @@ set(SOURCE_FILES
     Generator.cpp
     Generator.hpp
     RNG.hpp
-    SPolynomial.hpp)
+    SPolynomial.hpp
+    ChooseList.hpp
+    7klas.hpp)
 
 add_executable(AlgebraEngine ${SOURCE_FILES})
 #add_library(AlgebraEngine SHARED ${SOURCE_FILES})

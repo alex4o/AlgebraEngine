@@ -55,6 +55,7 @@ using namespace std;
 #define DEBUG true
 #include "Generator.hpp"
 #include "SPolynomial.hpp"
+#include "7klas.hpp"
 
 
 int parse(string s)
@@ -70,7 +71,20 @@ int parse(string s)
 
 int main()
 {
-	cout<<"Aide na zadachite!\n";
+    RNJ jesus;
+
+
+    while(true)
+    {
+        int cNums, sum;
+        cin>>cNums>>sum;
+        int arr[cNums];
+        createListOfInts(arr, cNums, sum, &jesus);
+        cout<<endl;
+        getchar();
+    }
+
+	/*cout<<"Aide na zadachite!\n";
 
     Generator gen;
 

@@ -150,3 +150,9 @@ Polynomial pow(Polynomial p, int num)
 
     return result;
 }
+
+Polynomial pow(Polynomial p, Number num)
+{
+    if(num.isNatural()) return pow(p, num.fraction.up);
+    else return Polynomial();
+}
