@@ -42,6 +42,7 @@ Polynomial calc(Term& t)
 
 class Expression
 {
+public:
     Polynomial free;
     vector<Term> terms;
 

@@ -26,6 +26,53 @@ void createListOfInts(int* array, int size, int sum, RNJ* jesus)
     }
 }
 
+void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed)
+{
+    RNJ jesus;
+
+    if(ed.factored=true)
+    {
+        int cTerms = jesus.nextInt(ed.minTerms, ed.maxTerms);
+
+        for(int i = 0; i < cTerms; i++)//Term
+        {
+            Term currentTerm;
+
+            int cSubTerms = jesus.nextInt(ed.minSubTerm, ed.maxSubTerm); //number of subterms for current term
+            int power = jesus.nextInt(cSubTerms, ed.maxPow); //distrbution of power to subterms
+
+            int powers[cSubTerms];
+            createListOfInts(powers, cSubTerms, power, &jesus);
+
+            for(int j = 0; j < cSubTerms; j++)//Subterm(aka Polynomial)
+            {
+                int cPower = powers[j];
+
+                ChooseList cl(ed.letters.size(), &jesus);
+                int cLetters = jesus.nextInt(ed.minLetters, ed.maxLetters);
+
+                Polynomial poly;
+
+                for (int k = 0; k < cLetters; k++)//Letters
+                {
+                    char letter = ed.letters[cl.choose()];
+                    Number coef = jesus.nextNumber(ed.cf);
+
+                    Monomial mono(coef, letter);
+                    poly.monos.push_back(mono);
+                }
+
+                currentTerm.polys.push_back(poly);
+                currentTerm.powers.push_back(cPower);
+            }
+
+            e1.addTerm(currentTerm, false);
+            e2.addTerm(currentTerm, true);
+        }
+
+    }
+}
+
 int Generator::rng(int low, int high)
 {
      rnGenerator.nextInt(low, high);
