@@ -30,7 +30,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
 {
     RNJ jesus;
 
-    if(ed.factored=true)
+    if(ed.factored==false)
     {
         int cTerms = jesus.nextInt(ed.minTerms, ed.maxTerms);
 
@@ -65,6 +65,8 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
                 currentTerm.polys.push_back(poly);
                 currentTerm.powers.push_back(cPower);
             }
+
+            currentTerm.coef = jesus.nextNumber(ed.transformCF);
 
             e1.addTerm(currentTerm, false);
             e2.addTerm(currentTerm, true);

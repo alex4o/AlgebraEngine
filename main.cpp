@@ -73,81 +73,37 @@ int main()
 
     ExpressionDescriptor ed;
     ed.minTerms=1;
-    ed.maxTerms=4;
+    ed.maxTerms=3;
 
-    ed.factored=true;
-    ed.letters="abcd";
+    ed.factored=false;
+    ed.letters="abcegdfh";
 
     ed.minLetters=2;
-    ed.maxLetters=3;
+    ed.maxLetters=5;
 
     ed.cf.pNatural=100;
-    ed.cf.upHigh=10;
+    ed.cf.pNegative=50;
+    ed.cf.pIrational=0;
+    ed.cf.pRational=0;
+    ed.cf.upHigh=7;
     ed.cf.upLow=1;
 
     ed.transformCF.pNatural=100;
-    ed.transformCF.upHigh=3;
+    ed.transformCF.pIrational=0;
+    ed.transformCF.pRational=0;
+    ed.transformCF.upHigh=10;
     ed.transformCF.upLow=1;
 
-    ed.maxPow=5;
+    ed.minSubTerm=1;
+    ed.maxSubTerm=3;
+
+    ed.maxPow=2;
 
     Expression e1, e2;
 
     createEquivalentExpressions(e1, e2, ed);
 
-    while(true)
-    {
-        int cNums, sum;
-        cin>>cNums>>sum;
-        int arr[cNums];
-        createListOfInts(arr, cNums, sum, &jesus);
-        for(int i = 0; i < cNums; i++) cout<<arr[i]<<" ";
-        cout<<endl;
-        getchar();
-    }
-
-	/*cout<<"Aide na zadachite!\n";
-
-    Generator gen;
-
-    gen.descriptor.pFraction=100;
-    gen.descriptor.pNatural=0;
-    gen.descriptor.pIrational=0;
-    gen.descriptor.upHigh=20;
-    gen.descriptor.upLow=1;
-    gen.descriptor.downLow=2;
-    gen.descriptor.downHigh=20;
-
-    SPolynomial a, b;
-    a.letter='x';
-    b.letter='x';
-    a.power=1;
-    a.coef[0]=-2;
-    a.coef[1]=1;
-    //a.coef[2]=2;
-
-    b.power=1;
-    b.coef[0]=0;
-    b.coef[1]=2;
-
-    a.print();
+    e1.print();
     cout<<endl;
-    b.print();
-    cout<<endl;
-
-    SPolynomial c= a*b;
-    c.letter='x';
-    c.print();
-
-
-    /*while(true)
-    {
-
-        Polynomial c = gen.generate(4, 'x');
-        c.print();
-        cout<<"\n";
-        getchar();
-
-    }*/
-
+    e2.print();
 }

@@ -6,6 +6,8 @@
 
 using namespace std;
 
+
+
 class Term
 {
 public:
@@ -28,17 +30,18 @@ public:
         polys.push_back(pol);
         coef = n;
     }
-};
 
-Polynomial calc(Term& t)
-{
-    Polynomial result = pow(t.polys[0], t.powers[0]);
-    for(int i = 1; i < t.polys.size(); i++)
+    Polynomial toPoly()
     {
-        result = result * pow(t.polys[i], t.powers[i]);
+        Polynomial result = pow(polys[0], powers[0]);
+        for(int i = 1; i < polys.size(); i++)
+        {
+            result = result * pow(polys[i], powers[i]);
+        }
+        result = multByMono(result, Monomial(coef));
+        return result;
     }
-    return result;
-}
+};
 
 class Expression
 {
@@ -60,7 +63,7 @@ public:
     {
         if(add)
         {
-            free = free + calc(t);
+            free = free + t.toPoly();
         }
         else
         {
@@ -75,6 +78,26 @@ public:
         {
             terms[i].coef = terms[i].coef*n;
         }
+    }
+
+    void print() const
+    {
+        for(int i = 0; i < terms.size(); i++)
+        {
+            terms[i].coef.print();
+            for(int j = 0; j < terms[i].polys.size(); j++)
+            {
+                cout<<"(";
+                terms[i].polys[j].print();
+                cout<<")^";
+                terms[i].powers[j].print();
+
+            }
+
+            cout<<" + ";
+        }
+
+        free.print();
     }
 };
 
