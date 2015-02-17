@@ -80,24 +80,33 @@ public:
         }
     }
 
-    void print() const
+    void print(stringstream& ss)
     {
-        for(int i = 0; i < terms.size(); i++)
+        terms[0].coef.print(true, false, ss);
+        for(int i = 1; i < terms.size(); i++)
         {
-            terms[i].coef.print();
+            ss<<' '<<terms[i].coef.getSign()<<' ';
+
+            terms[i].coef.print(true, true, ss);
             for(int j = 0; j < terms[i].polys.size(); j++)
             {
-                cout<<"(";
-                terms[i].polys[j].print();
-                cout<<")^";
-                terms[i].powers[j].print();
+                ss<<"(";
+                terms[i].polys[j].print(ss);
+                ss<<")";
+
+                if(terms[i].powers[j]!=1)
+                {
+                    ss<<"^";
+                    terms[i].powers[j].print(true, false, ss);
+                }
 
             }
-
-            cout<<" + ";
         }
 
-        free.print();
+        if(!free.empty())
+        {
+            free.print(ss, true);
+        }
     }
 };
 

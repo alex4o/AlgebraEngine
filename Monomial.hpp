@@ -26,14 +26,20 @@ public:
 
     Monomial(Number c, char letter);
 
-    void print() const
+    void print(stringstream& ss, bool ignoreSign)
     {
-        coef.print();
+        coef.print(totalPower!=0, ignoreSign, ss);
         for(int i = 0; i < simples.size(); i++)
         {
-            if(simples[i].pow==1) std::cout<<simples[i].letter;
-            else std::cout<<simples[i].letter<<"^"<<simples[i].pow;
+            if(simples[i].pow==1) ss<<simples[i].letter;
+            else ss<<simples[i].letter<<"^"<<simples[i].pow;
         }
+    }
+
+    char getSign()
+    {
+        if(coef.fraction.up<0) return '-';
+        return '+';
     }
 };
 

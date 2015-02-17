@@ -51,6 +51,7 @@ TO DO списък:
 #include <iostream>
 #include <vector>
 #include <string.h>
+#include <sstream>
 
 using namespace std;
 #define DEBUG true
@@ -69,6 +70,11 @@ int parse(string s)
 
 int main()
 {
+    Polynomial p("3x + 2y");
+    stringstream ss;
+    p.print(ss);
+    cout<<ss.str();
+
     RNJ jesus;
 
     ExpressionDescriptor ed;
@@ -103,7 +109,11 @@ int main()
 
     createEquivalentExpressions(e1, e2, ed);
 
-    e1.print();
-    cout<<endl;
-    e2.print();
+    stringstream ss1, ss2;
+
+    cout<<"Filling streams!\n";
+    e1.print(ss1);
+    //e2.print(ss2);
+    cout<<"Printing!\n";
+    cout<<ss1.str()/*<<endl<<ss2.str()*/;
 }
