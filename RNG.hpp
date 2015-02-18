@@ -6,6 +6,7 @@
 
 #include "Number.hpp"
 #include "CoefDescriptor.hpp"
+#include "RootDescriptor.hpp"
 
 #ifdef linux
 	#include <random>
@@ -99,6 +100,29 @@ public:
         }
     }
 
+<<<<<<< HEAD
+=======
+    Number nextNumber(RootDescriptor& rd)
+    {
+        int r = nextInt(1, 100);
+        int sign = 1;
+        int r2 = nextInt(1, 100);
+        if(r2<=rd.pNegative) sign = -1;
+
+        if(r<=rd.pNatural)
+        {
+            return Number(sign*nextInt(rd.upLow, rd.upHigh));
+        }
+        else if(r>rd.pNatural and r<= rd.pFraction)
+        {
+            return Number(sign*nextInt(rd.upLow, rd.upHigh), nextInt(rd.downLow, rd.downHigh));
+        }
+        else
+        {
+            return Number();
+        }
+    }
+>>>>>>> 7kl
 };
 
 #endif

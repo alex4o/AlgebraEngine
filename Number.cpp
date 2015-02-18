@@ -121,14 +121,19 @@ Number parseNum(string s)
     return c;
 }
 
-void Number::print() const
+void Number::print(bool ignoreOne, bool ignoreSign, stringstream& ss)
 {
-    //if(isNatural() and fraction.up==1) return;
-    if(isNatural()) cout<<fraction.up;
+    bool negative = false;
+    if(fraction.up<0) negative=true;
+
+    if(ignoreSign and negative) fraction.up*=-1;
+    if(ignoreOne and fraction.up==1 and !negative) return;
+    if(isNatural()) ss<<fraction.up;
     else if(isRational())
     {
-        cout<<"\\frac{"<<fraction.up<<"}{"<<fraction.down<<"}";
+        ss<<"\\frac{"<<fraction.up<<"}{"<<fraction.down<<"}";
     }
+    if(ignoreSign and negative) fraction.up*=-1;
     //cout<<" ["<<null<<isRational()<<isNatural()<<"] ";
     //cout<<fraction.up<<"/"<<fraction.down;
 }

@@ -4,9 +4,12 @@
 #include "Fraction.hpp"
 #include <vector>
 #include <string>
+#include <sstream>
 
 #define natural 0x1
 #define rational 0x2
+
+using namespace std;
 
 class Number          //Класа за "математическо число"
 {                     //В момента поддържа само рационални числа, но в бъдеще ще трябва да поддържа и корени
@@ -66,7 +69,13 @@ public:               //Което може да е леко гадно, но с
         return true;
     }
 
-    void print() const;
+    void print(bool ignoreOne, bool ignoreSign, stringstream& ss);
+
+    char getSign()
+    {
+        if(fraction.up<0) return '-';
+        return '+';
+    }
 };
 
 Number operator+(const Number &n1, const Number &n2);

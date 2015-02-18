@@ -69,14 +69,30 @@ public:
         sort(monos.begin(), monos.end(), cmpMono);
     }
 
-    void print() const
+    void print(stringstream& ss)
     {
-        for(int i = 0; i < monos.size(); i++)
+        monos[0].print(ss, false);
+        for(int i = 1; i < monos.size(); i++)
         {
-            monos[i].print();
-            //std::cout<<"["<<monos[i].totalPower<<"]";
-            if(i!=monos.size()-1) std::cout<<" + ";
+            ss<<' '<<monos[i].getSign()<<' ';
+            monos[i].print(ss, true);
         }
+    }
+
+    void print(stringstream& ss, bool style)
+    {
+        ss<<' '<<monos[0].getSign()<<' ';
+        monos[0].print(ss, true);
+        for(int i = 1; i < monos.size(); i++)
+        {
+            ss<<' '<<monos[i].getSign()<<' ';
+            monos[i].print(ss, true);
+        }
+    }
+
+    bool empty()
+    {
+        return monos.size()==0;
     }
 };
 

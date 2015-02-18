@@ -51,6 +51,7 @@ TO DO списък:
 #include <iostream>
 #include <vector>
 #include <string.h>
+#include <sstream>
 
 using namespace std;
 #define DEBUG true
@@ -76,10 +77,10 @@ int main()
     ed.maxTerms=3;
 
     ed.factored=false;
-    ed.letters="abcegdfh";
+    ed.letters="abc";
 
     ed.minLetters=2;
-    ed.maxLetters=5;
+    ed.maxLetters=3;
 
     ed.cf.pNatural=100;
     ed.cf.pNegative=50;
@@ -95,15 +96,20 @@ int main()
     ed.transformCF.upLow=1;
 
     ed.minSubTerm=1;
-    ed.maxSubTerm=3;
+    ed.maxSubTerm=2;
 
-    ed.maxPow=2;
+    ed.maxPow=4;
 
     Expression e1, e2;
 
     createEquivalentExpressions(e1, e2, ed);
 
-    e1.print();
-    cout<<endl;
-    e2.print();
+    stringstream ss1, ss2;
+
+    cout<<"Filling streams!\n";
+    e1.print(ss1);
+    cout<<"e1 done!\n";
+    e2.print(ss2);
+    cout<<"e2 done!\n";
+    cout<<ss1.str()<<endl<<ss2.str();
 }

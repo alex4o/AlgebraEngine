@@ -21,7 +21,7 @@ public:
         while(coef[power]==0) power--;
     }
 
-    void print()
+    /*void print()
     {
         for(int i = power; i>=0; i--)
         {
@@ -29,7 +29,7 @@ public:
             coef[i].print();
             cout<<letter<<"^"<<i<<" + ";
         }
-    }
+    }*/
 
     SPolynomial operator+(const SPolynomial& sp)
     {

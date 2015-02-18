@@ -6,6 +6,7 @@ class RootDescriptor
 public:
     int pNatural, pFraction, pIrational;
     int upLow, upHigh, downLow, downHigh;
+    int pNegative;
 };
 
 #endif

@@ -136,7 +136,6 @@ Polynomial operator*(const Polynomial &p1, const Polynomial &p2)
 
 Polynomial pow(Polynomial p, int num)
 {
-    debug("pow called");
     Polynomial result(Number(1));
     Polynomial tmp = p;
 

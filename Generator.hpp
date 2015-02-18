@@ -11,6 +11,8 @@
 #include "Expression.hpp"
 #include "ExpressionDescriptor.hpp"
 #include "ChooseList.hpp"
+#include "SPolynomial.hpp"
+
 class Generator{
 private:
     RNJ rnGenerator;
@@ -18,13 +20,11 @@ private:
 public:
 	RootDescriptor descriptor;
 
-	int rng(int low, int high);
-	Polynomial generate(int power, char letter);
+	Polynomial generatePoly(int power, char letter);
+	SPolynomial generateSPoly(int power, char letter);
 
-	Number gen(char t);
 };
 
-Polynomial generate(int power, CoefDescriptor cd, char letter);
 void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed);
 void createListOfInts(int* array, int size, int sum, RNJ* jesus);
 
