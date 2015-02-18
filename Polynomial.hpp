@@ -74,11 +74,8 @@ public:
         monos[0].print(ss, false);
         for(int i = 1; i < monos.size(); i++)
         {
+            ss<<' '<<monos[i].getSign()<<' ';
             monos[i].print(ss, true);
-            if(i!=monos.size()-1)
-            {
-                ss<<' '<<monos[i+1].getSign()<<' ';
-            }
         }
     }
 
@@ -88,11 +85,8 @@ public:
         monos[0].print(ss, true);
         for(int i = 1; i < monos.size(); i++)
         {
+            ss<<' '<<monos[i].getSign()<<' ';
             monos[i].print(ss, true);
-            if(i!=monos.size()-1)
-            {
-                ss<<' '<<monos[i+1].getSign()<<' ';
-            }
         }
     }
 

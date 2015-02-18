@@ -70,10 +70,10 @@ int parse(string s)
 
 int main()
 {
-    Polynomial p("3x + 2y");
+    Polynomial p("5x3 + 3x2 + 2y");
     stringstream ss;
     p.print(ss);
-    cout<<ss.str();
+    //cout<<ss.str();
 
     RNJ jesus;
 
@@ -82,10 +82,10 @@ int main()
     ed.maxTerms=3;
 
     ed.factored=false;
-    ed.letters="abcegdfh";
+    ed.letters="abc";
 
     ed.minLetters=2;
-    ed.maxLetters=5;
+    ed.maxLetters=3;
 
     ed.cf.pNatural=100;
     ed.cf.pNegative=50;
@@ -101,7 +101,7 @@ int main()
     ed.transformCF.upLow=1;
 
     ed.minSubTerm=1;
-    ed.maxSubTerm=3;
+    ed.maxSubTerm=2;
 
     ed.maxPow=2;
 
@@ -113,7 +113,8 @@ int main()
 
     cout<<"Filling streams!\n";
     e1.print(ss1);
-    //e2.print(ss2);
-    cout<<"Printing!\n";
-    cout<<ss1.str()/*<<endl<<ss2.str()*/;
+    cout<<"e1 done!\n";
+    e2.print(ss2);
+    cout<<"e2 done!\n";
+    cout<<ss1.str()<<endl<<ss2.str();
 }

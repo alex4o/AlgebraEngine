@@ -82,30 +82,48 @@ public:
 
     void print(stringstream& ss)
     {
-        terms[0].coef.print(true, false, ss);
-        for(int i = 1; i < terms.size(); i++)
+        if(terms.size()>0)
         {
-            ss<<' '<<terms[i].coef.getSign()<<' ';
-
-            terms[i].coef.print(true, true, ss);
-            for(int j = 0; j < terms[i].polys.size(); j++)
+            terms[0].coef.print(true, false, ss);
+            for(int j = 0; j < terms[0].polys.size(); j++)
             {
                 ss<<"(";
-                terms[i].polys[j].print(ss);
+                terms[0].polys[j].print(ss);
                 ss<<")";
 
-                if(terms[i].powers[j]!=1)
+                if(terms[0].powers[j]!=1)
                 {
                     ss<<"^";
-                    terms[i].powers[j].print(true, false, ss);
+                    terms[0].powers[j].print(true, false, ss);
                 }
 
+            }
+
+            for(int i = 1; i < terms.size(); i++)
+            {
+                ss<<' '<<terms[i].coef.getSign()<<' ';
+
+                terms[i].coef.print(true, true, ss);
+                for(int j = 0; j < terms[i].polys.size(); j++)
+                {
+                    ss<<"(";
+                    terms[i].polys[j].print(ss);
+                    ss<<")";
+
+                    if(terms[i].powers[j]!=1)
+                    {
+                        ss<<"^";
+                        terms[i].powers[j].print(true, false, ss);
+                    }
+
+                }
             }
         }
 
         if(!free.empty())
         {
-            free.print(ss, true);
+            if(terms.empty()) free.print(ss);
+            else free.print(ss, true);
         }
     }
 };
