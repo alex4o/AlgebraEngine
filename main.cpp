@@ -70,11 +70,6 @@ int parse(string s)
 
 int main()
 {
-    Polynomial p("5x3 + 3x2 + 2y");
-    stringstream ss;
-    p.print(ss);
-    //cout<<ss.str();
-
     RNJ jesus;
 
     ExpressionDescriptor ed;
@@ -103,7 +98,7 @@ int main()
     ed.minSubTerm=1;
     ed.maxSubTerm=2;
 
-    ed.maxPow=2;
+    ed.maxPow=4;
 
     Expression e1, e2;
 
