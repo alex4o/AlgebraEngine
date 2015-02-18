@@ -100,8 +100,6 @@ public:
         }
     }
 
-<<<<<<< HEAD
-=======
     Number nextNumber(RootDescriptor& rd)
     {
         int r = nextInt(1, 100);
@@ -122,7 +120,6 @@ public:
             return Number();
         }
     }
->>>>>>> 7kl
 };
 
 #endif
