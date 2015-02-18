@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "Number.hpp"
 #include "CoefDescriptor.hpp"
+#include "RootDescriptor.hpp"
 
 using namespace std;
 
@@ -47,6 +48,27 @@ public:
         else if(r>cd.pNatural and r<= cd.pRational)
         {
             return Number(sign*nextInt(cd.upLow, cd.upHigh), nextInt(cd.downLow, cd.downHigh));
+        }
+        else
+        {
+            return Number();
+        }
+    }
+
+    Number nextNumber(RootDescriptor& rd)
+    {
+        int r = nextInt(1, 100);
+        int sign = 1;
+        int r2 = nextInt(1, 100);
+        if(r2<=rd.pNegative) sign = -1;
+
+        if(r<=rd.pNatural)
+        {
+            return Number(sign*nextInt(rd.upLow, rd.upHigh));
+        }
+        else if(r>rd.pNatural and r<= rd.pFraction)
+        {
+            return Number(sign*nextInt(rd.upLow, rd.upHigh), nextInt(rd.downLow, rd.downHigh));
         }
         else
         {
