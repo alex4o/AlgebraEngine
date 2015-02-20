@@ -7,8 +7,9 @@
 #include "Number.hpp"
 #include "CoefDescriptor.hpp"
 #include "RootDescriptor.hpp"
+#include <iostream>
 
-#ifdef linux
+#ifdef __linux__
 	#include <random>
 
 
@@ -28,8 +29,8 @@ class RNJ
 {
 private:
 
-#ifdef linux
-	std::random_device rd("/dev/urandom");
+#ifdef __linux__
+	std::random_device rd;
 #endif
 
 public:
@@ -44,7 +45,7 @@ public:
 
 	RNJ()
 	{
-		#ifdef linux
+		#ifdef __linux__
 
 		#elif _WIN32
 			init();
@@ -56,9 +57,9 @@ public:
 
 	bool nextBool()
 	{
-		#ifdef linux
+		#ifdef __linux__
 			std::uniform_int_distribution<int> dist(0,1);
-			return dist(this.rd);
+			return dist(this->rd);
 		#elif _WIN32
 			return rand()%2;
 		#else
@@ -68,9 +69,10 @@ public:
 
 	int nextInt(int low, int high)
 	{
-		#ifdef linux
+		#ifdef __linux__
 			std::uniform_int_distribution<int> dist(low,high);
-			return dist(this.rd);
+			return dist(this->rd);
+
 		#elif _WIN32
 			return rand()%(high-low+1) + low;
 		#else
