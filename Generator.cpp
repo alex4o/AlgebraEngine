@@ -48,7 +48,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
             {
                 int cPower = powers[j];
 
-                ChooseList cl(ed.letters.size(), &jesus);
+                ChooseList cl(ed.cLetters, &jesus);
                 int cLetters = jesus.nextInt(ed.minLetters, ed.maxLetters);
 
                 Polynomial poly;

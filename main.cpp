@@ -77,7 +77,10 @@ int main()
     ed.maxTerms=3;
 
     ed.factored=false;
-    ed.letters="abc";
+    ed.letters[0]='a';
+    ed.letters[1]='b';
+    ed.letters[2]='c';
+    ed.cLetters=3;
 
     ed.minLetters=2;
     ed.maxLetters=3;
