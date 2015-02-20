@@ -56,7 +56,7 @@ TO DO списък:
 using namespace std;
 #define DEBUG true
 #include "Generator.hpp"
-
+#include "Interface.hpp"
 int parse(string s)
 {
     int n = 0;
@@ -102,6 +102,9 @@ int main()
     ed.maxSubTerm=2;
 
     ed.maxPow=4;
+
+    Result res = oprosti(ed);
+    cout<<res.problem<<"\n";
 
     Expression e1, e2;
 
