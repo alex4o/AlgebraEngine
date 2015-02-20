@@ -29,5 +29,5 @@ set(SOURCE_FILES
     Interface.hpp
     Interface.cpp)
 
-#add_executable(AlgebraEngine ${SOURCE_FILES})
-add_library(AlgebraEngine SHARED ${SOURCE_FILES})
+add_executable(AlgebraEngine ${SOURCE_FILES})
+#add_library(AlgebraEngine SHARED ${SOURCE_FILES})

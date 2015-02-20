@@ -103,7 +103,8 @@ int main()
 
     ed.maxPow=4;
 
-    Result res = oprosti(ed);
+    Result res;
+    oprosti(ed,&res);
     cout<<res.problem<<"\n";
 
     Expression e1, e2;
