@@ -56,8 +56,8 @@ TO DO списък:
 
 using namespace std;
 #define DEBUG true
-#include "Generator.hpp"
-#include "Interface.hpp"
+#include "Equation.hpp"
+
 int parse(string s)
 {
     int n = 0;
@@ -73,6 +73,7 @@ int main()
 {
     RNJ jesus;
 
+<<<<<<< HEAD
     ExpressionDescriptor ed;
     ed.minTerms=1;
     ed.maxTerms=1;
@@ -103,15 +104,35 @@ int main()
     ed.maxSubTerm=2;
 
     ed.maxPow=2;
-
-    while(true)
+    char e = 0xFF;
+    while(e != 0x2A)
     {
         Result res = oprosti(ed);
         cout<<"rp:"<<res.problem<<"\n"<<res.solution<<endl;
         free(res.problem);
         free(res.solution);
+        e = getchar();
 
-        getchar();
+    }
+
+    CoefDescriptor cd;
+    cd.pNegative=50;
+    cd.pIrational=0;
+    cd.pRational=30;
+    cd.pNatural=70;
+    cd.upHigh=10;
+    cd.upLow=1;
+    cd.downHigh=10;
+    cd.downLow=1;
+
+    while(e != 0x2A)
+    {
+        Number n = jesus.nextNumber(cd);
+        stringstream ss;
+        n.print(false, false, ss);
+        cout<<ss.str();
+
+        e = getchar();
     }
 
 }

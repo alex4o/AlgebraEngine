@@ -88,26 +88,47 @@ public:
 		}
 	}
 
-	Number nextNumber(RootDescriptor& rd)
-	{
-		int r = nextInt(1, 100);
-		int sign = 1;
-		int r2 = nextInt(1, 100);
-		if(r2<=rd.pNegative) sign = -1;
+    Number nextNumber(CoefDescriptor& cd)
+    {
+        int r = nextInt(1, 100);
+        int sign = 1;
+        int r2 = nextInt(1, 100);
+        if(r2<=cd.pNegative) sign = -1;
 
-		if(r<=rd.pNatural)
-		{
-			return Number(sign*nextInt(rd.upLow, rd.upHigh));
-		}
-		else if(r>rd.pNatural and r<= rd.pFraction)
-		{
-			return Number(sign*nextInt(rd.upLow, rd.upHigh), nextInt(rd.downLow, rd.downHigh));
-		}
-		else
-		{
-			return Number();
-		}
-	}
+        if(r<=cd.pNatural)
+        {
+            return Number(sign*nextInt(cd.upLow, cd.upHigh));
+        }
+        else if(r>cd.pNatural and r<= cd.pRational + cd.pNatural)
+        {
+            return Number(sign*nextInt(cd.upLow, cd.upHigh), nextInt(cd.downLow, cd.downHigh));
+        }
+        else
+        {
+            return Number();
+        }
+    }
+
+    Number nextNumber(RootDescriptor& rd)
+    {
+        int r = nextInt(1, 100);
+        int sign = 1;
+        int r2 = nextInt(1, 100);
+        if(r2<=rd.pNegative) sign = -1;
+
+        if(r<=rd.pNatural)
+        {
+            return Number(sign*nextInt(rd.upLow, rd.upHigh));
+        }
+        else if(r>rd.pNatural and r<= rd.pFraction + rd.pNatural)
+        {
+            return Number(sign*nextInt(rd.upLow, rd.upHigh), nextInt(rd.downLow, rd.downHigh));
+        }
+        else
+        {
+            return Number();
+        }
+    }
 };
 
 #endif

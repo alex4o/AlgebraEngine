@@ -26,6 +26,8 @@ public:
 
     Monomial(Number c, char letter);
 
+    Monomial(Number c, char letter, int pow);
+
     void print(stringstream& ss, bool ignoreSign)
     {
         coef.print(totalPower!=0, ignoreSign, ss);
