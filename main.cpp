@@ -70,85 +70,25 @@ int parse(string s)
 
 int main()
 {
-    SPolynomial sp1;
-    SPolynomial sp2;
-    sp1.power=1;
-    sp1.coef[0]=3;
-    sp1.coef[1]=5;
+    RNJ jesus;
 
-    sp2.power=1;
-    sp2.coef[0]=3;
-    sp2.coef[1]=5;
-
-    sp1*=sp2;
-
-    stringstream sss;
-    sp1.print(sss);
-    cout<<sss.str()<<endl;
-
-    RootDescriptor rd;
-    rd.downHigh=3;
-    rd.downLow=1;
-    rd.upHigh=5;
-    rd.upLow=1;
-    rd.pFraction=80;
-    rd.pNatural=20;
-    rd.pIrational=0;
-    rd.pNegative=0;
+    CoefDescriptor cd;
+    cd.pNegative=50;
+    cd.pIrational=0;
+    cd.pRational=30;
+    cd.pNatural=70;
+    cd.upHigh=10;
+    cd.upLow=1;
+    cd.downHigh=10;
+    cd.downLow=1;
 
     while(true)
     {
-        Equation eq;
-        eq.create(2, rd, true);
+        Number n = jesus.nextNumber(cd);
         stringstream ss;
-        eq.print(ss);
-        cout<<ss.str()<<endl;
+        n.print(false, false, ss);
+        cout<<ss.str();
         getchar();
     }
-
-    /*RNJ jesus;
-
-    ExpressionDescriptor ed;
-    ed.minTerms=1;
-    ed.maxTerms=1;
-
-    ed.factored=false;
-    ed.letters[0]='a';
-    ed.letters[1]='b';
-    ed.letters[2]='c';
-    ed.cLetters=3;
-
-    ed.minLetters=2;
-    ed.maxLetters=3;
-
-    ed.cf.pNatural=100;
-    ed.cf.pNegative=50;
-    ed.cf.pIrational=0;
-    ed.cf.pRational=0;
-    ed.cf.upHigh=3;
-    ed.cf.upLow=1;
-
-    ed.transformCF.pNatural=100;
-    ed.transformCF.pIrational=0;
-    ed.transformCF.pRational=0;
-    ed.transformCF.upHigh=5;
-    ed.transformCF.upLow=1;
-
-    ed.minSubTerm=1;
-    ed.maxSubTerm=2;
-
-    ed.maxPow=2;
-
-
-
-
-
-    while(true)
-    {
-        Result res;
-        oprosti(ed,&res);
-        cout<<res.problem<<"\n"<<res.solution<<endl;
-        getchar();
-    }*/
 
 }

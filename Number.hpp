@@ -55,6 +55,7 @@ public:               //Което може да е леко гадно, но с
 
     bool operator==(int k)
     {
+        if(k==0) return fraction.up==0;
         if(isNatural()) return fraction.up==k;
         return false;
     }
@@ -67,6 +68,7 @@ public:               //Което може да е леко гадно, но с
 
     bool operator!=(int k)
     {
+        if(k==0) return fraction.up!=0;
         if(isNatural()) return fraction.up!=k;
         return true;
     }

@@ -88,11 +88,11 @@ public:
         int r2 = nextInt(1, 100);
         if(r2<=cd.pNegative) sign = -1;
 
-        if(r<cd.pNatural)
+        if(r<=cd.pNatural)
         {
             return Number(sign*nextInt(cd.upLow, cd.upHigh));
         }
-        else if(r>=cd.pNatural and r< cd.pRational)
+        else if(r>cd.pNatural and r<= cd.pRational + cd.pNatural)
         {
             return Number(sign*nextInt(cd.upLow, cd.upHigh), nextInt(cd.downLow, cd.downHigh));
         }
@@ -113,7 +113,7 @@ public:
         {
             return Number(sign*nextInt(rd.upLow, rd.upHigh));
         }
-        else if(r>rd.pNatural and r<= rd.pFraction)
+        else if(r>rd.pNatural and r<= rd.pFraction + rd.pNatural)
         {
             return Number(sign*nextInt(rd.upLow, rd.upHigh), nextInt(rd.downLow, rd.downHigh));
         }

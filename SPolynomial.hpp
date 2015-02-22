@@ -116,12 +116,14 @@ public:
     Polynomial toPolynomial()
     {
         Polynomial result;
-        result.monos.push_back(Monomial(coef[0]));
-        for(int i = 1; i <= power; i++)
+
+        for(int i = power; i > 0; i--)
         {
+            if(coef[power]==0) continue;
             result.monos.push_back(Monomial(coef[i], letter, i));
             result.totalPower=power;
         }
+        if(coef[0]!=0)result.monos.push_back(Monomial(coef[0]));
         return result;
     }
 };
