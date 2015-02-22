@@ -74,7 +74,7 @@ int main()
 
     ExpressionDescriptor ed;
     ed.minTerms=1;
-    ed.maxTerms=3;
+    ed.maxTerms=1;
 
     ed.factored=false;
     ed.letters[0]='a';
@@ -89,34 +89,40 @@ int main()
     ed.cf.pNegative=50;
     ed.cf.pIrational=0;
     ed.cf.pRational=0;
-    ed.cf.upHigh=7;
+    ed.cf.upHigh=3;
     ed.cf.upLow=1;
 
     ed.transformCF.pNatural=100;
     ed.transformCF.pIrational=0;
     ed.transformCF.pRational=0;
-    ed.transformCF.upHigh=10;
+    ed.transformCF.upHigh=5;
     ed.transformCF.upLow=1;
 
     ed.minSubTerm=1;
     ed.maxSubTerm=2;
 
-    ed.maxPow=4;
+    ed.maxPow=2;
 
     Result res;
     oprosti(ed,&res);
     cout<<res.problem<<"\n";
 
-    Expression e1, e2;
 
-    createEquivalentExpressions(e1, e2, ed);
 
-    stringstream ss1, ss2;
+    while(true)
+    {
+        Expression e1, e2;
+        createEquivalentExpressions(e1, e2, ed);
 
-    cout<<"Filling streams!\n";
-    e1.print(ss1);
-    cout<<"e1 done!\n";
-    e2.print(ss2);
-    cout<<"e2 done!\n";
-    cout<<ss1.str()<<endl<<ss2.str();
+        stringstream ss1, ss2;
+
+        // cout<<"Filling streams!\n";
+        e1.print(ss1);
+        //cout<<"e1 done!\n";
+        e2.print(ss2);
+        //cout<<"e2 done!\n";
+        cout<<ss1.str()<<endl<<ss2.str()<<endl;
+        getchar();
+    }
+
 }
