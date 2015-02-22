@@ -103,25 +103,15 @@ int main()
 
     ed.maxPow=2;
 
-    Result res;
-    oprosti(ed,&res);
-    cout<<res.problem<<"\n";
+
 
 
 
     while(true)
     {
-        Expression e1, e2;
-        createEquivalentExpressions(e1, e2, ed);
-
-        stringstream ss1, ss2;
-
-        // cout<<"Filling streams!\n";
-        e1.print(ss1);
-        //cout<<"e1 done!\n";
-        e2.print(ss2);
-        //cout<<"e2 done!\n";
-        cout<<ss1.str()<<endl<<ss2.str()<<endl;
+        Result res;
+        oprosti(ed,&res);
+        cout<<res.problem<<"\n"<<res.solution<<endl;
         getchar();
     }
 

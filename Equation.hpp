@@ -5,6 +5,7 @@
 
 class Equation
 {
+    Expression left, right;
 
 };
 
