@@ -76,6 +76,7 @@ public:               //Което може да е леко гадно, но с
         fraction.up=k;
         fraction.down=1;
         type=natural| rational;
+        if(k) null=false;
     }
 
     void operator*=(int k)
