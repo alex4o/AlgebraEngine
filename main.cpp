@@ -57,6 +57,10 @@ TO DO списък:
 using namespace std;
 #define DEBUG true
 #include "Equation.hpp"
+#include "Expression.hpp"
+#include "ExpressionDescriptor.hpp"
+#include "Generator.hpp"
+#include "Interface.hpp"
 
 int parse(string s)
 {
@@ -72,49 +76,7 @@ int parse(string s)
 int main()
 {
     RNJ jesus;
-
-<<<<<<< HEAD
-    ExpressionDescriptor ed;
-    ed.minTerms=1;
-    ed.maxTerms=1;
-
-    ed.factored=false;
-    ed.letters[0]='a';
-    ed.letters[1]='b';
-    ed.letters[2]='c';
-    ed.cLetters=3;
-
-    ed.minLetters=2;
-    ed.maxLetters=3;
-
-    ed.cf.pNatural=50;
-    ed.cf.pNegative=50;
-    ed.cf.pIrational=0;
-    ed.cf.pRational=50;
-    ed.cf.upHigh=3;
-    ed.cf.upLow=1;
-
-    ed.transformCF.pNatural=100;
-    ed.transformCF.pIrational=0;
-    ed.transformCF.pRational=0;
-    ed.transformCF.upHigh=5;
-    ed.transformCF.upLow=1;
-
-    ed.minSubTerm=1;
-    ed.maxSubTerm=2;
-
-    ed.maxPow=2;
-    char e = 0xFF;
-    while(e != 0x2A)
-    {
-        Result res = oprosti(ed);
-        cout<<"rp:"<<res.problem<<"\n"<<res.solution<<endl;
-        free(res.problem);
-        free(res.solution);
-        e = getchar();
-
-    }
-
+    
     CoefDescriptor cd;
     cd.pNegative=50;
     cd.pIrational=0;
@@ -125,14 +87,14 @@ int main()
     cd.downHigh=10;
     cd.downLow=1;
 
-    while(e != 0x2A)
+    while(true)
     {
         Number n = jesus.nextNumber(cd);
         stringstream ss;
         n.print(false, false, ss);
         cout<<ss.str();
 
-        e = getchar();
+        getchar();
     }
 
 }

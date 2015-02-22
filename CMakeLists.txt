@@ -19,6 +19,7 @@ set(SOURCE_FILES
     RootDescriptor.hpp
     Generator.cpp
     Generator.hpp
+    RNG.cpp
     RNG.hpp
     SPolynomial.hpp
     ChooseList.hpp
