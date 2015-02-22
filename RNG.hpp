@@ -1,9 +1,6 @@
 #ifndef RNG
 #define RNG
 
-
-
-
 #include "Number.hpp"
 #include "CoefDescriptor.hpp"
 #include "RootDescriptor.hpp"
@@ -17,7 +14,7 @@
 
 #elif _WIN32
 	#include <ctime>
-
+	#include <iostream>
 #else
 		
 #endif
