@@ -125,6 +125,8 @@ public:
             if(terms.empty()) free.print(ss);
             else free.print(ss, true);
         }
+
+        if(terms.empty() and free.empty()) ss<<'0';
     }
 };
 

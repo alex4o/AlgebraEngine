@@ -55,8 +55,8 @@ TO DO списък:
 
 using namespace std;
 #define DEBUG true
-#include "Generator.hpp"
-#include "Interface.hpp"
+#include "Equation.hpp"
+
 int parse(string s)
 {
     int n = 0;
@@ -70,7 +70,43 @@ int parse(string s)
 
 int main()
 {
-    RNJ jesus;
+    SPolynomial sp1;
+    SPolynomial sp2;
+    sp1.power=1;
+    sp1.coef[0]=3;
+    sp1.coef[1]=5;
+
+    sp2.power=1;
+    sp2.coef[0]=3;
+    sp2.coef[1]=5;
+
+    sp1*=sp2;
+
+    stringstream sss;
+    sp1.print(sss);
+    cout<<sss.str()<<endl;
+
+    RootDescriptor rd;
+    rd.downHigh=3;
+    rd.downLow=1;
+    rd.upHigh=5;
+    rd.upLow=1;
+    rd.pFraction=80;
+    rd.pNatural=20;
+    rd.pIrational=0;
+    rd.pNegative=0;
+
+    while(true)
+    {
+        Equation eq;
+        eq.create(2, rd, true);
+        stringstream ss;
+        eq.print(ss);
+        cout<<ss.str()<<endl;
+        getchar();
+    }
+
+    /*RNJ jesus;
 
     ExpressionDescriptor ed;
     ed.minTerms=1;
@@ -113,6 +149,6 @@ int main()
         oprosti(ed,&res);
         cout<<res.problem<<"\n"<<res.solution<<endl;
         getchar();
-    }
+    }*/
 
 }

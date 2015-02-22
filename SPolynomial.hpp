@@ -16,6 +16,20 @@ public:
     char letter;
     int power;
 
+    SPolynomial()
+    {
+        power=0;
+        letter='x';
+        coef[0]=0;
+    }
+
+    SPolynomial(char _letter)
+    {
+        letter=_letter;
+        power=0;
+        coef[0]=0;
+    }
+
     void normalize()
     {
         while(coef[power]==0) power--;
@@ -65,6 +79,48 @@ public:
             {
                 result.coef[i+j]+=coef[i]*sp.coef[j];
             }
+        }
+        return result;
+    }
+
+    void operator*=(const SPolynomial& sp)
+    {
+        Number oldCoef[MAXPOW];
+        int oldPower=power;
+        for(int i = 0; i <= oldPower; i++)
+        {
+            oldCoef[i]=coef[i];
+        }
+
+        power+=sp.power;
+        for(int i = 0; i <= power; i++) coef[i]=0;
+
+        for(int i = 0; i <= oldPower; i++)
+        {
+            for(int j = 0; j <=sp.power; j++)
+            {
+                coef[i+j]+=oldCoef[i]*sp.coef[j];
+            }
+        }
+    }
+
+    void print(stringstream& ss)
+    {
+        for(int i = 0; i <= power; i++)
+        {
+            coef[i].print(false, false, ss);
+            ss<<' ';
+        }
+    }
+
+    Polynomial toPolynomial()
+    {
+        Polynomial result;
+        result.monos.push_back(Monomial(coef[0]));
+        for(int i = 1; i <= power; i++)
+        {
+            result.monos.push_back(Monomial(coef[i], letter, i));
+            result.totalPower=power;
         }
         return result;
     }

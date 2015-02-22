@@ -27,7 +27,8 @@ set(SOURCE_FILES
     ExpressionDescriptor.hpp
     7klas.hpp
     Interface.hpp
-    Interface.cpp)
+    Interface.cpp
+    Equation.hpp)
 
 add_executable(AlgebraEngine ${SOURCE_FILES})
 #add_library(AlgebraEngine SHARED ${SOURCE_FILES})

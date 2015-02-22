@@ -11,6 +11,8 @@
 
 using namespace std;
 
+int gcd ( int a, int b );
+
 class Number          //Класа за "математическо число"
 {                     //В момента поддържа само рационални числа, но в бъдеще ще трябва да поддържа и корени
 public:               //Което може да е леко гадно, но само леко(надявам се)
@@ -67,6 +69,23 @@ public:               //Което може да е леко гадно, но с
     {
         if(isNatural()) return fraction.up!=k;
         return true;
+    }
+
+    void operator=(int k)
+    {
+        fraction.up=k;
+        fraction.down=1;
+        type=natural| rational;
+    }
+
+    void operator*=(int k)
+    {
+        fraction.up*=k;
+        int g = gcd(fraction.up, fraction.down);
+        if(g==1) return;
+        fraction.up/=g;
+        fraction.down/=g;
+        if(fraction.down==1) type = rational | natural;
     }
 
     void print(bool ignoreOne, bool ignoreSign, stringstream& ss);

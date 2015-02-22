@@ -3,6 +3,20 @@
 
 using namespace std;
 
+int gcd ( int a, int b ) //Само се обяснява
+{
+    if(a<0) a=-a;
+    if(b<0) b=-b;
+    int c;
+    while ( a != 0 )
+    {
+        c = a;
+        a = b%a;
+        b = c;
+    }
+    return b;
+}
+
 Number::Number() //Стандартен конструктор. Нулира по образец на C#
 {
     null=true;
@@ -30,19 +44,7 @@ Number::Number(int _up, int _down) //Конструктор за дроб, ра�
     fraction.down=_down;
 }
 
-int gcd ( int a, int b ) //Само се обяснява
-{
-    if(a<0) a=-a;
-    if(b<0) b=-b;
-    int c;
-    while ( a != 0 )
-    {
-        c = a;
-        a = b%a;
-        b = c;
-    }
-    return b;
-}
+
 
 Number parseNum(string s)
 {
