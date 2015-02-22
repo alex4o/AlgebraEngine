@@ -13,7 +13,7 @@ extern "C"
         char* solution;
     };
 
-    void oprosti(ExpressionDescriptor ed, Result *res);
+    Result oprosti(ExpressionDescriptor ed);
 }
 
 

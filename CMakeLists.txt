@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 2.8.4)
 project(AlgebraEngine)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -std=c++11")
 
 
 set(SOURCE_FILES
     Fraction.hpp
-    main.cpp
     Monomial.cpp
     Monomial.hpp
     Number.cpp
@@ -29,5 +28,8 @@ set(SOURCE_FILES
     Interface.hpp
     Interface.cpp)
 
-add_executable(AlgebraEngine ${SOURCE_FILES})
-#add_library(AlgebraEngine SHARED ${SOURCE_FILES})
+
+add_library(AlgebraEngine SHARED ${SOURCE_FILES})
+
+add_executable(AEEXEC main.cpp)
+TARGET_LINK_LIBRARIES(AEEXEC AlgebraEngine)

@@ -52,6 +52,7 @@ TO DO списък:
 #include <vector>
 #include <string.h>
 #include <sstream>
+#include <stdlib.h>
 
 using namespace std;
 #define DEBUG true
@@ -85,10 +86,10 @@ int main()
     ed.minLetters=2;
     ed.maxLetters=3;
 
-    ed.cf.pNatural=100;
+    ed.cf.pNatural=50;
     ed.cf.pNegative=50;
     ed.cf.pIrational=0;
-    ed.cf.pRational=0;
+    ed.cf.pRational=50;
     ed.cf.upHigh=3;
     ed.cf.upLow=1;
 
@@ -103,15 +104,13 @@ int main()
 
     ed.maxPow=2;
 
-
-
-
-
     while(true)
     {
-        Result res;
-        oprosti(ed,&res);
-        cout<<res.problem<<"\n"<<res.solution<<endl;
+        Result res = oprosti(ed);
+        cout<<"rp:"<<res.problem<<"\n"<<res.solution<<endl;
+        free(res.problem);
+        free(res.solution);
+
         getchar();
     }
 
