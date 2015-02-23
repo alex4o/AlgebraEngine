@@ -1,30 +1,8 @@
 #include "Generator.hpp"
 
-
 using namespace std;
 
-void createListOfInts(int* array, int size, int sum, RNJ* jesus)
-{
-    memset(array+4, 0, (size-1)*4);
-    array[0]=sum;
 
-    int chArr[size];
-
-    for(int i = 0; i < size - 1; i++)
-    {
-        int chArrLen = 0;
-        for(int j = 0; j <= i; j++)
-        {
-            if(array[j]>1) chArr[chArrLen++] = j;
-        }
-
-        int choice = jesus->nextInt(0, chArrLen-1);
-
-        int newInt = jesus->nextInt(1, array[chArr[choice]]-1);
-        array[i+1] = newInt;
-        array[chArr[choice]] -= newInt;
-    }
-}
 
 void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed)
 {

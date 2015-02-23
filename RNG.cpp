@@ -74,3 +74,74 @@ Number  RNJ::nextNumber(RootDescriptor& rd)
         return Number();
     }
  }
+
+Term RNJ::nextTerm(RootDescriptor &rd, int maxPower, char letter, bool nice) {
+    Term result;
+
+    int power = nextInt(1, maxPower);
+    result.coef = nextNumber(rd);
+
+    cout<<"term call, power: "<<power<<": ";
+
+    int cSubTerms = nextInt(1, power);
+
+    int powers[cSubTerms];
+    createListOfInts(powers, cSubTerms, power, this);
+    for(int i = 0; i < cSubTerms; i++) cout<<powers[i]<<" ";
+    cout<<endl;
+
+    for(int j = 0; j < cSubTerms; j++)//Subterm(aka Polynomial)
+    {
+        int cPower = powers[j];
+
+        Polynomial poly;
+
+        Number root = nextNumber(rd);
+        if(!nice)
+        {
+            Monomial m1(Number(1), 'x');
+            Monomial m2(root);
+
+            poly.monos.push_back(m1);
+            poly.monos.push_back(m2);
+            poly.totalPower=1;
+        }
+        else
+        {
+            Monomial m1(Number(root.fraction.down), 'x');
+            Monomial m2(Number(root.fraction.up));
+
+            poly.monos.push_back(m1);
+            poly.monos.push_back(m2);
+            poly.totalPower=1;
+        }
+
+        result.polys.push_back(poly);
+        result.powers.push_back(cPower);
+    }
+
+    return result;
+}
+
+void createListOfInts(int* array, int size, int sum, RNJ* jesus)
+{
+    memset(array+4, 0, (size-1)*4);
+    array[0]=sum;
+
+    int chArr[size];
+
+    for(int i = 0; i < size - 1; i++)
+    {
+        int chArrLen = 0;
+        for(int j = 0; j <= i; j++)
+        {
+            if(array[j]>1) chArr[chArrLen++] = j;
+        }
+
+        int choice = jesus->nextInt(0, chArrLen-1);
+
+        int newInt = jesus->nextInt(1, array[chArr[choice]]-1);
+        array[i+1] = newInt;
+        array[chArr[choice]] -= newInt;
+    }
+}

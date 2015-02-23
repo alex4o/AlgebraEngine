@@ -11,15 +11,17 @@ class Equation
 public:
     Expression left, right;
     RNJ jesus;
+    RootDescriptor rd;
 
-    void create(int power, RootDescriptor& rd, bool nice)
+    void create(int power, RootDescriptor& _rd, bool nice)
     {
+        rd=_rd;
         SPolynomial seed;
         seed.coef[0]=1;
 
-        stringstream ss;
+        /*stringstream ss;
         seed.print(ss);
-        cout<<ss.str()<<endl;
+        cout<<ss.str()<<endl;*/
 
         for(int i = 0; i < power; i++)
         {
@@ -35,12 +37,27 @@ public:
             }
 
             seed*=sp;
-            stringstream ss;
+            /*stringstream ss;
             sp.print(ss);
-            cout<<ss.str()<<endl;
+            cout<<ss.str()<<endl;*/
         }
 
         left.free = seed.toPolynomial();
+    }
+
+    void addTerm(int maxPow, bool nice)
+    {
+        Term t = jesus.nextTerm(rd, maxPow, 'x', nice);
+        if(left.getLen()<right.getLen())
+        {
+            left.addTerm(t, false);
+            right.addTerm(t, true);
+        }
+        else
+        {
+            left.addTerm(t, true);
+            right.addTerm(t, false);
+        }
     }
 
     void print(stringstream& ss)

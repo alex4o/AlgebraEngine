@@ -119,7 +119,7 @@ public:
 
         for(int i = power; i > 0; i--)
         {
-            if(coef[power]==0) continue;
+            if(coef[i]==0) continue;
             result.monos.push_back(Monomial(coef[i], letter, i));
             result.totalPower=power;
         }

@@ -77,24 +77,35 @@ int main()
 {
     RNJ jesus;
     
-    CoefDescriptor cd;
-    cd.pNegative=50;
-    cd.pIrational=0;
-    cd.pRational=30;
-    cd.pNatural=70;
-    cd.upHigh=10;
-    cd.upLow=1;
-    cd.downHigh=10;
-    cd.downLow=1;
+    RootDescriptor rd;
+    rd.pNatural=100;
+    rd.pFraction=0;
+    rd.pIrational=0;
+    rd.pNegative=50;
+    rd.upHigh=5;
+    rd.upLow=1;
+    rd.downLow=1;
+    rd.downHigh=10;
 
     while(true)
     {
-        Number n = jesus.nextNumber(cd);
-        stringstream ss;
-        n.print(false, false, ss);
-        cout<<ss.str();
+        stringstream ss, ss2;
+
+        Equation eq;
+        eq.create(2, rd, true);
+
+        eq.print(ss);
+        cout<<"original: "<<ss.str()<<endl;;
+
+        eq.addTerm(2, true);
+        eq.addTerm(2, true);
+
+
+
+        eq.print(ss2);
+
+        cout<<ss2.str()<<endl;
 
         getchar();
     }
-
 }

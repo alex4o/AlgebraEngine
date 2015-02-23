@@ -128,6 +128,11 @@ public:
 
         if(terms.empty() and free.empty()) ss<<'0';
     }
+
+    int getLen()
+    {
+        return terms.size() + free.empty()==false;
+    }
 };
 
 #endif
