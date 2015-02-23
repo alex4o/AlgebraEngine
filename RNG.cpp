@@ -81,14 +81,14 @@ Term RNJ::nextTerm(RootDescriptor &rd, int maxPower, char letter, bool nice) {
     int power = nextInt(1, maxPower);
     result.coef = nextNumber(rd);
 
-    cout<<"term call, power: "<<power<<": ";
+   // cout<<"term call, power: "<<power<<": ";
 
     int cSubTerms = nextInt(1, power);
 
     int powers[cSubTerms];
     createListOfInts(powers, cSubTerms, power, this);
-    for(int i = 0; i < cSubTerms; i++) cout<<powers[i]<<" ";
-    cout<<endl;
+    //for(int i = 0; i < cSubTerms; i++) cout<<powers[i]<<" ";
+    //cout<<endl;
 
     for(int j = 0; j < cSubTerms; j++)//Subterm(aka Polynomial)
     {

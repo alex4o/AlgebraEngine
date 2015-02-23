@@ -92,7 +92,7 @@ int main()
         stringstream ss, ss2;
 
         Equation eq;
-        eq.create(2, rd, true);
+        eq.create(1, rd, true);
 
         eq.print(ss);
         cout<<"original: "<<ss.str()<<endl;;
@@ -100,6 +100,9 @@ int main()
         eq.addTerm(2, true);
         eq.addTerm(2, true);
 
+        eq.condenseFree();
+
+        eq.balance();
 
 
         eq.print(ss2);

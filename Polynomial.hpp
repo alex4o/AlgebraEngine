@@ -94,6 +94,9 @@ public:
     {
         return monos.size()==0;
     }
+
+    void negate();
+    void clear();
 };
 
 Polynomial operator+(const Polynomial &p1, const Polynomial &p2);

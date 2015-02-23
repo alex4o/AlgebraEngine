@@ -131,7 +131,7 @@ public:
 
     int getLen()
     {
-        return terms.size() + free.empty()==false;
+        return terms.size() + (free.empty()==false);
     }
 };
 

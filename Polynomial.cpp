@@ -155,3 +155,15 @@ Polynomial pow(Polynomial p, Number num)
     if(num.isNatural()) return pow(p, num.fraction.up);
     else return Polynomial();
 }
+
+void Polynomial::negate() {
+    for(int i = 0; i < monos.size(); i++)
+    {
+        monos[i].coef*=-1;
+    }
+}
+
+void Polynomial::clear() {
+    monos.clear();
+    totalPower=0;
+}
