@@ -75,40 +75,38 @@ int parse(string s)
 
 int main()
 {
-    RNJ jesus;
-    
-    RootDescriptor rd;
-    rd.pNatural=100;
-    rd.pFraction=0;
-    rd.pIrational=0;
-    rd.pNegative=50;
-    rd.upHigh=5;
-    rd.upLow=1;
-    rd.downLow=1;
-    rd.downHigh=10;
+
+
+    EquationDescriptor ed;
+    ed.power=2;
+    ed.letter='x';
+    ed.nice=true;
+    ed.minTerms=1;
+    ed.maxTerms=3;
+    ed.maxTermPower=2;
+
+    ed.rd.pFraction=50;
+    ed.rd.pNatural=50;
+    ed.rd.pIrational=0;
+    ed.rd.upHigh=7;
+    ed.rd.upLow=1;
+    ed.rd.downHigh=5;
+    ed.rd.downLow=5;
+    ed.rd.pNegative=50;
+
+    Generator generator;
+
+
 
     while(true)
     {
-        stringstream ss, ss2;
-
-        Equation eq;
-        eq.create(1, rd, true);
-
+        Equation eq = generator.generateEquation(ed);
+        stringstream ss;
         eq.print(ss);
-        cout<<"original: "<<ss.str()<<endl;;
-
-        eq.addTerm(2, true);
-        eq.addTerm(2, true);
-
-        eq.condenseFree();
-
-        eq.balance();
-
-
-        eq.print(ss2);
-
-        cout<<ss2.str()<<endl;
-
+        //cout<<"stuff is coming: ";
+        ss<<" ";
+        eq.printRoots(ss);
+        cout<<ss.str()<<endl;
         getchar();
     }
 }

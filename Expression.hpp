@@ -15,31 +15,51 @@ public:
     vector<Number> powers;
     Number coef;
 
+    bool isMod;
+
     Term()
     {
-
+        isMod=false;
     }
 
     Term(Number c)
     {
         coef=c;
+        isMod=false;
     }
 
     Term(Polynomial pol, Number n)
     {
         polys.push_back(pol);
         coef = n;
+        isMod=false;
     }
 
     Polynomial toPoly()
     {
+        if(polys.empty()) return Polynomial(coef);
         Polynomial result = pow(polys[0], powers[0]);
         for(int i = 1; i < polys.size(); i++)
         {
             result = result * pow(polys[i], powers[i]);
         }
-        result = multByMono(result, Monomial(coef));
+
+        result.multByNumber(coef);
         return result;
+    }
+
+    void print()
+    {
+        stringstream ss;
+        coef.print(false, false, ss);
+        cout<<ss.str();
+        ss.str("");
+        for(int i = 0; i < polys.size(); i++)
+        {
+            cout<<"(";
+            polys[i].print(ss);
+            cout<<ss.str()<<")^"<<powers[i].fraction.up;
+        }
     }
 };
 
@@ -63,7 +83,17 @@ public:
     {
         if(add)
         {
-            free = free + t.toPoly();
+            cout<<"\t term: ";
+            t.print();
+
+            Polynomial tmp = t.toPoly();
+
+            stringstream ss;
+            tmp.print(ss);
+            cout<<"\n\ttoPoly of term: "<<ss.str()<<endl;
+            cout<<endl;
+
+            free = free + tmp;
         }
         else
         {
@@ -85,11 +115,15 @@ public:
         if(terms.size()>0)
         {
             terms[0].coef.print(true, false, ss);
+            if(terms[0].isMod) ss<<'|';
+
+            bool skip = terms[0].isMod and terms[0].polys.size()==1;
+
             for(int j = 0; j < terms[0].polys.size(); j++)
             {
-                ss<<"(";
+                if(!skip)ss<<"(";
                 terms[0].polys[j].print(ss);
-                ss<<")";
+                if(!skip)ss<<")";
 
                 if(terms[0].powers[j]!=1)
                 {
@@ -98,17 +132,22 @@ public:
                 }
 
             }
+            if(terms[0].isMod) ss<<'|';
 
             for(int i = 1; i < terms.size(); i++)
             {
                 ss<<' '<<terms[i].coef.getSign()<<' ';
 
                 terms[i].coef.print(true, true, ss);
+                if(terms[i].isMod) ss<<'|';
+
+                bool skip = terms[i].isMod and terms[i].polys.size()==1;
+
                 for(int j = 0; j < terms[i].polys.size(); j++)
                 {
-                    ss<<"(";
+                    if(!skip)ss<<"(";
                     terms[i].polys[j].print(ss);
-                    ss<<")";
+                    if(!skip)ss<<")";
 
                     if(terms[i].powers[j]!=1)
                     {
@@ -117,6 +156,7 @@ public:
                     }
 
                 }
+                if(terms[i].isMod) ss<<'|';
             }
         }
 

@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <iostream>
 
 #define natural 0x1
 #define rational 0x2
@@ -89,6 +90,24 @@ public:               //Което може да е леко гадно, но с
         fraction.up/=g;
         fraction.down/=g;
         if(fraction.down==1) type = rational | natural;
+    }
+
+    void operator*=(const Number& n)
+    {
+
+        fraction.up*=n.fraction.up;
+        fraction.down*=n.fraction.down;
+        int g = gcd(fraction.up, fraction.down);
+        if(g!=1)
+        {
+            fraction.up /= g;
+            fraction.down /= g;
+        }
+
+        if(fraction.down==1) type = rational | natural;
+        else type = rational;
+        if(fraction.up==0) null=true;
+
     }
 
     void print(bool ignoreOne, bool ignoreSign, stringstream& ss);

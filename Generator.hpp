@@ -12,6 +12,8 @@
 #include "ExpressionDescriptor.hpp"
 #include "ChooseList.hpp"
 #include "SPolynomial.hpp"
+#include "Equation.hpp"
+#include "EquationDescriptor.hpp"
 
 class Generator{
 private:
@@ -22,7 +24,7 @@ public:
 
 	Polynomial generatePoly(int power, char letter);
 	SPolynomial generateSPoly(int power, char letter);
-
+	Equation generateEquation(EquationDescriptor ed);
 };
 
 void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed);

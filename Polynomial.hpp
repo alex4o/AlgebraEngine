@@ -97,6 +97,8 @@ public:
 
     void negate();
     void clear();
+
+    void multByNumber(Number& n);
 };
 
 Polynomial operator+(const Polynomial &p1, const Polynomial &p2);

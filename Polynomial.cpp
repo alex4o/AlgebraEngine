@@ -167,3 +167,10 @@ void Polynomial::clear() {
     monos.clear();
     totalPower=0;
 }
+
+void Polynomial::multByNumber(Number &n) {
+    for(int i = 0; i < monos.size(); i++)
+    {
+        monos[i].coef*=n;
+    }
+}

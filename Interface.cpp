@@ -31,5 +31,34 @@ extern "C"
 }
 
 
+MultiResult getEquations(EquationDescriptor ed, int count) {
 
+	MultiResult mr;
+	mr.count=count;
+	mr.problem= (char*)malloc(4096);
+	mr.solution= (char*)malloc(1024);
 
+	Generator generator;
+
+	stringstream ssp, sss;
+	char* probIdx = mr.problem;
+	char* solIdx = mr.solution;
+	for(int i = 0; i < count; i++)
+	{
+		Equation eq = generator.generateEquation(ed);
+		eq.print(ssp);
+		eq.printRoots(sss);
+
+		strcpy(probIdx, ssp.str().c_str());
+		strcpy(solIdx, sss.str().c_str());
+
+		mr.ptrProblem[i]=probIdx;
+		mr.ptrSolution[i]=solIdx;
+
+		probIdx+=strlen((const char*)probIdx);
+		solIdx+=strlen((const char*)solIdx);
+
+		ssp.clear();
+		sss.clear();
+	}
+}

@@ -75,7 +75,7 @@ Number  RNJ::nextNumber(RootDescriptor& rd)
     }
  }
 
-Term RNJ::nextTerm(RootDescriptor &rd, int maxPower, char letter, bool nice) {
+Term RNJ::nextTerm(RootDescriptor &rd, int maxPower, char letter, bool nice, char l) {
     Term result;
 
     int power = nextInt(1, maxPower);
@@ -95,11 +95,18 @@ Term RNJ::nextTerm(RootDescriptor &rd, int maxPower, char letter, bool nice) {
         int cPower = powers[j];
 
         Polynomial poly;
+        poly.monos.clear();
 
         Number root = nextNumber(rd);
+
+        stringstream ss;
+        root.print(false, false, ss);
+        cout<<"\t\t root of subTerm: "<<ss.str()<<endl;
+        ss.str("");
+
         if(!nice)
         {
-            Monomial m1(Number(1), 'x');
+            Monomial m1(Number(1), l);
             Monomial m2(root);
 
             poly.monos.push_back(m1);
@@ -108,13 +115,17 @@ Term RNJ::nextTerm(RootDescriptor &rd, int maxPower, char letter, bool nice) {
         }
         else
         {
-            Monomial m1(Number(root.fraction.down), 'x');
+            Monomial m1(Number(root.fraction.down), l);
             Monomial m2(Number(root.fraction.up));
 
             poly.monos.push_back(m1);
             poly.monos.push_back(m2);
             poly.totalPower=1;
         }
+
+        poly.print(ss);
+        cout<<"\t\t poly: "<<ss.str()<<endl;
+        ss.str("");
 
         result.polys.push_back(poly);
         result.powers.push_back(cPower);

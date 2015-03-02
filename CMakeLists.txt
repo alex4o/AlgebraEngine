@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.4)
 project(AlgebraEngine)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -std=c++11")
 
 
 set(SOURCE_FILES
@@ -25,6 +25,7 @@ set(SOURCE_FILES
     ChooseList.hpp
     Expression.hpp
     ExpressionDescriptor.hpp
+    EquationDescriptor.hpp
     7klas.hpp
     Interface.hpp
     Interface.cpp

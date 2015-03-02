@@ -13,15 +13,49 @@ public:
     RNJ jesus;
     RootDescriptor rd;
 
-    void create(int power, RootDescriptor& _rd, bool nice)
+    char letter;
+
+    vector<Number> roots;
+
+    Equation()
+    {
+
+    }
+
+    void create(int power, RootDescriptor& _rd, bool nice, char _letter)
+    {
+        rd=_rd;
+        SPolynomial seed;
+        seed.letter = letter = _letter;
+        seed.coef[0]=1;
+
+        for(int i = 0; i < power; i++)
+        {
+            Number root = jesus.nextNumber(rd);
+
+            roots.push_back(root);
+
+            SPolynomial sp;
+            sp.power=1;
+            sp.coef[0] = root*-1;
+            sp.coef[1] = 1;
+            if(nice and !root.isNatural())
+            {
+                sp.coef[0]*=root.fraction.down;
+                sp.coef[1]*=root.fraction.down;
+            }
+
+            seed*=sp;
+        }
+
+        left.free = seed.toPolynomial();
+    }
+
+    void createMod(int power, RootDescriptor& _rd, bool nice)
     {
         rd=_rd;
         SPolynomial seed;
         seed.coef[0]=1;
-
-        /*stringstream ss;
-        seed.print(ss);
-        cout<<ss.str()<<endl;*/
 
         for(int i = 0; i < power; i++)
         {
@@ -37,17 +71,22 @@ public:
             }
 
             seed*=sp;
-            /*stringstream ss;
-            sp.print(ss);
-            cout<<ss.str()<<endl;*/
         }
 
-        left.free = seed.toPolynomial();
+        Term t;
+        t.isMod=true;
+        t.polys.push_back(seed.toPolynomial());
+        t.powers.push_back(1);
+        t.coef=1;
+        left.terms.push_back(t);
+
+        Number num = jesus.nextNumber(rd);
+        right.free = Polynomial(num);
     }
 
     void addTerm(int maxPow, bool nice)
     {
-        Term t = jesus.nextTerm(rd, maxPow, 'x', nice);
+        Term t = jesus.nextTerm(rd, maxPow, letter, nice, letter);
         if(jesus.nextBool())
         {
             left.addTerm(t, false);
@@ -106,6 +145,17 @@ public:
         left.print(ss);
         ss<<" = ";
         right.print(ss);
+    }
+
+    void printRoots(stringstream& ss)
+    {
+        if(roots.size()==0) ss<<letter<<"\\in \\varnothing";
+        for(int i = 0; i < roots.size(); i++)
+        {
+            ss<<letter<<"_{"<<i+1<<"}=";
+            roots[i].print(false, false, ss);
+            ss<<" ";
+        }
     }
 };
 

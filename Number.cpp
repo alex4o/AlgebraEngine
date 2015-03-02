@@ -142,6 +142,7 @@ void Number::print(bool ignoreOne, bool ignoreSign, stringstream& ss)
     else if(isRational())
     {
         if(negative and !ignoreSign)ss<<"-\\frac{"<<-fraction.up<<"}{"<<fraction.down<<"}";
+        else ss<<"\\frac{"<<fraction.up<<"}{"<<fraction.down<<"}";
     }
     if(ignoreSign and negative) fraction.up*=-1;
     //cout<<" ["<<null<<isRational()<<isNatural()<<"] ";

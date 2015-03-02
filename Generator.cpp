@@ -33,7 +33,8 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
 
                 for (int k = 0; k < cLetters; k++)//Letters
                 {
-                    char letter = ed.letters[cl.choose()];
+                    int choice = cl.choose();
+                    char letter = ed.letters[choice];
                     Number coef = jesus.nextNumber(ed.cf);
 
                     Monomial mono(coef, letter);
@@ -96,6 +97,35 @@ SPolynomial Generator::generateSPoly(int power, char letter)
         current.coef[0] = rnGenerator.nextNumber(descriptor);
         result = result * current;
     }
+
+    return result;
+}
+
+Equation Generator::generateEquation(EquationDescriptor ed) {
+    Equation result;
+    result.create(ed.power, ed.rd, ed.nice, ed.letter);
+
+    stringstream ss;
+    result.print(ss);
+    cout<<"original equation: "<<ss.str()<<endl;
+    ss.str("");
+
+    int cTerms = rnGenerator.nextInt(ed.minTerms, ed.maxTerms);
+    for(int i = 0; i < cTerms; i++)
+    {
+        result.addTerm(ed.maxTermPower, ed.nice);
+    }
+
+    result.print(ss);
+    cout<<"equation after terms: "<<ss.str()<<endl;
+    ss.str("");
+
+    result.condenseFree();
+
+
+
+    result.balance();
+
 
     return result;
 }
