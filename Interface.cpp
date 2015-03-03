@@ -64,3 +64,34 @@ MultiResult getEquations(EquationDescriptor ed, int count) {
 
 	return mr;
 }
+
+MultiResult getExpressions(ExpressionDescriptor ed, int count) {
+	MultiResult mr;
+	mr.count=count;
+	mr.problem= (char*)malloc(4096);
+	mr.solution= (char*)malloc(1024);
+
+	stringstream ssp, sss;
+	char* probIdx = mr.problem;
+	char* solIdx = mr.solution;
+	for(int i = 0; i < count; i++)
+	{
+		Expression e1,e2;
+		createEquivalentExpressions(e1, e2, ed);
+
+		e1.print(ssp);
+		e2.print(sss);
+
+		strcpy(probIdx, ssp.str().c_str());
+		strcpy(solIdx, sss.str().c_str());
+
+		mr.ptrProblem[i]=probIdx;
+		mr.ptrSolution[i]=solIdx;
+
+		probIdx+=strlen((const char*)probIdx)+1;
+		solIdx+=strlen((const char*)solIdx)+1;
+
+		ssp.str("");
+		sss.str("");
+	}
+}
