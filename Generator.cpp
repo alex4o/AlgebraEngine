@@ -113,12 +113,29 @@ SPolynomial Generator::generateSPoly(int power, char letter)
 
 Equation Generator::generateEquation(EquationDescriptor ed) {
     Equation result;
-    result.create(ed.power, ed.rd, ed.nice, ed.letter);
+    result.create(ed.power, ed.rd, ed.nice, ed.letter, rnGenerator);
 
     int cTerms = rnGenerator.nextInt(ed.minTerms, ed.maxTerms);
     for(int i = 0; i < cTerms; i++)
     {
-        result.addTerm(ed.maxTermPower, ed.nice);
+        result.addTerm(ed.maxTermPower, ed.nice, rnGenerator);
+    }
+
+    result.condenseFree();
+
+    result.balance();
+
+    return result;
+}
+
+Equation Generator::generateEquation(EquationDescriptor ed, RNJ &rnj) {
+    Equation result;
+    result.create(ed.power, ed.rd, ed.nice, ed.letter, rnj);
+
+    int cTerms = rnj.nextInt(ed.minTerms, ed.maxTerms);
+    for(int i = 0; i < cTerms; i++)
+    {
+        result.addTerm(ed.maxTermPower, ed.nice, rnj);
     }
 
     result.condenseFree();

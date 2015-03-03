@@ -40,14 +40,17 @@ MultiResult getEquations(EquationDescriptor ed, int count) {
 	mr.problem= (char*)malloc(4096);
 	mr.solution= (char*)malloc(1024);
 
+	RNJ jesus;
+
 	Generator generator;
+
 
 	stringstream ssp, sss;
 	char* probIdx = mr.problem;
 	char* solIdx = mr.solution;
 	for(int i = 0; i < count; i++)
 	{
-		Equation eq = generator.generateEquation(ed);
+		Equation eq = generator.generateEquation(ed, jesus);
 		eq.print(ssp);
 		eq.printRoots(sss);
 

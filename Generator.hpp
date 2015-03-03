@@ -22,9 +22,20 @@ private:
 public:
 	RootDescriptor descriptor;
 
+	Generator()
+	{
+		rnGenerator.init();
+	}
+
+	Generator(RNJ& external)
+	{
+		rnGenerator=external;
+	}
+
 	Polynomial generatePoly(int power, char letter);
 	SPolynomial generateSPoly(int power, char letter);
 	Equation generateEquation(EquationDescriptor ed);
+	Equation generateEquation(EquationDescriptor ed, RNJ& jesus);
 };
 
 void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed, RNJ& jesus);
