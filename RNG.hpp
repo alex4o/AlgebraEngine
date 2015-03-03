@@ -6,6 +6,7 @@
 #include "RootDescriptor.hpp"
 #include "Expression.hpp"
 #include <stdlib.h>
+#include <string.h>
 
 
 #ifdef __linux__
@@ -16,7 +17,6 @@
 #elif _WIN32
 	#include <ctime>
 	#include <iostream>
-#include <string.h>
 
 #else
 		
