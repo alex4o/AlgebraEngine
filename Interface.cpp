@@ -94,4 +94,6 @@ MultiResult getExpressions(ExpressionDescriptor ed, int count) {
 		ssp.str("");
 		sss.str("");
 	}
+
+	return mr;
 }
