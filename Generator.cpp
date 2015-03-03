@@ -4,9 +4,8 @@ using namespace std;
 
 
 
-void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed)
+void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed, RNJ& jesus)
 {
-    RNJ jesus;
 
     if(ed.factored==false)
     {

@@ -122,6 +122,8 @@ int main()
             cout<<mr.ptrSolution[i]<<endl;
             cout<<"-----\n";
         }
+
+
         free(mr.problem);
         free(mr.solution);
         getchar();
