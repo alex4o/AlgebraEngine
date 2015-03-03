@@ -112,7 +112,6 @@ int main()
     ed.maxPow=2;
 
 
-
     while(true)
     {
         MultiResult mr = getExpressions(ed, 10);
@@ -122,6 +121,8 @@ int main()
             cout<<mr.ptrSolution[i]<<endl;
             cout<<"-----\n";
         }
+
+
         free(mr.problem);
         free(mr.solution);
         getchar();

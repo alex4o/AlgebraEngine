@@ -22,7 +22,7 @@ public:
 
     }
 
-    void create(int power, RootDescriptor& _rd, bool nice, char _letter)
+    void create(int power, RootDescriptor& _rd, bool nice, char _letter, RNJ& rnj)
     {
         rd=_rd;
         SPolynomial seed;
@@ -31,7 +31,7 @@ public:
 
         for(int i = 0; i < power; i++)
         {
-            Number root = jesus.nextNumber(rd);
+            Number root = rnj.nextNumber(rd);
 
             roots.push_back(root);
 
@@ -84,10 +84,10 @@ public:
         right.free = Polynomial(num);
     }
 
-    void addTerm(int maxPow, bool nice)
+    void addTerm(int maxPow, bool nice, RNJ& rnj)
     {
-        Term t = jesus.nextTerm(rd, maxPow, letter, nice, letter);
-        if(jesus.nextBool())
+        Term t = rnj.nextTerm(rd, maxPow, letter, nice, letter);
+        if(rnj.nextBool())
         {
             left.addTerm(t, false);
             right.addTerm(t, true);

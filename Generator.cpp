@@ -4,9 +4,8 @@ using namespace std;
 
 
 
-void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed)
+void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed, RNJ& jesus)
 {
-    RNJ jesus;
 
     if(ed.factored==false)
     {
@@ -26,30 +25,30 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
             {
                 int cPower = powers[j];
 
-                ChooseList cl(ed.cLetters+1, &jesus);
+                ChooseList cl(ed.cLetters, &jesus);
                 int cLetters = jesus.nextInt(ed.minLetters, ed.maxLetters);
 
                 Polynomial poly;
 
+                bool hasNumber = jesus.nextBool();
+                if(hasNumber) cLetters--;
+
                 for (int k = 0; k < cLetters; k++)//Letters
                 {
                     int choice = cl.choose();
-                    if(choice<cLetters)
-                    {
-                        char letter = ed.letters[choice];
-                        Number coef = jesus.nextNumber(ed.cf);
 
-                        Monomial mono(coef, letter);
-                        poly.monos.push_back(mono);
-                    }
-                    else
-                    {
-                        Number coef = jesus.nextNumber(ed.cf);
+                    char letter = ed.letters[choice];
+                    Number coef = jesus.nextNumber(ed.cf);
 
-                        Monomial mono(coef);
-                        poly.monos.push_back(mono);
-                    }
+                    Monomial mono(coef, letter);
+                    poly.monos.push_back(mono);
 
+                }
+
+                if(hasNumber)
+                {
+                    Monomial mono(jesus.nextNumber(ed.cf));
+                    poly.monos.push_back(mono);
                 }
 
                 currentTerm.polys.push_back(poly);
@@ -114,12 +113,29 @@ SPolynomial Generator::generateSPoly(int power, char letter)
 
 Equation Generator::generateEquation(EquationDescriptor ed) {
     Equation result;
-    result.create(ed.power, ed.rd, ed.nice, ed.letter);
+    result.create(ed.power, ed.rd, ed.nice, ed.letter, rnGenerator);
 
     int cTerms = rnGenerator.nextInt(ed.minTerms, ed.maxTerms);
     for(int i = 0; i < cTerms; i++)
     {
-        result.addTerm(ed.maxTermPower, ed.nice);
+        result.addTerm(ed.maxTermPower, ed.nice, rnGenerator);
+    }
+
+    result.condenseFree();
+
+    result.balance();
+
+    return result;
+}
+
+Equation Generator::generateEquation(EquationDescriptor ed, RNJ &rnj) {
+    Equation result;
+    result.create(ed.power, ed.rd, ed.nice, ed.letter, rnj);
+
+    int cTerms = rnj.nextInt(ed.minTerms, ed.maxTerms);
+    for(int i = 0; i < cTerms; i++)
+    {
+        result.addTerm(ed.maxTermPower, ed.nice, rnj);
     }
 
     result.condenseFree();

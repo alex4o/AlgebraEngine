@@ -12,9 +12,11 @@ extern "C"
 
 	Result oprosti(ExpressionDescriptor ed)
 	{
+		RNJ jesus;
+
 		Result res;
 		Expression e1,e2;
-		createEquivalentExpressions(e1, e2, ed);
+		createEquivalentExpressions(e1, e2, ed, jesus);
 		stringstream ss1, ss2;
 		e1.print(ss1);
 		e2.print(ss2);
@@ -38,14 +40,17 @@ MultiResult getEquations(EquationDescriptor ed, int count) {
 	mr.problem= (char*)malloc(4096);
 	mr.solution= (char*)malloc(1024);
 
+	RNJ jesus;
+
 	Generator generator;
+
 
 	stringstream ssp, sss;
 	char* probIdx = mr.problem;
 	char* solIdx = mr.solution;
 	for(int i = 0; i < count; i++)
 	{
-		Equation eq = generator.generateEquation(ed);
+		Equation eq = generator.generateEquation(ed, jesus);
 		eq.print(ssp);
 		eq.printRoots(sss);
 
@@ -71,13 +76,15 @@ MultiResult getExpressions(ExpressionDescriptor ed, int count) {
 	mr.problem= (char*)malloc(4096);
 	mr.solution= (char*)malloc(1024);
 
+	RNJ jesus;
+
 	stringstream ssp, sss;
 	char* probIdx = mr.problem;
 	char* solIdx = mr.solution;
 	for(int i = 0; i < count; i++)
 	{
 		Expression e1,e2;
-		createEquivalentExpressions(e1, e2, ed);
+		createEquivalentExpressions(e1, e2, ed, jesus);
 
 		e1.print(ssp);
 		e2.print(sss);
