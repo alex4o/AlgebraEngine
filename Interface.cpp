@@ -55,10 +55,12 @@ MultiResult getEquations(EquationDescriptor ed, int count) {
 		mr.ptrProblem[i]=probIdx;
 		mr.ptrSolution[i]=solIdx;
 
-		probIdx+=strlen((const char*)probIdx);
-		solIdx+=strlen((const char*)solIdx);
+		probIdx+=strlen((const char*)probIdx)+1;
+		solIdx+=strlen((const char*)solIdx)+1;
 
-		ssp.clear();
-		sss.clear();
+		ssp.str("");
+		sss.str("");
 	}
+
+	return mr;
 }

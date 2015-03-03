@@ -85,8 +85,8 @@ int main()
     ed.maxTerms=3;
     ed.maxTermPower=2;
 
-    ed.rd.pFraction=50;
-    ed.rd.pNatural=50;
+    ed.rd.pFraction=0;
+    ed.rd.pNatural=100;
     ed.rd.pIrational=0;
     ed.rd.upHigh=7;
     ed.rd.upLow=1;
@@ -100,13 +100,15 @@ int main()
 
     while(true)
     {
-        Equation eq = generator.generateEquation(ed);
-        stringstream ss;
-        eq.print(ss);
-        //cout<<"stuff is coming: ";
-        ss<<" ";
-        eq.printRoots(ss);
-        cout<<ss.str()<<endl;
+        MultiResult mr = getEquations(ed, 10);
+        for(int i = 0; i < mr.count; i++)
+        {
+            cout<<mr.ptrProblem[i]<<endl;
+            cout<<mr.ptrSolution[i]<<endl;
+            cout<<"-----\n";
+        }
+        free(mr.problem);
+        free(mr.solution);
         getchar();
     }
 }

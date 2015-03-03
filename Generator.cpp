@@ -105,27 +105,15 @@ Equation Generator::generateEquation(EquationDescriptor ed) {
     Equation result;
     result.create(ed.power, ed.rd, ed.nice, ed.letter);
 
-    stringstream ss;
-    result.print(ss);
-    cout<<"original equation: "<<ss.str()<<endl;
-    ss.str("");
-
     int cTerms = rnGenerator.nextInt(ed.minTerms, ed.maxTerms);
     for(int i = 0; i < cTerms; i++)
     {
         result.addTerm(ed.maxTermPower, ed.nice);
     }
 
-    result.print(ss);
-    cout<<"equation after terms: "<<ss.str()<<endl;
-    ss.str("");
-
     result.condenseFree();
 
-
-
     result.balance();
-
 
     return result;
 }

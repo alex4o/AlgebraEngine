@@ -99,11 +99,6 @@ Term RNJ::nextTerm(RootDescriptor &rd, int maxPower, char letter, bool nice, cha
 
         Number root = nextNumber(rd);
 
-        stringstream ss;
-        root.print(false, false, ss);
-        cout<<"\t\t root of subTerm: "<<ss.str()<<endl;
-        ss.str("");
-
         if(!nice)
         {
             Monomial m1(Number(1), l);
@@ -122,10 +117,6 @@ Term RNJ::nextTerm(RootDescriptor &rd, int maxPower, char letter, bool nice, cha
             poly.monos.push_back(m2);
             poly.totalPower=1;
         }
-
-        poly.print(ss);
-        cout<<"\t\t poly: "<<ss.str()<<endl;
-        ss.str("");
 
         result.polys.push_back(poly);
         result.powers.push_back(cPower);

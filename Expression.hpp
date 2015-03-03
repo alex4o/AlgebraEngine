@@ -83,15 +83,7 @@ public:
     {
         if(add)
         {
-            cout<<"\t term: ";
-            t.print();
-
             Polynomial tmp = t.toPoly();
-
-            stringstream ss;
-            tmp.print(ss);
-            cout<<"\n\ttoPoly of term: "<<ss.str()<<endl;
-            cout<<endl;
 
             free = free + tmp;
         }
