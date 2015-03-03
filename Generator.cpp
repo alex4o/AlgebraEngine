@@ -26,7 +26,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
             {
                 int cPower = powers[j];
 
-                ChooseList cl(ed.cLetters, &jesus);
+                ChooseList cl(ed.cLetters+1, &jesus);
                 int cLetters = jesus.nextInt(ed.minLetters, ed.maxLetters);
 
                 Polynomial poly;
@@ -34,11 +34,22 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
                 for (int k = 0; k < cLetters; k++)//Letters
                 {
                     int choice = cl.choose();
-                    char letter = ed.letters[choice];
-                    Number coef = jesus.nextNumber(ed.cf);
+                    if(choice<cLetters)
+                    {
+                        char letter = ed.letters[choice];
+                        Number coef = jesus.nextNumber(ed.cf);
 
-                    Monomial mono(coef, letter);
-                    poly.monos.push_back(mono);
+                        Monomial mono(coef, letter);
+                        poly.monos.push_back(mono);
+                    }
+                    else
+                    {
+                        Number coef = jesus.nextNumber(ed.cf);
+
+                        Monomial mono(coef);
+                        poly.monos.push_back(mono);
+                    }
+
                 }
 
                 currentTerm.polys.push_back(poly);
