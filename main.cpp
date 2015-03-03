@@ -75,27 +75,46 @@ int parse(string s)
 
 int main()
 {
-    EquationDescriptor ed;
-    ed.power=2;
-    ed.letter='x';
-    ed.nice=true;
+    ExpressionDescriptor ed;
     ed.minTerms=1;
-    ed.maxTerms=3;
-    ed.maxTermPower=2;
+    ed.maxTerms=1;
 
-    ed.rd.pFraction=0;
-    ed.rd.pNatural=100;
-    ed.rd.pIrational=0;
-    ed.rd.upHigh=7;
-    ed.rd.upLow=1;
-    ed.rd.downHigh=5;
-    ed.rd.downLow=5;
-    ed.rd.pNegative=50;
+    ed.factored=false;
+    ed.letters[0]='a';
+    ed.letters[1]='b';
+    ed.letters[2]='c';
+    ed.cLetters=3;
+
+    ed.minLetters=2;
+    ed.maxLetters=3;
+
+    ed.cf.pNatural=100;
+    ed.cf.pNegative=50;
+    ed.cf.pIrational=0;
+    ed.cf.pRational=0;
+    ed.cf.upHigh=3;
+    ed.cf.upLow=1;
+    ed.cf.downHigh=10;
+    ed.cf.downLow=1;
+
+    ed.transformCF.pNatural=100;
+    ed.transformCF.pIrational=0;
+    ed.transformCF.pRational=0;
+    ed.transformCF.upHigh=5;
+    ed.transformCF.upLow=1;
+    ed.transformCF.downHigh=7;
+    ed.transformCF.downLow=1;
+    ed.transformCF.pNegative=50;
+
+    ed.minSubTerm=1;
+    ed.maxSubTerm=2;
+
+    ed.maxPow=2;
 
 
     while(true)
     {
-        MultiResult mr = getEquations(ed, 10);
+        MultiResult mr = getExpressions(ed, 10);
         for(int i = 0; i < mr.count; i++)
         {
             cout<<mr.ptrProblem[i]<<endl;
