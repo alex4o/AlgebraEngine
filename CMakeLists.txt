@@ -36,3 +36,5 @@ add_library(AlgebraEngine SHARED ${SOURCE_FILES})
 
 add_executable(AEEXEC main.cpp)
 TARGET_LINK_LIBRARIES(AEEXEC AlgebraEngine)
+
+install(TARGETS AlgebraEngine DESTINATION /lib64)
