@@ -154,7 +154,7 @@ public:
         {
             ss<<letter<<"_{"<<i+1<<"}=";
             roots[i].print(false, false, ss);
-            ss<<" ";
+            ss<<", ";
         }
     }
 };
