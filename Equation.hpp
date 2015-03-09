@@ -150,11 +150,12 @@ public:
     void printRoots(stringstream& ss)
     {
         if(roots.size()==0) ss<<letter<<"\\in \\varnothing";
+        int last = roots.size()-1;
         for(int i = 0; i < roots.size(); i++)
         {
             ss<<letter<<"_{"<<i+1<<"}=";
             roots[i].print(false, false, ss);
-            ss<<", ";
+            if(i!=last)ss<<", ";
         }
     }
 };
