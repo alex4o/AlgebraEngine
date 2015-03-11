@@ -30,7 +30,7 @@ public:
 
     bool isNatural() const     //Тези 2 функции се обясняват сами
     {
-        return type&natural;
+        return fraction.down==1;
     }
 
     bool isRational() const

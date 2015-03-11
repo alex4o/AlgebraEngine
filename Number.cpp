@@ -123,7 +123,7 @@ void Number::print(bool ignoreOne, bool ignoreSign, stringstream& ss)
     if(fraction.up<0) negative=true;
 
     if(ignoreSign and negative) fraction.up*=-1;
-    if(ignoreOne and fraction.up==1 and fraction.down==1 and !negative) return;
+    if(ignoreOne and fraction.up==1 and fraction.down==1) return;
     if(isNatural()) ss<<fraction.up;
     else if(isRational())
     {
