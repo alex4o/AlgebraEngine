@@ -38,6 +38,13 @@ Number::Number(int _up, int _down) //Конструктор за дроб, ра�
 {
     type=rational; //Поначало типът се задава като рационално число
 
+    int g = gcd(_up, _down);
+    if(g!=1)
+    {
+        _up/=g;
+        _down/=g;
+    }
+
     if(_down==1) type=type | natural; //става и естествено ако трябва
     if(_up) null=false;
     else null=true;
