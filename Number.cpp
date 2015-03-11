@@ -158,9 +158,7 @@ Number operator+(const Number &n1, const Number &n2) //Събиране на 2 �
     {
         int u = n1.fraction.up*n2.fraction.down+n2.fraction.up*n1.fraction.down;
         int d = n1.fraction.down*n2.fraction.down;
-        int g = gcd(u,d);
-        u/=g;
-        d/=g;
+
         return Number(u,d); //Ето за това говорех в този тип конструктор. Понякога d=1 но няма нужда да правим проверка тук
     }
     return Number(); //Часта за ирационални числа
@@ -227,9 +225,7 @@ Number operator-(const Number &n1, const Number &n2) //Изваждането
     {
         int u = n1.fraction.up*n2.fraction.down - n2.fraction.up*n1.fraction.down;
         int d = n1.fraction.down*n2.fraction.down;
-        int g = gcd(u,d);
-        u/=g;
-        d/=g;
+
         return Number(u, d);
     }
 
@@ -240,10 +236,8 @@ Number operator*(const Number &n1, const Number &n2) //Умножението
 {
     if(n1.null or n2.null) return Number(); //Оптимизации с 0
     int u = n1.fraction.up*n2.fraction.up; //Доста по-просто от събирането
-    int d = n1.fraction.down*n2.fraction.down; //За разлика от събирането, тук дори не е заделено място за
-    int g = gcd(u, d);                         //ирационални числа
-    u/=g;
-    d/=g;
+    int d = n1.fraction.down*n2.fraction.down; //За разлика от събирането, тук дори не е заделено място за ирационални числа
+
     return Number(u, d);
 }
 
@@ -252,9 +246,6 @@ Number operator/(const Number &n1, const Number &n2) //Делението, ан�
     if(n1.null or n2.null) return Number();
     int u = n1.fraction.up*n2.fraction.down;
     int d = n1.fraction.down*n2.fraction.up;
-    int g = gcd(u, d);
-    u/=g;
-    d/=g;
 
     if(d<0)
     {
