@@ -1,9 +1,8 @@
 #ifndef CoefDescriptorH
 #define CoefDescriptorH
 
-class CoefDescriptor
+struct CoefDescriptor
 {
-public:
     int pNatural;
     int pRational;
     int pIrational;

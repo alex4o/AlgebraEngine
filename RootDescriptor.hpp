@@ -1,9 +1,8 @@
 #ifndef RootDescriptorH
 #define RootDescriptorH
 
-class RootDescriptor
+struct RootDescriptor
 {
-public:
     int pNatural, pFraction, pIrational;
     int upLow, upHigh, downLow, downHigh;
     int pNegative;

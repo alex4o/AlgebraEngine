@@ -2,11 +2,10 @@
 #define ExpDesc
 
 #include "CoefDescriptor.hpp"
-#include <string>
 
-class ExpressionDescriptor
+
+struct ExpressionDescriptor
 {
-public:
     int maxPow; //Maximum power of expression
 
     int maxLetters; //Minimal and maximum number of letters in subterm
