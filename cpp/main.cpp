@@ -127,4 +127,5 @@ int main()
         free(mr.solution);
         getchar();
     }
+    
 }

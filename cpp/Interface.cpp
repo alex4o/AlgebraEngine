@@ -5,12 +5,17 @@
 
 #include <sstream>
 
+#ifdef EMSCRIPTEN
+	#include <emscripten.h> 
+
+#endif
+
 using namespace std;
 
 extern "C"
 {
 
-	Result oprosti(ExpressionDescriptor ed)
+	Result EMSCRIPTEN_KEEPALIVE oprosti(ExpressionDescriptor ed)
 	{
 		RNJ jesus;
 
@@ -33,7 +38,7 @@ extern "C"
 }
 
 
-MultiResult getEquations(EquationDescriptor ed, int count) {
+MultiResult EMSCRIPTEN_KEEPALIVE getEquations(EquationDescriptor ed, int count) {
 
 	MultiResult mr;
 	mr.count=count;
@@ -70,7 +75,7 @@ MultiResult getEquations(EquationDescriptor ed, int count) {
 	return mr;
 }
 
-MultiResult getExpressions(ExpressionDescriptor ed, int count) {
+MultiResult EMSCRIPTEN_KEEPALIVE getExpressions(ExpressionDescriptor ed, int count) {
 	MultiResult mr;
 	mr.count=count;
 	mr.problem= (char*)malloc(4096);
