@@ -5,6 +5,7 @@
 #include "RootDescriptor.hpp"
 #include "SPolynomial.hpp"
 #include "RNG.hpp"
+#include "EquationDescriptor.hpp"
 
 class Equation
 {
@@ -12,6 +13,8 @@ public: //Всяко уравнения има два израза: лява и дясна част
     Expression left, right;
     RNJ jesus; //и генератор - това ще се промени
     RootDescriptor rd; //за момента описанието на корените служи и за описания на скобите, но това ще се промени
+    CoefDescriptor cf, transformCF;
+    bool nice;
 
     char letter; //това е променливата
 
@@ -22,14 +25,15 @@ public: //Всяко уравнения има два израза: лява и дясна част
 
     }
 
-    void create(int power, RootDescriptor& _rd, bool nice, char _letter, RNJ& rnj)
+    void create(EquationDescriptor &ed, RNJ& rnj)
     { //тази функции създава основата на уравнението, без никакви "украшения"
-        rd=_rd;
+        rd=ed.rd;
         SPolynomial seed; //За генерация се ползва SPolynomial, защото е по-бърз, когато
-        seed.letter = letter = _letter; //полинома е само на 1 буква
+        seed.letter = letter = ed.letter; //полинома е само на 1 буква
         seed.coef[0]=1;
+        nice = ed.nice;
         //получва се като се умножат изрази от типа (х-хi), където хi е корен
-        for(int i = 0; i < power; i++)
+        for(int i = 0; i < ed.power; i++)
         {
             Number root = rnj.nextNumber(rd); //тук се избира корена
 
@@ -39,7 +43,7 @@ public: //Всяко уравнения има два израза: лява и дясна част
             sp.power=1;
             sp.coef[0] = root*-1; //тук се създава израза (x-xi)
             sp.coef[1] = 1;
-            if(nice and !root.isNatural()) //ако е nice, х+1/3 става 3х+1
+            if(ed.nice and !root.isNatural()) //ако е nice, х+1/3 става 3х+1
             {
                 sp.coef[0]*=root.fraction.down;
                 sp.coef[1]*=root.fraction.down;
@@ -84,9 +88,11 @@ public: //Всяко уравнения има два израза: лява и дясна част
         right.free = Polynomial(num);
     }
 
-    void addTerm(int maxPow, bool nice, RNJ& rnj)
+    void addTerm(int maxPow, RNJ& rnj)
     { //Добавя "скоба" към уравнението - т.е. еквиваленто преобразувание
-        Term t = rnj.nextTerm(rd, maxPow, letter, nice, letter); //Засега като параметри на скбоата се ползва
+        Term t = rnj.nextTerm(cf, maxPow, letter, nice, letter); //Засега като параметри на скбоата се ползва
+        t.coef = rnj.nextNumber(transformCF);
+
         if(rnj.nextBool()) //описанието на корените, но това ще се промени
         {
             left.addTerm(t, false); //винаги скобата се добавя към едната страна "сурова",

@@ -9,6 +9,8 @@ struct EquationDescriptor
     int maxTermPower;
     char letter;
     RootDescriptor rd;
+    CoefDescriptor cd;
+    CoefDescriptor transformCF;
     int minTerms;
     int maxTerms;
     bool nice;
