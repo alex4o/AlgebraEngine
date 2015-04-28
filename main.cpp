@@ -61,6 +61,7 @@ using namespace std;
 #include "ExpressionDescriptor.hpp"
 #include "Generator.hpp"
 #include "Interface.hpp"
+#include "Inequation.hpp"
 
 int parse(string s)
 {
@@ -75,56 +76,39 @@ int parse(string s)
 
 int main()
 {
-    ExpressionDescriptor ed;
-    ed.minTerms=1;
-    ed.maxTerms=1;
+    InequationDescriptor id;
+    id.minTerms=3;
+    id.maxTerms=3;
 
-    ed.factored=false;
-    ed.letters[0]='a';
-    ed.letters[1]='b';
-    ed.letters[2]='c';
-    ed.cLetters=3;
+    id.letter = 'x';
 
-    ed.minLetters=2;
-    ed.maxLetters=3;
+    id.cf.pNatural=100;
+    id.cf.pNegative=50;
+    id.cf.pIrational=0;
+    id.cf.pRational=0;
+    id.cf.upHigh=3;
+    id.cf.upLow=1;
+    id.cf.downHigh=10;
+    id.cf.downLow=1;
 
-    ed.cf.pNatural=100;
-    ed.cf.pNegative=50;
-    ed.cf.pIrational=0;
-    ed.cf.pRational=0;
-    ed.cf.upHigh=3;
-    ed.cf.upLow=1;
-    ed.cf.downHigh=10;
-    ed.cf.downLow=1;
+    id.transformCF.pNatural=100;
+    id.transformCF.pIrational=0;
+    id.transformCF.pRational=0;
+    id.transformCF.upHigh=5;
+    id.transformCF.upLow=1;
+    id.transformCF.downHigh=7;
+    id.transformCF.downLow=1;
+    id.transformCF.pNegative=50;
 
-    ed.transformCF.pNatural=100;
-    ed.transformCF.pIrational=0;
-    ed.transformCF.pRational=0;
-    ed.transformCF.upHigh=5;
-    ed.transformCF.upLow=1;
-    ed.transformCF.downHigh=7;
-    ed.transformCF.downLow=1;
-    ed.transformCF.pNegative=50;
+    id.nice=true;
 
-    ed.minSubTerm=1;
-    ed.maxSubTerm=2;
+    id.rd.pNatural=100;
+    id.rd.pNegative=50;
+    id.rd.pIrational=0;
+    id.rd.pFraction=0;
+    id.rd.upHigh=3;
+    id.rd.upLow=1;
+    id.rd.downHigh=10;
+    id.rd.downLow=1;
 
-    ed.maxPow=2;
-
-
-    while(true)
-    {
-        MultiResult mr = getExpressions(ed, 10);
-        for(int i = 0; i < mr.count; i++)
-        {
-            cout<<mr.ptrProblem[i]<<endl;
-            cout<<mr.ptrSolution[i]<<endl;
-            cout<<"-----\n";
-        }
-
-
-        free(mr.problem);
-        free(mr.solution);
-        getchar();
-    }
 }

@@ -79,6 +79,18 @@ public:
         free = Polynomial(n);
     }
 
+    Expression(char letter)
+    {
+        Monomial m(Number(1), letter);
+        free.monos.push_back(m);
+    }
+
+    Expression(Number coef, char letter)
+    {
+        Monomial m(coef, letter);
+        free.monos.push_back(m);
+    }
+
     void addTerm(Term& t, bool add)
     { //Тази функция прави добавянето на скоби лесно
         if(add) //В единия случай се добавя стойността на скобата

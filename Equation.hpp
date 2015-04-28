@@ -17,6 +17,7 @@ public: //Всяко уравнения има два израза: лява и дясна част
     bool nice;
 
     char letter; //това е променливата
+    char rtype;
 
     vector<Number> roots; //тук се съхраняват корените
     //за момента такива винаги има, но не за дълго
@@ -28,32 +29,45 @@ public: //Всяко уравнения има два израза: лява и дясна част
     void create(EquationDescriptor &ed, RNJ& rnj)
     { //тази функции създава основата на уравнението, без никакви "украшения"
         rd=ed.rd;
+        rtype=ed.type;
         SPolynomial seed; //За генерация се ползва SPolynomial, защото е по-бърз, когато
         seed.letter = letter = ed.letter; //полинома е само на 1 буква
-        seed.coef[0]=1;
-        nice = ed.nice;
-        //получва се като се умножат изрази от типа (х-хi), където хi е корен
-        for(int i = 0; i < ed.power; i++)
+        if(ed.type==0)
         {
-            Number root = rnj.nextNumber(rd); //тук се избира корена
-
-            roots.push_back(root);
-
-            SPolynomial sp;
-            sp.power=1;
-            sp.coef[0] = root*-1; //тук се създава израза (x-xi)
-            sp.coef[1] = 1;
-            if(ed.nice and !root.isNatural()) //ако е nice, х+1/3 става 3х+1
+            seed.coef[0]=1;
+            nice = ed.nice;
+            //получва се като се умножат изрази от типа (х-хi), където хi е корен
+            for(int i = 0; i < ed.power; i++)
             {
-                sp.coef[0]*=root.fraction.down;
-                sp.coef[1]*=root.fraction.down;
+                Number root = rnj.nextNumber(rd); //тук се избира корена
+
+                roots.push_back(root);
+
+                SPolynomial sp;
+                sp.power=1;
+                sp.coef[0] = root*-1; //тук се създава израза (x-xi)
+                sp.coef[1] = 1;
+                if(ed.nice and !root.isNatural()) //ако е nice, х+1/3 става 3х+1
+                {
+                    sp.coef[0]*=root.fraction.down;
+                    sp.coef[1]*=root.fraction.down;
+                }
+
+                seed*=sp; //тук се случва гореспоменантото умножение
             }
 
-            seed*=sp; //тук се случва гореспоменантото умножение
+            left.free = seed.toPolynomial(); //тук става превръшането от SPolynomial към Polynomial,
+        }                                    //който се ползва от Expression
+        else if(ed.type==1)
+        {
+            left.free = Polynomial(rnj.nextNumber(rd));
         }
+        else if(ed.type==2)
+        {
+            left.free = Polynomial(Number(0));
+        }
+    }
 
-        left.free = seed.toPolynomial(); //тук става превръшането от SPolynomial към Polynomial,
-    }                                    //който се ползва от Expression
 
     void createMod(int power, RootDescriptor& _rd, bool nice)
     { //тази функция създава модулно уравнение, все още е WIP
@@ -153,7 +167,8 @@ public: //Всяко уравнения има два израза: лява и дясна част
 
     void printRoots(stringstream& ss)
     {//и тази
-        if(roots.size()==0) ss<<letter<<"\\in \\varnothing";
+        if(rtype==2) ss<<letter<<"\\in \\R";
+        else if(rtype==1) ss<<letter<<"\\in \\varnothing";
         int last = roots.size()-1;
         for(int i = 0; i < roots.size(); i++)
         {
