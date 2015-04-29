@@ -3,14 +3,20 @@
 
 void RNJ::init()
 {
-	#ifdef __linux__
+    static bool done = false;
+    if(not done)
+    {
+#ifdef __linux__
 	timeval time_seed;
 		gettimeofday(&time_seed, NULL);
 		srand(time_seed.tv_usec + time_seed.tv_sec);
 		std::cout<<"init rand\n";
 	#elif _WIN32
-	srand(time(0));
+        srand(time(0));
 #endif
+        done=true;
+    }
+
 }
 
  RNJ::RNJ()

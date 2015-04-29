@@ -144,3 +144,16 @@ Equation Generator::generateEquation(EquationDescriptor ed, RNJ &rnj) {
 
     return result;
 }
+
+Inequation Generator::generateInequation(InequationDescriptor &id) {
+    Inequation result;
+    result.create(id);
+
+    int cTerms = rnGenerator.nextInt(id.minTerms, id.maxTerms);
+    for(int i = 0; i < cTerms; i++)
+    {
+        result.addTerm(rnGenerator.nextInt(1, id.maxTermPower));
+    }
+
+    return result;
+}

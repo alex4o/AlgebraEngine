@@ -102,13 +102,30 @@ int main()
 
     id.nice=true;
 
-    id.rd.pNatural=100;
+    id.rd.pNatural=0;
     id.rd.pNegative=50;
     id.rd.pIrational=0;
-    id.rd.pFraction=0;
+    id.rd.pFraction=100;
     id.rd.upHigh=3;
     id.rd.upLow=1;
     id.rd.downHigh=10;
     id.rd.downLow=1;
+
+    while(true)
+    {
+        Inequation ineq;
+        ineq.create(id);
+
+        ineq.addTerm(1);
+        ineq.multiplyByNumber();
+
+        stringstream ss1, ss2;
+        ineq.print(ss1);
+        ineq.printRoots(ss2);
+
+        cout<<ss1.str()<<endl;
+        cout<<ss2.str()<<endl;
+        getchar();
+    }
 
 }

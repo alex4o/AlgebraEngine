@@ -11,7 +11,7 @@
 #include "RNG.hpp"
 #include <string>
 
-string signLookUp[4] = {">", "\\geq", "\\leq", "<"};
+string lookup[4] = {">", "\\geq", "\\leq", "<"};
 
 class Inequation
 {
@@ -73,6 +73,14 @@ public:
         sign = 3 - sign;
     }
 
+    void addNumber()
+    {
+        Number num = rnj.nextNumber(cf);
+        if(num.fraction.up<0) invertSign();
+
+        right.multByNum(num);
+    }
+
     void multiplyByNumber()
     {
         Number num = rnj.nextNumber(trCf);
@@ -84,7 +92,7 @@ public:
     void print(stringstream& ss)
     {
         left.print(ss);
-        ss<<" "<<singLookUp[sign]<<" ";
+        ss<<" "<<lookup[sign]<<" ";
         right.print(ss);
     }
 

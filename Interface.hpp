@@ -25,6 +25,7 @@ extern "C"
     Result oprosti(ExpressionDescriptor ed);
     MultiResult getEquations(EquationDescriptor ed, int count);
     MultiResult getExpressions(ExpressionDescriptor ed, int count);
+    MultiResult getInequations(InequationDescriptor id, int count);
 }
 
 

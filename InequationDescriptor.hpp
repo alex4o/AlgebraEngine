@@ -15,7 +15,7 @@ public:
     RootDescriptor rd;
     char letter;
     bool nice;
-    int minTerms, maxTerms;
+    int minTerms, maxTerms, maxTermPower;
 };
 
 #endif //ALGEBRAENGINE_INEQUATIONDESCRIPTOR_HPP

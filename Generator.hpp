@@ -14,6 +14,7 @@
 #include "SPolynomial.hpp"
 #include "Equation.hpp"
 #include "EquationDescriptor.hpp"
+#include "Inequation.hpp"
 
 class Generator{
 private:
@@ -36,6 +37,7 @@ public:
 	SPolynomial generateSPoly(int power, char letter);
 	Equation generateEquation(EquationDescriptor ed);
 	Equation generateEquation(EquationDescriptor ed, RNJ& jesus);
+	Inequation generateInequation(InequationDescriptor& id);
 };
 
 void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed, RNJ& jesus);

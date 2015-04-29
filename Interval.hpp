@@ -83,7 +83,7 @@ public:
 
         if(negInf) ss<<"-\\infty; ";
         else left.print(false, false, ss);
-        if(posInf) ss<<"+\\infty";
+        if(posInf) ss<<"; +\\infty";
         else right.print(false, false, ss);
 
         if(type&2) ss<<']';
