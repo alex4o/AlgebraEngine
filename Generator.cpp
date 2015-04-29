@@ -6,31 +6,31 @@ using namespace std;
 
 void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed, RNJ& jesus)
 {
-
-    if(ed.factored==false)
-    {
+ //Фунцкия за създаване на тъждествени изрази
+    if(ed.factored==false) //ако задачата не е опрости
+    {                  //засега това е единствения вариант
         int cTerms = jesus.nextInt(ed.minTerms, ed.maxTerms);
-
+        //броя на скоби
         for(int i = 0; i < cTerms; i++)//Term
         {
             Term currentTerm;
 
-            int cSubTerms = jesus.nextInt(ed.minSubTerm, ed.maxSubTerm); //number of subterms for current term
-            int power = jesus.nextInt(cSubTerms, ed.maxPow); //distrbution of power to subterms
+            int cSubTerms = jesus.nextInt(ed.minSubTerm, ed.maxSubTerm); //броят на полиноми, участващи в една скоба
+            int power = jesus.nextInt(cSubTerms, ed.maxPow); //степента на текушата скоба
 
             int powers[cSubTerms];
-            createListOfInts(powers, cSubTerms, power, &jesus);
+            createListOfInts(powers, cSubTerms, power, &jesus); //тази функция разпределя степенти по многочлените
 
-            for(int j = 0; j < cSubTerms; j++)//Subterm(aka Polynomial)
+            for(int j = 0; j < cSubTerms; j++)//генерация на полином
             {
                 int cPower = powers[j];
 
-                ChooseList cl(ed.cLetters, &jesus);
-                int cLetters = jesus.nextInt(ed.minLetters, ed.maxLetters);
+                ChooseList cl(ed.cLetters, &jesus); //това се ползв за избиране на букви
+                int cLetters = jesus.nextInt(ed.minLetters, ed.maxLetters); //брой букви в полинома
 
                 Polynomial poly;
 
-                bool hasNumber = jesus.nextBool();
+                bool hasNumber = jesus.nextBool(); //дали в полинома ще има цифра, това може да се промени в бъдеще
                 if(hasNumber) cLetters--;
 
                 for (int k = 0; k < cLetters; k++)//Letters
@@ -38,7 +38,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
                     int choice = cl.choose();
 
                     char letter = ed.letters[choice];
-                    Number coef = jesus.nextNumber(ed.cf);
+                    Number coef = jesus.nextNumber(ed.cf); //Избира се буква(променлива) и коефициент за нея
 
                     Monomial mono(coef, letter);
                     poly.monos.push_back(mono);
@@ -52,13 +52,13 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
                 }
 
                 currentTerm.polys.push_back(poly);
-                currentTerm.powers.push_back(cPower);
+                currentTerm.powers.push_back(cPower);// полинома се добавя към скобата
             }
 
-            currentTerm.coef = jesus.nextNumber(ed.transformCF);
+            currentTerm.coef = jesus.nextNumber(ed.transformCF); //избира се коефициента пред скобата
 
-            e1.addTerm(currentTerm, false);
-            e2.addTerm(currentTerm, true);
+            e1.addTerm(currentTerm, false); //от едната страна скобата се добавя както си е, а от другата
+            e2.addTerm(currentTerm, true); //в нормален
         }
 
     }
@@ -112,13 +112,30 @@ SPolynomial Generator::generateSPoly(int power, char letter)
 }
 
 Equation Generator::generateEquation(EquationDescriptor ed) {
-    Equation result;
-    result.create(ed.power, ed.rd, ed.nice, ed.letter, rnGenerator);
+    Equation result; //Функция за създаване на уравнение с украшения
+    result.create(ed, rnGenerator); //Уравнение без украшения
 
-    int cTerms = rnGenerator.nextInt(ed.minTerms, ed.maxTerms);
+    int cTerms = rnGenerator.nextInt(ed.minTerms, ed.maxTerms); //Брой на скобите, които ще се добавят
     for(int i = 0; i < cTerms; i++)
     {
-        result.addTerm(ed.maxTermPower, ed.nice, rnGenerator);
+        result.addTerm(ed.maxTermPower,rnGenerator);
+    }
+
+    result.condenseFree();
+    //Прави уравнението по-красиво
+    result.balance();
+
+    return result;
+}
+
+Equation Generator::generateEquation(EquationDescriptor ed, RNJ &rnj) {
+    Equation result;
+    result.create(ed, rnGenerator); //Уравнение без украшения
+
+    int cTerms = rnj.nextInt(ed.minTerms, ed.maxTerms);
+    for(int i = 0; i < cTerms; i++)
+    {
+        result.addTerm(ed.maxTermPower,rnGenerator);
     }
 
     result.condenseFree();
@@ -128,19 +145,15 @@ Equation Generator::generateEquation(EquationDescriptor ed) {
     return result;
 }
 
-Equation Generator::generateEquation(EquationDescriptor ed, RNJ &rnj) {
-    Equation result;
-    result.create(ed.power, ed.rd, ed.nice, ed.letter, rnj);
+Inequation Generator::generateInequation(InequationDescriptor &id) {
+    Inequation result;
+    result.create(id);
 
-    int cTerms = rnj.nextInt(ed.minTerms, ed.maxTerms);
+    int cTerms = rnGenerator.nextInt(id.minTerms, id.maxTerms);
     for(int i = 0; i < cTerms; i++)
     {
-        result.addTerm(ed.maxTermPower, ed.nice, rnj);
+        result.addTerm(rnGenerator.nextInt(1, id.maxTermPower));
     }
-
-    result.condenseFree();
-
-    result.balance();
 
     return result;
 }

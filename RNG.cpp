@@ -3,14 +3,20 @@
 
 void RNJ::init()
 {
-	#ifdef __linux__
+    static bool done = false;
+    if(not done)
+    {
+#ifdef __linux__
 	timeval time_seed;
 		gettimeofday(&time_seed, NULL);
 		srand(time_seed.tv_usec + time_seed.tv_sec);
 		std::cout<<"init rand\n";
 	#elif _WIN32
-	srand(time(0));
+        srand(time(0));
 #endif
+        done=true;
+    }
+
 }
 
  RNJ::RNJ()
@@ -75,11 +81,11 @@ Number  RNJ::nextNumber(RootDescriptor& rd)
     }
  }
 
-Term RNJ::nextTerm(RootDescriptor &rd, int maxPower, char letter, bool nice, char l) {
+Term RNJ::nextTerm(CoefDescriptor &cf, int maxPower, char letter, bool nice, char l) {
     Term result;
 
     int power = nextInt(1, maxPower);
-    result.coef = nextNumber(rd);
+    //result.coef = nextNumber(cf);
 
    // cout<<"term call, power: "<<power<<": ";
 
@@ -97,7 +103,7 @@ Term RNJ::nextTerm(RootDescriptor &rd, int maxPower, char letter, bool nice, cha
         Polynomial poly;
         poly.monos.clear();
 
-        Number root = nextNumber(rd);
+        Number root = nextNumber(cf);
 
         if(!nice)
         {

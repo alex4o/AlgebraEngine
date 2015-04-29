@@ -45,7 +45,7 @@ public:
 
     Number nextNumber(RootDescriptor& rd);
 
-	Term nextTerm(RootDescriptor& rd, int maxPower, char letter, bool nice, char l);
+	Term nextTerm(CoefDescriptor& cd, int maxPower, char letter, bool nice, char l);
 };
 
 void createListOfInts(int* array, int size, int sum, RNJ* jesus);

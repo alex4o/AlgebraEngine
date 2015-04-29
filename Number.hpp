@@ -15,15 +15,12 @@ using namespace std;
 int gcd ( int a, int b );
 
 class Number          //Класа за "математическо число"
-{                     //В момента поддържа само рационални числа, но в бъдеще ще трябва да поддържа и корени
-public:               //Което може да е леко гадно, но само леко(надявам се)
+{                     //В момента поддържа само рационални числа, но в бъдеще ще поддържа и ирационлани
+public:
 
     bool null; //ако числото е 0. Оптимизации
-    char type; //Побитово пазим типа на числото
+    char type; //Побитово пазим типа на числото - първия бит показва дали е естсетвено, а втория - дали е рационнално
     Fraction fraction; //Дробта, която представлява числото - ако е естествено, знаменателя е 1
-
-    std::vector<Number> roots;      //Ирационалната част
-    std::vector<Fraction> root_pow; //за бъдеще
 
     Number();
 
@@ -31,19 +28,9 @@ public:               //Което може да е леко гадно, но с
 
     Number(int _up, int _down);
 
-    /*Number(Number root, Fraction pow)  //А това е конструктора за ирационални числа
-    {                                    //Трябва се оправи в бъдеще
-        type=0;
-        null=false;
-        roots.push_back(root);
-        root_pow.push_back(pow);
-        fraction.up=0;
-        fraction.down=1;
-    }*/
-
     bool isNatural() const     //Тези 2 функции се обясняват сами
     {
-        return type&natural;
+        return fraction.down==1;
     }
 
     bool isRational() const

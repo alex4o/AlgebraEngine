@@ -10,16 +10,16 @@ using namespace std;
 #define MAXPOW 21
 
 class SPolynomial
-{
-public:
-    Number coef[MAXPOW];
-    char letter;
-    int power;
+{ //Това е клас за полином на само една буква
+public: //Не може да се използва за общи цели както Polynomial, но за сметка на това е по-бърз
+    Number coef[MAXPOW]; //което го прави по-полезен за генерация на уравнения, например.
+    char letter; //Съдържа масив, където i-тият елемент означава коефицента
+    int power; //преди промелнивата на i-та степен
 
     SPolynomial()
     {
         power=0;
-        letter='x';
+        letter='x'; //за удобоство по default буквата е х
         coef[0]=0;
     }
 
@@ -32,21 +32,11 @@ public:
 
     void normalize()
     {
-        while(coef[power]==0) power--;
+        while(coef[power]==0) power--; //понякога се получава първите елемнти да са 0
     }
 
-    /*void print()
-    {
-        for(int i = power; i>=0; i--)
-        {
-            if(coef[i]==0) continue;
-            coef[i].print();
-            cout<<letter<<"^"<<i<<" + ";
-        }
-    }*/
-
     SPolynomial operator+(const SPolynomial& sp)
-    {
+    { //тази функция се обяснява сама
         SPolynomial n;
         int max = power;
         if(sp.power>power) max=sp.power;
@@ -58,7 +48,7 @@ public:
     }
 
     SPolynomial operator-(const SPolynomial& sp)
-    {
+    { //аналогично на горната
         SPolynomial n;
         int max = power;
         if(sp.power>power) max=sp.power;
@@ -70,8 +60,8 @@ public:
     }
 
     SPolynomial operator*(const SPolynomial& sp)
-    {
-        SPolynomial result;
+    { //Функция за умножение, аналогична на тази за Polynomial
+        SPolynomial result; //но по-проста и бърза
         result.power = power+sp.power;
         for(int i = 0; i <= power; i++)
         {
@@ -84,7 +74,7 @@ public:
     }
 
     void operator*=(const SPolynomial& sp)
-    {
+    { //аналогично на горната, но самият SPolynomial се умножава
         Number oldCoef[MAXPOW];
         int oldPower=power;
         for(int i = 0; i <= oldPower; i++)
@@ -105,7 +95,7 @@ public:
     }
 
     void print(stringstream& ss)
-    {
+    { //ползва се за debug
         for(int i = 0; i <= power; i++)
         {
             coef[i].print(false, false, ss);
@@ -114,7 +104,7 @@ public:
     }
 
     Polynomial toPolynomial()
-    {
+    { //Прави трансформацията от SPolynomial към Polynomial
         Polynomial result;
 
         for(int i = power; i > 0; i--)

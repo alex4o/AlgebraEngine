@@ -26,13 +26,16 @@ set(SOURCE_FILES
     Expression.hpp
     ExpressionDescriptor.hpp
     EquationDescriptor.hpp
+    Interval.hpp
+    InequationDescriptor.hpp
+    Inequation.hpp
     7klas.hpp
     Interface.hpp
     Interface.cpp
     Equation.hpp)
 
 
-add_library(AlgebraEngine SHARED ${SOURCE_FILES})
+add_library(AlgebraEngine SHARED ${SOURCE_FILES} Inequation.hpp Interval.hpp InequationDescriptor.hpp)
 
 add_executable(AEEXEC main.cpp)
 TARGET_LINK_LIBRARIES(AEEXEC AlgebraEngine)

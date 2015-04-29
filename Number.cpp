@@ -17,7 +17,7 @@ int gcd ( int a, int b ) //Само се обяснява
     return b;
 }
 
-Number::Number() //Стандартен конструктор. Нулира по образец на C#
+Number::Number() //Стандартен конструктор. Нулира всичко
 {
     null=true;
     fraction.up=0;
@@ -36,16 +36,16 @@ Number::Number(int n) //Конструктор за естествено чис�
 
 Number::Number(int _up, int _down) //Конструктор за дроб, работи аналогично на горния
 {
-    type=rational;
+    type=rational; //Поначало типът се задава като рационално число
 
     int g = gcd(_up, _down);
-    if(g>1)
+    if(g!=1)
     {
         _up/=g;
         _down/=g;
     }
 
-    if(_down==1) type=type | natural; //Така е по-удобно, защото функциите трябва да викат само този конструктор
+    if(_down==1) type=type | natural; //става и естествено ако трябва
     if(_up) null=false;
     else null=true;
     fraction.up=_up;
@@ -56,8 +56,6 @@ Number::Number(int _up, int _down) //Конструктор за дроб, ра�
 
 Number parseNum(string s)
 {
-    //cout<<"[parse]\n";
-
     int sign = 1;
     int idx=0;
     bool slash = false;
@@ -80,7 +78,6 @@ Number parseNum(string s)
     if(s[idx]=='/') idx++;
     else if(idx==s.size())
     {
-        //cout<<"\t returning natural\n";
         c.fraction.up*=sign;
         c.fraction.down=1;
         c.type= natural | rational;
@@ -98,7 +95,6 @@ Number parseNum(string s)
 
     if(c.fraction.down==0)
     {
-        //cout<<"\t returning invalid(x/0)\n";
         return Number();
     }
     int g = gcd(c.fraction.up, c.fraction.down);
@@ -112,20 +108,17 @@ Number parseNum(string s)
 
     if(c.fraction.up==0)
     {
-        //cout<<"\t returning 0\n";
         c.type=natural;
         c.null=true;
         return c;
     }
     if(c.fraction.down==1)
     {
-        //cout<<"\t returning natural(x/1)\n";
         c.type=natural || rational;
         c.null=false;
         return c;
     }
 
-    //cout<<"\t returning natural\n";
     c.type= rational;
     c.null=false;
     return c;
@@ -137,7 +130,7 @@ void Number::print(bool ignoreOne, bool ignoreSign, stringstream& ss)
     if(fraction.up<0) negative=true;
 
     if(ignoreSign and negative) fraction.up*=-1;
-    if(ignoreOne and fraction.up==1 and !negative) return;
+    if(ignoreOne and fraction.up==1 and fraction.down==1) return;
     if(isNatural()) ss<<fraction.up;
     else if(isRational())
     {
@@ -145,21 +138,13 @@ void Number::print(bool ignoreOne, bool ignoreSign, stringstream& ss)
         else ss<<"\\frac{"<<fraction.up<<"}{"<<fraction.down<<"}";
     }
     if(ignoreSign and negative) fraction.up*=-1;
-    //cout<<" ["<<null<<isRational()<<isNatural()<<"] ";
-    //cout<<fraction.up<<"/"<<fraction.down;
 }
 
 
 Number operator+(const Number &n1, const Number &n2) //Събиране на 2 числа
 {
-    /*cout<<"[Sum] ";
-    n1.print();
-    cout<<" and ";
-    n2.print();
-    cout<<endl;*/
     if(n1.null and n2.null) //Оптимизации ако 1 или 2 числа са 0
     {
-        //cout<<"\t both are null\n";
         return Number();
     }
     if(n1.null and !n2.null) return n2;
@@ -167,32 +152,21 @@ Number operator+(const Number &n1, const Number &n2) //Събиране на 2 �
 
     if(n1.isNatural() and n2.isNatural()) //Ако и двете числа са естествени
     {
-        //cout<<"\t both are natural\n";
         return Number(n1.fraction.up+n2.fraction.up);
     }
     if(n1.isRational() and n2.isRational()) //Ако и двете са рационални
     {
-        //cout<<"\t both are fractions\n";
         int u = n1.fraction.up*n2.fraction.down+n2.fraction.up*n1.fraction.down;
         int d = n1.fraction.down*n2.fraction.down;
-        //cout<<"\t raw: "<<u<<"/"<<d<<endl;
-        int g = gcd(u,d);
-        u/=g;
-        d/=g;
+
         return Number(u,d); //Ето за това говорех в този тип конструктор. Понякога d=1 но няма нужда да правим проверка тук
     }
-    //cout<<"\t we shouldn't be here\n";
     return Number(); //Часта за ирационални числа
 }
 
 void Number::operator+=(const Number &n1) //Добавяне
 {
-    /*cout<<"Old: ";
-    print();
-    cout<<"\nAdding: ";
-    n1.print();*/
-
-    if(n1.null) return;
+    if(n1.null) return; //Очевидно ако добавяме 0 нищо няма да се промени
 
     if(n1.isRational()) //Ако и двете числа са естествени
     {
@@ -210,20 +184,11 @@ void Number::operator+=(const Number &n1) //Добавяне
 
     null=false;
 
-    /*cout<<"\nResult: ";
-    print();*/
-
-    //cout<<"\t we shouldn't be here\n";
     return; //Часта за ирационални числа
 }
 
-void Number::operator-=(const Number &n1) //Добавяне
+void Number::operator-=(const Number &n1) //Изваждане
 {
-    /*cout<<"[Sum] ";
-    n1.print();
-    cout<<" and ";
-    n2.print();
-    cout<<endl;*/
     if(n1.null) return;
 
     if(n1.isRational()) //Ако и двете числа са естествени
@@ -240,11 +205,10 @@ void Number::operator-=(const Number &n1) //Добавяне
         fraction.down=nd;
     }
 
-    //cout<<"\t we shouldn't be here\n";
     return; //Часта за ирационални числа
 }
 
-Number operator-(const Number &n1, const Number &n2) //Изваждането, всичко е аналогично на събирането
+Number operator-(const Number &n1, const Number &n2) //Изваждането
 {
     if(n1.null and n2.null)
     {
@@ -261,9 +225,7 @@ Number operator-(const Number &n1, const Number &n2) //Изваждането, �
     {
         int u = n1.fraction.up*n2.fraction.down - n2.fraction.up*n1.fraction.down;
         int d = n1.fraction.down*n2.fraction.down;
-        int g = gcd(u,d);
-        u/=g;
-        d/=g;
+
         return Number(u, d);
     }
 
@@ -274,11 +236,8 @@ Number operator*(const Number &n1, const Number &n2) //Умножението
 {
     if(n1.null or n2.null) return Number(); //Оптимизации с 0
     int u = n1.fraction.up*n2.fraction.up; //Доста по-просто от събирането
-    int d = n1.fraction.down*n2.fraction.down; //За разлика от събирането, тук дори не е заделено място за
-    int g = gcd(u, d);                         //ирационални числа
-    u/=g;
-    d/=g;
-    //std::cout<<"\t\t----[num*] "<<n1.fraction.up<<"/"<<n1.fraction.down<<" * "<<n2.fraction.up<<"/"<<n2.fraction.down<<" = "<<u<<"/"<<d<<std::endl;
+    int d = n1.fraction.down*n2.fraction.down; //За разлика от събирането, тук дори не е заделено място за ирационални числа
+
     return Number(u, d);
 }
 
@@ -287,9 +246,6 @@ Number operator/(const Number &n1, const Number &n2) //Делението, ан�
     if(n1.null or n2.null) return Number();
     int u = n1.fraction.up*n2.fraction.down;
     int d = n1.fraction.down*n2.fraction.up;
-    int g = gcd(u, d);
-    u/=g;
-    d/=g;
 
     if(d<0)
     {

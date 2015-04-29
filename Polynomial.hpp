@@ -11,13 +11,13 @@ public:
     std::vector<Monomial> monos;
 
     Polynomial(std::vector<Monomial> v) //Само се обяснява
-    {                              //Ще има ред защото... е добре
+    {                              //Важно е да има ред за да се печели скорост
         monos=v;
         std::sort(monos.begin(), monos.end(), cmpMono);
         totalPower = monos[0].totalPower;
     }
 
-    Polynomial(std::vector<Monomial> v, int pow) //Ако вече е готов
+    Polynomial(std::vector<Monomial> v, int pow) //Ако вектора вече е сортиран
     {
         monos=v;
         totalPower=pow;

@@ -7,24 +7,25 @@ using namespace std;
 
 extern "C"
 {
-    struct Result
+    struct Result //Структура за 1 задача
     {
-        char* problem;
-        char* solution;
+        char* problem; //низ със условието
+        char* solution; //низ със отговора
     };
 
-    struct MultiResult
+    struct MultiResult //Структура за множество задачи
     {
-        char* problem;
-        char* solution;
-        char* ptrProblem[30];
-        char* ptrSolution[30];
-        int count;
+        char* problem; // тук се съхраняват всичките задачи
+        char* solution; // и съответните отговори. Отделени са с 0
+        char* ptrProblem[30]; //тук се съхрнавят съответните индекси на задачите
+        char* ptrSolution[30]; //и отговорите, което прави работата лесна
+        int count; //а това е броят задачи.
     };
 
     Result oprosti(ExpressionDescriptor ed);
     MultiResult getEquations(EquationDescriptor ed, int count);
     MultiResult getExpressions(ExpressionDescriptor ed, int count);
+    MultiResult getInequations(InequationDescriptor id, int count);
 }
 
 
