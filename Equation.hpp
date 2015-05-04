@@ -27,37 +27,40 @@ public: //Всяко уравнения има два израза: лява и дясна част
     }
 
     void create(EquationDescriptor &ed, RNJ& rnj)
-    { //тази функции създава основата на уравнението, без никакви "украшения"
+    {
         rd=ed.rd;
         rtype=ed.type;
-        SPolynomial seed; //За генерация се ползва SPolynomial, защото е по-бърз, когато
-        seed.letter = letter = ed.letter; //полинома е само на 1 буква
+        SPolynomial seed;
+        seed.letter = letter = ed.letter;
+
+        cf=ed.cd;
+        transformCF = ed.transformCF;
         if(ed.type==0)
         {
             seed.coef[0]=1;
             nice = ed.nice;
-            //получва се като се умножат изрази от типа (х-хi), където хi е корен
+
             for(int i = 0; i < ed.power; i++)
             {
-                Number root = rnj.nextNumber(rd); //тук се избира корена
+                Number root = rnj.nextNumber(rd);
 
                 roots.push_back(root);
 
                 SPolynomial sp;
                 sp.power=1;
-                sp.coef[0] = root*-1; //тук се създава израза (x-xi)
+                sp.coef[0] = root*-1;
                 sp.coef[1] = 1;
-                if(ed.nice and !root.isNatural()) //ако е nice, х+1/3 става 3х+1
+                if(ed.nice and !root.isNatural())
                 {
                     sp.coef[0]*=root.fraction.down;
                     sp.coef[1]*=root.fraction.down;
                 }
 
-                seed*=sp; //тук се случва гореспоменантото умножение
+                seed*=sp;
             }
 
-            left.free = seed.toPolynomial(); //тук става превръшането от SPolynomial към Polynomial,
-        }                                    //който се ползва от Expression
+            left.free = seed.toPolynomial();
+        }
         else if(ed.type==1)
         {
             left.free = Polynomial(rnj.nextNumber(rd));
@@ -103,14 +106,14 @@ public: //Всяко уравнения има два израза: лява и дясна част
     }
 
     void addTerm(int maxPow, RNJ& rnj)
-    { //Добавя "скоба" към уравнението - т.е. еквиваленто преобразувание
-        Term t = rnj.nextTerm(cf, maxPow, letter, nice, letter); //Засега като параметри на скбоата се ползва
+    {
+        Term t = rnj.nextTerm(cf, maxPow, letter, nice, letter);
         t.coef = rnj.nextNumber(transformCF);
 
-        if(rnj.nextBool()) //описанието на корените, но това ще се промени
+        if(rnj.nextBool())
         {
-            left.addTerm(t, false); //винаги скобата се добавя към едната страна "сурова",
-            right.addTerm(t, true); //а към другата разкрита
+            left.addTerm(t, false);
+            right.addTerm(t, true);
         }
         else
         {

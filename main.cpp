@@ -76,52 +76,54 @@ int parse(string s)
 
 int main()
 {
-    InequationDescriptor id;
-    id.minTerms=3;
-    id.maxTerms=3;
+    EquationDescriptor ed;
+    ed.minTerms=3;
+    ed.maxTerms=3;
 
-    id.letter = 'x';
+    ed.letter = 'x';
 
-    id.cf.pNatural=100;
-    id.cf.pNegative=50;
-    id.cf.pIrational=0;
-    id.cf.pRational=0;
-    id.cf.upHigh=3;
-    id.cf.upLow=1;
-    id.cf.downHigh=10;
-    id.cf.downLow=1;
+    ed.cd.pNatural=100;
+    ed.cd.pNegative=50;
+    ed.cd.pIrational=0;
+    ed.cd.pIrational=0;
+    ed.cd.upHigh=3;
+    ed.cd.upLow=1;
+    ed.cd.downHigh=10;
+    ed.cd.downLow=1;
 
-    id.transformCF.pNatural=100;
-    id.transformCF.pIrational=0;
-    id.transformCF.pRational=0;
-    id.transformCF.upHigh=5;
-    id.transformCF.upLow=1;
-    id.transformCF.downHigh=7;
-    id.transformCF.downLow=1;
-    id.transformCF.pNegative=50;
+    ed.transformCF.pNatural=100;
+    ed.transformCF.pIrational=0;
+    ed.transformCF.pRational=0;
+    ed.transformCF.upHigh=5;
+    ed.transformCF.upLow=1;
+    ed.transformCF.downHigh=7;
+    ed.transformCF.downLow=1;
+    ed.transformCF.pNegative=50;
 
-    id.nice=true;
+    ed.nice=true;
 
-    id.rd.pNatural=0;
-    id.rd.pNegative=50;
-    id.rd.pIrational=0;
-    id.rd.pFraction=100;
-    id.rd.upHigh=3;
-    id.rd.upLow=1;
-    id.rd.downHigh=10;
-    id.rd.downLow=1;
+    ed.rd.pNatural=0;
+    ed.rd.pNegative=50;
+    ed.rd.pIrational=0;
+    ed.rd.pFraction=100;
+    ed.rd.upHigh=3;
+    ed.rd.upLow=1;
+    ed.rd.downHigh=10;
+    ed.rd.downLow=1;
+
+    ed.type=2;
+    ed.power=2;
+    ed.maxTermPower=2;
+
+    Generator gen;
 
     while(true)
     {
-        Inequation ineq;
-        ineq.create(id);
-
-        ineq.addTerm(1);
-        ineq.multiplyByNumber();
+        Equation eq = gen.generateEquation(ed);
 
         stringstream ss1, ss2;
-        ineq.print(ss1);
-        ineq.printRoots(ss2);
+        eq.print(ss1);
+        eq.printRoots(ss2);
 
         cout<<ss1.str()<<endl;
         cout<<ss2.str()<<endl;

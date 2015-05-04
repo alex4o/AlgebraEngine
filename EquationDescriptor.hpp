@@ -10,7 +10,7 @@ struct EquationDescriptor
     int minTerms;
     int maxTerms;
     char letter;
-    char type; //0 - power на брой корени, 1 - без корени, 2 - всякакви корени
+    char type;
     RootDescriptor rd;
     CoefDescriptor cd;
     CoefDescriptor transformCF;

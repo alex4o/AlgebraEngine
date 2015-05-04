@@ -112,17 +112,16 @@ SPolynomial Generator::generateSPoly(int power, char letter)
 }
 
 Equation Generator::generateEquation(EquationDescriptor ed) {
-    Equation result; //Функция за създаване на уравнение с украшения
-    result.create(ed, rnGenerator); //Уравнение без украшения
+    Equation result;
+    result.create(ed, rnGenerator);
 
-    int cTerms = rnGenerator.nextInt(ed.minTerms, ed.maxTerms); //Брой на скобите, които ще се добавят
+    int cTerms = rnGenerator.nextInt(ed.minTerms, ed.maxTerms);
     for(int i = 0; i < cTerms; i++)
     {
         result.addTerm(ed.maxTermPower,rnGenerator);
     }
 
     result.condenseFree();
-    //Прави уравнението по-красиво
     result.balance();
 
     return result;
@@ -130,7 +129,7 @@ Equation Generator::generateEquation(EquationDescriptor ed) {
 
 Equation Generator::generateEquation(EquationDescriptor ed, RNJ &rnj) {
     Equation result;
-    result.create(ed, rnGenerator); //Уравнение без украшения
+    result.create(ed, rnGenerator);
 
     int cTerms = rnj.nextInt(ed.minTerms, ed.maxTerms);
     for(int i = 0; i < cTerms; i++)

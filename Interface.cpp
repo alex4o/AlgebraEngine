@@ -32,35 +32,33 @@ extern "C"
 
 
 MultiResult getEquations(EquationDescriptor ed, int count) {
-//Функция за генерация на много уравнения
+
 	MultiResult mr;
-	mr.count=count; //в началота се алокира памет за низовете
+	mr.count=count;
 	mr.problem= (char*)malloc(4096);
 	mr.solution= (char*)malloc(1024);
 
-	RNJ jesus; //Създават се двата генератора
-              //Това не е окончателната версия на кода,
-	Generator generator; //най-вероятно RNJ jesus ще изчезне
+	Generator generator;
 
-	stringstream ssp, sss; //за принтиране се ползват stringstream-ове. Първият е за условие, вторият - за решение
-	char* probIdx = mr.problem; //тези индекси сочат позицията, на която трябва да се запише
-	char* solIdx = mr.solution; //текущата задача/отговор
+	stringstream ssp, sss;
+	char* probIdx = mr.problem;
+	char* solIdx = mr.solution;
 	for(int i = 0; i < count; i++)
 	{
-		Equation eq = generator.generateEquation(ed, jesus);
-		eq.print(ssp); //Генерира се уравнинеие
+		Equation eq = generator.generateEquation(ed);
+		eq.print(ssp);
 		eq.printRoots(sss);
 
-		strcpy(probIdx, ssp.str().c_str()); //И се записва
-		strcpy(solIdx, sss.str().c_str()); //на съответните места
+		strcpy(probIdx, ssp.str().c_str());
+		strcpy(solIdx, sss.str().c_str());
 
-		mr.ptrProblem[i]=probIdx; //след което се задават указатели към него
+		mr.ptrProblem[i]=probIdx;
 		mr.ptrSolution[i]=solIdx;
 
-		probIdx+=strlen((const char*)probIdx)+1; // и се ъпдейтват индексите
+		probIdx+=strlen((const char*)probIdx)+1;
 		solIdx+=strlen((const char*)solIdx)+1;
 
-		ssp.str(""); //чистене на стриймовете
+		ssp.str("");
 		sss.str("");
 	}
 
@@ -104,33 +102,33 @@ MultiResult getExpressions(ExpressionDescriptor ed, int count) {
 
 MultiResult getInequations(InequationDescriptor id, int count) {
 	MultiResult mr;
-	mr.count=count; //в началота се алокира памет за низовете
+	mr.count=count;
 	mr.problem= (char*)malloc(4096);
 	mr.solution= (char*)malloc(1024);
 
-	RNJ jesus; //Създават се двата генератора
-	//Това не е окончателната версия на кода,
-	Generator generator; //най-вероятно RNJ jesus ще изчезне
+	RNJ jesus;
 
-	stringstream ssp, sss; //за принтиране се ползват stringstream-ове. Първият е за условие, вторият - за решение
-	char* probIdx = mr.problem; //тези индекси сочат позицията, на която трябва да се запише
-	char* solIdx = mr.solution; //текущата задача/отговор
+	Generator generator;
+
+	stringstream ssp, sss;
+	char* probIdx = mr.problem;
+	char* solIdx = mr.solution;
 	for(int i = 0; i < count; i++)
 	{
 		Inequation eq = generator.generateInequation(id);
-		eq.print(ssp); //Генерира се уравнинеие
+		eq.print(ssp);
 		eq.printRoots(sss);
 
-		strcpy(probIdx, ssp.str().c_str()); //И се записва
-		strcpy(solIdx, sss.str().c_str()); //на съответните места
+		strcpy(probIdx, ssp.str().c_str());
+		strcpy(solIdx, sss.str().c_str());
 
-		mr.ptrProblem[i]=probIdx; //след което се задават указатели към него
+		mr.ptrProblem[i]=probIdx;
 		mr.ptrSolution[i]=solIdx;
 
-		probIdx+=strlen((const char*)probIdx)+1; // и се ъпдейтват индексите
+		probIdx+=strlen((const char*)probIdx)+1;
 		solIdx+=strlen((const char*)solIdx)+1;
 
-		ssp.str(""); //чистене на стриймовете
+		ssp.str("");
 		sss.str("");
 	}
 
