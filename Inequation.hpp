@@ -11,10 +11,12 @@
 #include "RNG.hpp"
 #include <string>
 
-string lookup[4] = {">", "\\geq", "\\leq", "<"};
 
 class Inequation
 {
+private:
+    string lookup[4] = {">", "\\geq", "\\leq", "<"};
+
 public:
     Expression left, right;
     char sign; //0 - >, 1 - >=, 2 - <=, 3 - <
@@ -92,7 +94,7 @@ public:
     void print(stringstream& ss)
     {
         left.print(ss);
-        ss<<" "<<lookup[sign]<<" ";
+        ss<<" "<<this->lookup[sign]<<" ";
         right.print(ss);
     }
 

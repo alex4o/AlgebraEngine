@@ -35,8 +35,7 @@ set(SOURCE_FILES
     Equation.hpp)
 
 
-add_library(AlgebraEngine SHARED ${SOURCE_FILES} Inequation.hpp Interval.hpp InequationDescriptor.hpp)
-
+add_library(AlgebraEngine SHARED ${SOURCE_FILES})
 add_executable(AEEXEC main.cpp)
 TARGET_LINK_LIBRARIES(AEEXEC AlgebraEngine)
 

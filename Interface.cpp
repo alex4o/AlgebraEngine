@@ -1,5 +1,4 @@
 #include <string>
-#include "ExpressionDescriptor.hpp"
 #include "Generator.hpp"
 #include "Interface.hpp"
 
@@ -30,7 +29,6 @@ extern "C"
 		strcpy(res.solution, s2.c_str());
 		return res;
 	}
-}
 
 
 MultiResult getEquations(EquationDescriptor ed, int count) {
@@ -138,3 +136,7 @@ MultiResult getInequations(InequationDescriptor id, int count) {
 
 	return mr;
 }
+
+
+}
+
