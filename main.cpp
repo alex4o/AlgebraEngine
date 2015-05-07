@@ -76,20 +76,27 @@ int parse(string s)
 
 int main()
 {
-    EquationDescriptor ed;
-    ed.minTerms=3;
+    ExpressionDescriptor ed;
+    ed.minTerms=2;
     ed.maxTerms=3;
 
-    ed.letter = 'x';
+    ed.factored=false;
+    ed.letters[0]='a';
+    ed.letters[1]='b';
+    ed.letters[2]='c';
+    ed.cLetters=1;
 
-    ed.cd.pNatural=100;
-    ed.cd.pNegative=50;
-    ed.cd.pIrational=0;
-    ed.cd.pIrational=0;
-    ed.cd.upHigh=3;
-    ed.cd.upLow=1;
-    ed.cd.downHigh=10;
-    ed.cd.downLow=1;
+    ed.minLetters=1;
+    ed.maxLetters=2;
+
+    ed.cf.pNatural=100;
+    ed.cf.pNegative=50;
+    ed.cf.pIrational=0;
+    ed.cf.pRational=0;
+    ed.cf.upHigh=3;
+    ed.cf.upLow=1;
+    ed.cf.downHigh=5;
+    ed.cf.downLow=1;
 
     ed.transformCF.pNatural=100;
     ed.transformCF.pIrational=0;
@@ -100,33 +107,25 @@ int main()
     ed.transformCF.downLow=1;
     ed.transformCF.pNegative=50;
 
-    ed.nice=true;
+    ed.minSubTerm=1;
+    ed.maxSubTerm=2;
 
-    ed.rd.pNatural=0;
-    ed.rd.pNegative=50;
-    ed.rd.pIrational=0;
-    ed.rd.pFraction=100;
-    ed.rd.upHigh=3;
-    ed.rd.upLow=1;
-    ed.rd.downHigh=10;
-    ed.rd.downLow=1;
+    ed.maxPow=2;
 
-    ed.type=2;
-    ed.power=2;
-    ed.maxTermPower=2;
-
-    Generator gen;
 
     while(true)
     {
-        Equation eq = gen.generateEquation(ed);
+        MultiResult mr = getExpressions(ed, 10);
+        for(int i = 0; i < mr.count; i++)
+        {
+            cout<<mr.ptrProblem[i]<<endl;
+            cout<<mr.ptrSolution[i]<<endl;
+            cout<<"-----\n";
+        }
 
-        stringstream ss1, ss2;
-        eq.print(ss1);
-        eq.printRoots(ss2);
 
-        cout<<ss1.str()<<endl;
-        cout<<ss2.str()<<endl;
+        free(mr.problem);
+        free(mr.solution);
         getchar();
     }
 

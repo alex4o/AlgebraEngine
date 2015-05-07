@@ -9,13 +9,13 @@ using namespace std;
 
 
 class Term
-{ //това, което на сайта е наречено "скоби"
-public: //представлява произведение на полиноми с коефициент пред него
+{
+public:
     vector<Polynomial> polys;
     vector<Number> powers;
     Number coef;
 
-    bool isMod; //все още WIP, показва дали "скобата" е модул
+    bool isMod;
 
     Term()
     {
@@ -35,7 +35,7 @@ public: //представлява произведение на полиноми с коефициент пред него
         isMod=false;
     }
 
-    Polynomial toPoly() //важна функция, която пресмята стойността на скобата в нормален вид
+    Polynomial toPoly()
     {
         if(polys.empty()) return Polynomial(coef);
         Polynomial result = pow(polys[0], powers[0]);
@@ -64,9 +64,9 @@ public: //представлява произведение на полиноми с коефициент пред него
 };
 
 class Expression
-{ //Това е клас за израз, който не е в нормлен вид
+{
 public:
-    Polynomial free; //Съдържа полином и "скоби"
+    Polynomial free;
     vector<Term> terms;
 
     Expression()
@@ -92,21 +92,21 @@ public:
     }
 
     void addTerm(Term& t, bool add)
-    { //Тази функция прави добавянето на скоби лесно
-        if(add) //В единия случай се добавя стойността на скобата
+    {
+        if(add)
         {
             Polynomial tmp = t.toPoly();
 
             free = free + tmp;
         }
-        else //а в другия самата тя
+        else
         {
             terms.push_back(t);
         }
     }
 
     void multByNum(Number n)
-    { //Тази функция се обяснява сама. Засега не се ползва
+    {
         free = multByMono(free, Monomial(n));
         for(int i = 0; i < terms.size(); i++)
         {
@@ -115,17 +115,17 @@ public:
     }
 
     void print(stringstream& ss)
-    { //Това е функцията, в която се случва основната част от принтирането
+    {
         if(terms.size()>0)
         {
-            terms[0].coef.print(true, false, ss); //Това е специален случай за първият елемент
-            if(terms[0].isMod) ss<<'|'; //за него числото се изкарва нормално, доката при всички останали
-                                       //се принтира по по-специален начин
+            terms[0].coef.print(true, false, ss);
+            if(terms[0].isMod) ss<<'|';
+
             bool skip = terms[0].isMod and terms[0].polys.size()==1;
-                    //Също така тук се отчита и възможността скобата да е модул
+
             for(int j = 0; j < terms[0].polys.size(); j++)
             {
-                if(!skip)ss<<"("; //в такъв случай това се припуска
+                if(!skip)ss<<"(";
                 terms[0].polys[j].print(ss);
                 if(!skip)ss<<")";
 
@@ -136,11 +136,11 @@ public:
                 }
 
             }
-            if(terms[0].isMod) ss<<'|'; //и се слага това
+            if(terms[0].isMod) ss<<'|';
 
-            for(int i = 1; i < terms.size(); i++) //аналогично на горния код
+            for(int i = 1; i < terms.size(); i++)
             {
-                ss<<' '<<terms[i].coef.getSign()<<' '; //тук числото и знака се разделят с интервал
+                ss<<' '<<terms[i].coef.getSign()<<' ';
 
                 terms[i].coef.print(true, true, ss);
                 if(terms[i].isMod) ss<<'|';
@@ -164,7 +164,7 @@ public:
             }
         }
 
-        if(!free.empty()) //След принтирането на скобите накрая се показва и полинома
+        if(!free.empty())
         {
             if(terms.empty()) free.print(ss);
             else free.print(ss, true);
@@ -174,7 +174,7 @@ public:
     }
 
     int getLen()
-    { //Това се използва за относително балансиране на двете страни на уравнение, например.
+    {
         return terms.size() + (free.empty()==false);
     }
 };

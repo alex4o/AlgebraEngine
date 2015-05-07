@@ -66,7 +66,7 @@ MultiResult getEquations(EquationDescriptor ed, int count) {
 }
 
 MultiResult getExpressions(ExpressionDescriptor ed, int count) {
-	MultiResult mr; //Всичко е аналгично на горната функция
+	MultiResult mr;
 	mr.count=count;
 	mr.problem= (char*)malloc(4096);
 	mr.solution= (char*)malloc(1024);
