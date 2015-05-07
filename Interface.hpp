@@ -7,19 +7,19 @@ using namespace std;
 
 extern "C"
 {
-    struct Result //Структура за 1 задача
+    struct Result
     {
-        char* problem; //низ със условието
-        char* solution; //низ със отговора
+        char* problem;
+        char* solution;
     };
 
-    struct MultiResult //Структура за множество задачи
+    struct MultiResult
     {
-        char* problem; // тук се съхраняват всичките задачи
-        char* solution; // и съответните отговори. Отделени са с 0
-        char* ptrProblem[30]; //тук се съхрнавят съответните индекси на задачите
-        char* ptrSolution[30]; //и отговорите, което прави работата лесна
-        int count; //а това е броят задачи.
+        char* problem;
+        char* solution;
+        char* ptrProblem[30];
+        char* ptrSolution[30];
+        int count;
     };
 
     Result oprosti(ExpressionDescriptor ed);

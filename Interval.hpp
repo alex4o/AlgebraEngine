@@ -1,7 +1,3 @@
-//
-// Created by Kosyo on 27.4.2015 ã..
-//
-
 #ifndef ALGEBRAENGINE_INTERVAL_HPP
 #define ALGEBRAENGINE_INTERVAL_HPP
 

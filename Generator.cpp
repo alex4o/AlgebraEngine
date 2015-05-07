@@ -174,6 +174,7 @@ SPolynomial Generator::generateSPoly(int power, char letter)
 
 Equation Generator::generateEquation(EquationDescriptor ed) {
     Equation result;
+    ed.nice=true;
     result.create(ed, rnGenerator);
 
     int cTerms = rnGenerator.nextInt(ed.minTerms, ed.maxTerms);
@@ -190,6 +191,7 @@ Equation Generator::generateEquation(EquationDescriptor ed) {
 
 Equation Generator::generateEquation(EquationDescriptor ed, RNJ &rnj) {
     Equation result;
+    ed.nice=true;
     result.create(ed, rnGenerator);
 
     int cTerms = rnj.nextInt(ed.minTerms, ed.maxTerms);
@@ -207,6 +209,7 @@ Equation Generator::generateEquation(EquationDescriptor ed, RNJ &rnj) {
 
 Inequation Generator::generateInequation(InequationDescriptor &id) {
     Inequation result;
+    id.nice=true;
     result.create(id);
 
     int cTerms = rnGenerator.nextInt(id.minTerms, id.maxTerms);

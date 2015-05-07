@@ -1,7 +1,3 @@
-//
-// Created by Kosyo on 27.4.2015 г..
-//
-
 #ifndef ALGEBRAENGINE_INEQUATION_HPP
 #define ALGEBRAENGINE_INEQUATION_HPP
 
@@ -19,7 +15,7 @@ private:
 
 public:
     Expression left, right;
-    char sign; //0 - >, 1 - >=, 2 - <=, 3 - <
+    char sign;
     Interval solution;
     char letter;
     bool nice;
@@ -58,10 +54,10 @@ public:
         Term t = rnj.nextTerm(cf, power, letter, nice, letter);
         t.coef = rnj.nextNumber(trCf);
 
-        if(rnj.nextBool()) //описанието на корените, но това ще се промени
+        if(rnj.nextBool())
         {
-            left.addTerm(t, false); //винаги скобата се добавя към едната страна "сурова",
-            right.addTerm(t, true); //а към другата разкрита
+            left.addTerm(t, false);
+            right.addTerm(t, true);
         }
         else
         {
