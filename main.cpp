@@ -90,7 +90,7 @@ int main()
     ed.maxLetters=2;
 
     ed.cf.pNatural=100;
-    ed.cf.pNegative=50;
+    ed.cf.pNegative=40;
     ed.cf.pIrational=0;
     ed.cf.pRational=0;
     ed.cf.upHigh=3;
