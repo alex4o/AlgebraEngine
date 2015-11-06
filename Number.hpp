@@ -50,8 +50,8 @@ public:
 
     bool operator==(const Number& n1)
     {
-        if(null and n1.null) return true;
-        return type==n1.type and fraction.up==n1.fraction.up and fraction.down==n1.fraction.down;
+        if(null && n1.null) return true;
+        return type==n1.type && fraction.up==n1.fraction.up && fraction.down==n1.fraction.down;
     }
 
     bool operator!=(int k)

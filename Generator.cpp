@@ -18,7 +18,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
             int cSubTerms = jesus.nextInt(ed.minSubTerm, ed.maxSubTerm); //броят на полиноми, участващи в една скоба
             int power = jesus.nextInt(cSubTerms, ed.maxPow); //степента на текушата скоба
 
-            int powers[cSubTerms];
+            int *powers = new int[cSubTerms];
             createListOfInts(powers, cSubTerms, power, &jesus); //тази функция разпределя степенти по многочлените
 
             for(int j = 0; j < cSubTerms; j++)//генерация на полином
@@ -56,7 +56,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
             }
 
             currentTerm.coef = jesus.nextNumber(ed.transformCF); //избира се коефициента пред скобата
-
+			delete powers;
             e1.addTerm(currentTerm, false); //от едната страна скобата се добавя както си е, а от другата
             e2.addTerm(currentTerm, true); //в нормален
         }

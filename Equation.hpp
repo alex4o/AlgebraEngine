@@ -47,7 +47,7 @@ public: //Всяко уравнения има два израза: лява и дясна част
                 sp.power=1;
                 sp.coef[0] = root*-1; //тук се създава израза (x-xi)
                 sp.coef[1] = 1;
-                if(ed.nice and !root.isNatural()) //ако е nice, х+1/3 става 3х+1
+                if(ed.nice && !root.isNatural()) //ако е nice, х+1/3 става 3х+1
                 {
                     sp.coef[0]*=root.fraction.down;
                     sp.coef[1]*=root.fraction.down;
@@ -82,7 +82,7 @@ public: //Всяко уравнения има два израза: лява и дясна част
             sp.power=1;
             sp.coef[0] = root;
             sp.coef[1] = 1;
-            if(nice and !root.isNatural())
+            if(nice && !root.isNatural())
             {
                 sp.coef[0]*=root.fraction.down;
                 sp.coef[1]*=root.fraction.down;

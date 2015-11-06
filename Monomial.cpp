@@ -43,7 +43,7 @@ Monomial::Monomial(std::string s, int* idx) //Конструктор със stri
         return;
     }
 
-    while(*idx<s.size() and s[*idx]!=' ') //Вече е сигурно, че първия символ е буква
+    while(*idx<s.size() && s[*idx]!=' ') //Вече е сигурно, че първия символ е буква
     {
 
         Simple si(s, idx);   //Затова правим прости едночлени докато можем
@@ -153,7 +153,7 @@ bool operator>(const Monomial &m1, const Monomial &m2)//Аналогично з�
 
 bool operator==(const Monomial &m1, const Monomial &m2) //Това ще трябва за многочлените
 {
-    if(m1.totalPower==0 and m2.totalPower==0) return true;
+    if(m1.totalPower==0 && m2.totalPower==0) return true;
     if(m1.simples.size()!=m2.simples.size()) return false;
     if(m1.totalPower!=m2.totalPower) return false;
 

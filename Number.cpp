@@ -68,7 +68,7 @@ Number parseNum(string s)
 
     Number c;
     c.fraction.up = 0;
-    while(s[idx]>='0' and s[idx]<='9')
+    while(s[idx]>='0' && s[idx]<='9')
     {
         c.fraction.up*=10;
         c.fraction.up+=s[idx]-'0';
@@ -86,7 +86,7 @@ Number parseNum(string s)
     }
 
     c.fraction.down=0;
-    while(s[idx]>='0' and s[idx]<='9')
+    while(s[idx]>='0' && s[idx]<='9')
     {
         c.fraction.down*=10;
         c.fraction.down+=s[idx]-'0';
@@ -129,32 +129,32 @@ void Number::print(bool ignoreOne, bool ignoreSign, stringstream& ss)
     bool negative = false;
     if(fraction.up<0) negative=true;
 
-    if(ignoreSign and negative) fraction.up*=-1;
-    if(ignoreOne and fraction.up==1 and fraction.down==1) return;
+    if(ignoreSign && negative) fraction.up*=-1;
+    if(ignoreOne && fraction.up==1 && fraction.down==1) return;
     if(isNatural()) ss<<fraction.up;
     else if(isRational())
     {
-        if(negative and !ignoreSign)ss<<"-\\frac{"<<-fraction.up<<"}{"<<fraction.down<<"}";
+        if(negative && !ignoreSign)ss<<"-\\frac{"<<-fraction.up<<"}{"<<fraction.down<<"}";
         else ss<<"\\frac{"<<fraction.up<<"}{"<<fraction.down<<"}";
     }
-    if(ignoreSign and negative) fraction.up*=-1;
+    if(ignoreSign && negative) fraction.up*=-1;
 }
 
 
 Number operator+(const Number &n1, const Number &n2) //Събиране на 2 числа
 {
-    if(n1.null and n2.null) //Оптимизации ако 1 или 2 числа са 0
+    if(n1.null && n2.null) //Оптимизации ако 1 или 2 числа са 0
     {
         return Number();
     }
-    if(n1.null and !n2.null) return n2;
-    if(n2.null and !n1.null) return n1;
+    if(n1.null && !n2.null) return n2;
+    if(n2.null && !n1.null) return n1;
 
-    if(n1.isNatural() and n2.isNatural()) //Ако и двете числа са естествени
+    if(n1.isNatural() && n2.isNatural()) //Ако и двете числа са естествени
     {
         return Number(n1.fraction.up+n2.fraction.up);
     }
-    if(n1.isRational() and n2.isRational()) //Ако и двете са рационални
+    if(n1.isRational() && n2.isRational()) //Ако и двете са рационални
     {
         int u = n1.fraction.up*n2.fraction.down+n2.fraction.up*n1.fraction.down;
         int d = n1.fraction.down*n2.fraction.down;
@@ -210,18 +210,18 @@ void Number::operator-=(const Number &n1) //Изваждане
 
 Number operator-(const Number &n1, const Number &n2) //Изваждането
 {
-    if(n1.null and n2.null)
+    if(n1.null && n2.null)
     {
         return Number();
     }
-    if(n1.null and !n2.null) return Number(-n2.fraction.up, n2.fraction.down);
-    if(n2.null and !n1.null) return n1;
+    if(n1.null && !n2.null) return Number(-n2.fraction.up, n2.fraction.down);
+    if(n2.null && !n1.null) return n1;
 
-    if(n1.isNatural() and n2.isNatural())
+    if(n1.isNatural() && n2.isNatural())
     {
         return Number(n1.fraction.up-n2.fraction.up);
     }
-    if(n1.isRational() and n2.isRational())
+    if(n1.isRational() && n2.isRational())
     {
         int u = n1.fraction.up*n2.fraction.down - n2.fraction.up*n1.fraction.down;
         int d = n1.fraction.down*n2.fraction.down;
@@ -234,7 +234,7 @@ Number operator-(const Number &n1, const Number &n2) //Изваждането
 
 Number operator*(const Number &n1, const Number &n2) //Умножението
 {
-    if(n1.null or n2.null) return Number(); //Оптимизации с 0
+    if(n1.null || n2.null) return Number(); //Оптимизации с 0
     int u = n1.fraction.up*n2.fraction.up; //Доста по-просто от събирането
     int d = n1.fraction.down*n2.fraction.down; //За разлика от събирането, тук дори не е заделено място за ирационални числа
 
@@ -243,7 +243,7 @@ Number operator*(const Number &n1, const Number &n2) //Умножението
 
 Number operator/(const Number &n1, const Number &n2) //Делението, аналогично на умножението
 {
-    if(n1.null or n2.null) return Number();
+    if(n1.null || n2.null) return Number();
     int u = n1.fraction.up*n2.fraction.down;
     int d = n1.fraction.down*n2.fraction.up;
 

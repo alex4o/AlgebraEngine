@@ -2,7 +2,7 @@
 
 
 bool isNumeric(char c) {
-    return c>='0' and c<='9';
+    return c>='0' && c<='9';
 }
 
 Simple::Simple(char c, int p) //Този конструктор сам се обяснява

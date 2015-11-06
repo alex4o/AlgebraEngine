@@ -11,7 +11,7 @@ Polynomial operator+(const Polynomial &p1, const Polynomial &p2) {
     int lim2 = p2.monos.size();
     int idx1 = 0, idx2 = 0;
 
-    while (idx1 < lim1 and idx2 < lim2) {
+    while (idx1 < lim1 && idx2 < lim2) {
         if(p1.monos[idx1]==p2.monos[idx2]) //Ако двата едночелна са еднакви, коефициентите им се сумират
         {                                  //И двата индекса се увеличват
             Number nc = p1.monos[idx1].coef + p2.monos[idx2].coef; //А резултата се добавя към полинома

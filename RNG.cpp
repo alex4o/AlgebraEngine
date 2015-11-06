@@ -4,7 +4,7 @@
 void RNJ::init()
 {
     static bool done = false;
-    if(not done)
+    if(!done)
     {
 #ifdef __linux__
 	timeval time_seed;
@@ -50,7 +50,7 @@ Number  RNJ::nextNumber(CoefDescriptor& cd)
     {
        return Number(sign*nextInt(cd.upLow, cd.upHigh));
     }
-    else if(r>cd.pNatural and r<= cd.pRational + cd.pNatural)
+    else if(r>cd.pNatural && r<= cd.pRational + cd.pNatural)
     {
        return Number(sign*nextInt(cd.upLow, cd.upHigh), nextInt(cd.downLow, cd.downHigh));
     }
@@ -71,7 +71,7 @@ Number  RNJ::nextNumber(RootDescriptor& rd)
     {
         return Number(sign*nextInt(rd.upLow, rd.upHigh));
     }
-    else if(r>rd.pNatural and r<= rd.pFraction + rd.pNatural)
+    else if(r>rd.pNatural && r<= rd.pFraction + rd.pNatural)
     {
         return Number(sign*nextInt(rd.upLow, rd.upHigh), nextInt(rd.downLow, rd.downHigh));
     }
@@ -91,7 +91,7 @@ Term RNJ::nextTerm(CoefDescriptor &cf, int maxPower, char letter, bool nice, cha
 
     int cSubTerms = nextInt(1, power);
 
-    int powers[cSubTerms];
+    int *powers = new int[cSubTerms];
     createListOfInts(powers, cSubTerms, power, this);
     //for(int i = 0; i < cSubTerms; i++) cout<<powers[i]<<" ";
     //cout<<endl;
@@ -128,7 +128,9 @@ Term RNJ::nextTerm(CoefDescriptor &cf, int maxPower, char letter, bool nice, cha
         result.powers.push_back(cPower);
     }
 
-    return result;
+	delete powers;
+    
+	return result;
 }
 
 void createListOfInts(int* array, int size, int sum, RNJ* jesus)
@@ -136,7 +138,7 @@ void createListOfInts(int* array, int size, int sum, RNJ* jesus)
     memset(array+4, 0, (size-1)*4);
     array[0]=sum;
 
-    int chArr[size];
+    int *chArr = new int[size];
 
     for(int i = 0; i < size - 1; i++)
     {
@@ -152,4 +154,5 @@ void createListOfInts(int* array, int size, int sum, RNJ* jesus)
         array[i+1] = newInt;
         array[chArr[choice]] -= newInt;
     }
+	delete chArr;
 }

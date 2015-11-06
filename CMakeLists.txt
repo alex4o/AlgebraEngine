@@ -3,6 +3,9 @@ project(AlgebraEngine)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -std=c++11")
 
+if(WIN32)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif(WIN32)
 
 set(SOURCE_FILES
     Fraction.hpp

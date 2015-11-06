@@ -8,7 +8,7 @@ struct ExpressionDescriptor
 {
     int maxPow; //Maximum power of expression
 
-    int maxLetters; //Minimal and maximum number of letters in subterm
+    int maxLetters; //Minimal && maximum number of letters in subterm
     int minLetters;
 
     int maxTerms;

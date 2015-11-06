@@ -121,7 +121,7 @@ public:
             terms[0].coef.print(true, false, ss); //Това е специален случай за първият елемент
             if(terms[0].isMod) ss<<'|'; //за него числото се изкарва нормално, доката при всички останали
                                        //се принтира по по-специален начин
-            bool skip = terms[0].isMod and terms[0].polys.size()==1;
+            bool skip = terms[0].isMod && terms[0].polys.size()==1;
                     //Също така тук се отчита и възможността скобата да е модул
             for(int j = 0; j < terms[0].polys.size(); j++)
             {
@@ -145,7 +145,7 @@ public:
                 terms[i].coef.print(true, true, ss);
                 if(terms[i].isMod) ss<<'|';
 
-                bool skip = terms[i].isMod and terms[i].polys.size()==1;
+                bool skip = terms[i].isMod && terms[i].polys.size()==1;
 
                 for(int j = 0; j < terms[i].polys.size(); j++)
                 {
@@ -170,7 +170,7 @@ public:
             else free.print(ss, true);
         }
 
-        if(terms.empty() and free.empty()) ss<<'0';
+        if(terms.empty() && free.empty()) ss<<'0';
     }
 
     int getLen()
