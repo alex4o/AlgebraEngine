@@ -9,43 +9,46 @@
 
 class Equation
 {
-public: //Всяко уравнения има два израза: лява и дясна част
+public:
     Expression left, right;
-    RNJ jesus; //и генератор - това ще се промени
-    RootDescriptor rd; //за момента описанието на корените служи и за описания на скобите, но това ще се промени
+    RNJ jesus;
+    RootDescriptor rd;
     CoefDescriptor cf, transformCF;
     bool nice;
 
-    char letter; //това е променливата
+    char letter;
     char rtype;
 
-    vector<Number> roots; //тук се съхраняват корените
-    //за момента такива винаги има, но не за дълго
+    vector<Number> roots;
+
     Equation()
     {
 
     }
 
     void create(EquationDescriptor &ed, RNJ& rnj)
-    { //тази функции създава основата на уравнението, без никакви "украшения"
+    {
         rd=ed.rd;
         rtype=ed.type;
-        SPolynomial seed; //За генерация се ползва SPolynomial, защото е по-бърз, когато
-        seed.letter = letter = ed.letter; //полинома е само на 1 буква
+        SPolynomial seed;
+        seed.letter = letter = ed.letter;
+
+        cf=ed.cd;
+        transformCF = ed.transformCF;
         if(ed.type==0)
         {
             seed.coef[0]=1;
             nice = ed.nice;
-            //получва се като се умножат изрази от типа (х-хi), където хi е корен
+
             for(int i = 0; i < ed.power; i++)
             {
-                Number root = rnj.nextNumber(rd); //тук се избира корена
+                Number root = rnj.nextNumber(rd);
 
                 roots.push_back(root);
 
                 SPolynomial sp;
                 sp.power=1;
-                sp.coef[0] = root*-1; //тук се създава израза (x-xi)
+                sp.coef[0] = root*-1;
                 sp.coef[1] = 1;
                 if(ed.nice && !root.isNatural()) //ако е nice, х+1/3 става 3х+1
                 {
@@ -53,11 +56,11 @@ public: //Всяко уравнения има два израза: лява и дясна част
                     sp.coef[1]*=root.fraction.down;
                 }
 
-                seed*=sp; //тук се случва гореспоменантото умножение
+                seed*=sp;
             }
 
-            left.free = seed.toPolynomial(); //тук става превръшането от SPolynomial към Polynomial,
-        }                                    //който се ползва от Expression
+            left.free = seed.toPolynomial();
+        }
         else if(ed.type==1)
         {
             left.free = Polynomial(rnj.nextNumber(rd));
@@ -70,8 +73,8 @@ public: //Всяко уравнения има два израза: лява и дясна част
 
 
     void createMod(int power, RootDescriptor& _rd, bool nice)
-    { //тази функция създава модулно уравнение, все още е WIP
-        rd=_rd; // и не се използва
+    { //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ WIP
+        rd=_rd; // пїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         SPolynomial seed;
         seed.coef[0]=1;
 
@@ -103,14 +106,14 @@ public: //Всяко уравнения има два израза: лява и дясна част
     }
 
     void addTerm(int maxPow, RNJ& rnj)
-    { //Добавя "скоба" към уравнението - т.е. еквиваленто преобразувание
-        Term t = rnj.nextTerm(cf, maxPow, letter, nice, letter); //Засега като параметри на скбоата се ползва
+    {
+        Term t = rnj.nextTerm(cf, maxPow, letter, nice, letter);
         t.coef = rnj.nextNumber(transformCF);
 
-        if(rnj.nextBool()) //описанието на корените, но това ще се промени
+        if(rnj.nextBool())
         {
-            left.addTerm(t, false); //винаги скобата се добавя към едната страна "сурова",
-            right.addTerm(t, true); //а към другата разкрита
+            left.addTerm(t, false);
+            right.addTerm(t, true);
         }
         else
         {
@@ -120,7 +123,7 @@ public: //Всяко уравнения има два израза: лява и дясна част
     }
 
     void balance()
-    { //тази функция балансира броя на скоби от двете страни на знака
+    { //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         int len1 = left.getLen();
         int len2 = right.getLen();
 
@@ -131,8 +134,8 @@ public: //Всяко уравнения има два израза: лява и дясна част
             {
                 int idx = jesus.nextInt(0, left.terms.size()-1);
                 Term extract = left.terms[idx];
-                left.terms.erase(left.terms.begin()+idx); //спазва правилата за еквиваленто преобразувание
-                extract.coef*=-1; //прехвърляме с обратен знак
+                left.terms.erase(left.terms.begin()+idx); //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                extract.coef*=-1; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                 right.terms.push_back(extract);
             }
         }
@@ -152,22 +155,22 @@ public: //Всяко уравнения има два израза: лява и дясна част
     }
 
     void condenseFree()
-    { //тази функции оставя свободен полином само от една страна на равното
+    {
         right.free.negate();
         left.free = left.free + right.free;
         right.free.clear();
     }
 
     void print(stringstream& ss)
-    {//тази функция сама се обяснява
+    {
         left.print(ss);
         ss<<" = ";
         right.print(ss);
     }
 
     void printRoots(stringstream& ss)
-    {//и тази
-        if(rtype==2) ss<<letter<<"\\in \\R";
+    {//пїЅ пїЅпїЅпїЅпїЅ
+        if(rtype==2) ss<<letter<<"\\in R";
         else if(rtype==1) ss<<letter<<"\\in \\varnothing";
         int last = roots.size()-1;
         for(int i = 0; i < roots.size(); i++)

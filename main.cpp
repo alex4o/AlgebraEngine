@@ -1,53 +1,3 @@
-/*
-Статус на проекта: Pre-Alpha
-Последен ъпдейт: 2014.11.30 18:45
-
-Име на този модул: Algebra Engine
-Описание: Това е основата на проекта, отговаряща за алгебрични операции
-
-Features(направени):
-- действия с числа(не много тествани, но мисля че няма грешки) - Fraction;Number
-- прости едночлени (от типа х^2)
-    - те са просто char(буква) и int(степен)
-    - имат оператори за сравнение
-- едночлени
-    - имат коефицент от клас Number
-    - поддържат само умножение, но то стига(засега)
-    - имат вход от низ
-    - имат оператори за сравнение
-    - имат оператор за равенство
-- многочлени
-    - събиране    //Направени след няколко часа търсене и оправяне
-    - умножение   //на грешки и няколко пренаписвания на фукции и оператори
-    - конструктор със низ
-
-TO DO списък:
-
-Среден приоритет:
-
-- вход на Number от низ
-- изход на Number
-
-Нисък приоритет:
-- support на ирационални числа в Number
-- Number степенни показатели в Simple(може би ненужно)
-
-Изпълнени:
-
-----На 2014.12.02----
-- вход на полиноми от низ
-
-----На 2014.11.30----
-Оправи събирането на полиноми
-Погледни отново операторите за сравнение на едночлени
-Евентуално напиши глупава версия
----------------------
-
-
-Бележки:
-- добре е да се ползва if(DEBUG) { .... } за да се избегне постоянното слагане и триене на код
-*/
-
 #include <iostream>
 #include <vector>
 #include <string.h>
@@ -76,55 +26,56 @@ int parse(string s)
 
 int main()
 {
-    InequationDescriptor id;
-    id.minTerms=3;
-    id.maxTerms=3;
+    ExpressionDescriptor ed;
+    ed.minTerms=2;
+    ed.maxTerms=3;
 
-    id.letter = 'x';
+    ed.factored=false;
+    ed.letters[0]='a';
+    ed.letters[1]='b';
+    ed.letters[2]='c';
+    ed.cLetters=1;
 
-    id.cf.pNatural=100;
-    id.cf.pNegative=50;
-    id.cf.pIrational=0;
-    id.cf.pRational=0;
-    id.cf.upHigh=3;
-    id.cf.upLow=1;
-    id.cf.downHigh=10;
-    id.cf.downLow=1;
+    ed.minLetters=1;
+    ed.maxLetters=2;
 
-    id.transformCF.pNatural=100;
-    id.transformCF.pIrational=0;
-    id.transformCF.pRational=0;
-    id.transformCF.upHigh=5;
-    id.transformCF.upLow=1;
-    id.transformCF.downHigh=7;
-    id.transformCF.downLow=1;
-    id.transformCF.pNegative=50;
+    ed.cf.pNatural=100;
+    ed.cf.pNegative=40;
+    ed.cf.pIrational=0;
+    ed.cf.pRational=0;
+    ed.cf.upHigh=3;
+    ed.cf.upLow=1;
+    ed.cf.downHigh=5;
+    ed.cf.downLow=1;
 
-    id.nice=true;
+    ed.transformCF.pNatural=100;
+    ed.transformCF.pIrational=0;
+    ed.transformCF.pRational=0;
+    ed.transformCF.upHigh=5;
+    ed.transformCF.upLow=1;
+    ed.transformCF.downHigh=7;
+    ed.transformCF.downLow=1;
+    ed.transformCF.pNegative=50;
 
-    id.rd.pNatural=0;
-    id.rd.pNegative=50;
-    id.rd.pIrational=0;
-    id.rd.pFraction=100;
-    id.rd.upHigh=3;
-    id.rd.upLow=1;
-    id.rd.downHigh=10;
-    id.rd.downLow=1;
+    ed.minSubTerm=1;
+    ed.maxSubTerm=2;
+
+    ed.maxPow=2;
+
 
     while(true)
     {
-        Inequation ineq;
-        ineq.create(id);
+        MultiResult mr = getExpressions(ed, 10);
+        for(int i = 0; i < mr.count; i++)
+        {
+            cout<<mr.ptrProblem[i]<<endl;
+            cout<<mr.ptrSolution[i]<<endl;
+            cout<<"-----\n";
+        }
 
-        ineq.addTerm(1);
-        ineq.multiplyByNumber();
 
-        stringstream ss1, ss2;
-        ineq.print(ss1);
-        ineq.printRoots(ss2);
-
-        cout<<ss1.str()<<endl;
-        cout<<ss2.str()<<endl;
+        free(mr.problem);
+        free(mr.solution);
         getchar();
     }
 
