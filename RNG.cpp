@@ -135,7 +135,7 @@ Term RNJ::nextTerm(CoefDescriptor &cf, int maxPower, char letter, bool nice, cha
 
 void createListOfInts(int* array, int size, int sum, RNJ* jesus)
 {
-    memset(array+4, 0, (size-1)*4);
+    memset(array, 0, (size-1)*4);
     array[0]=sum;
 
     int *chArr = new int[size];
@@ -154,5 +154,5 @@ void createListOfInts(int* array, int size, int sum, RNJ* jesus)
         array[i+1] = newInt;
         array[chArr[choice]] -= newInt;
     }
-	delete chArr;
+	delete[] chArr;
 }

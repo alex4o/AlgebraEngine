@@ -6,6 +6,9 @@ using namespace std;
 
 void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed, RNJ& jesus)
 {
+    int cSubTerms = jesus.nextInt(ed.minSubTerm, ed.maxSubTerm);
+    int *powers = new int[cSubTerms];
+    int power = jesus.nextInt(cSubTerms, ed.maxPow);
 
     if(ed.factored==false)
     {
@@ -15,12 +18,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
         {
             Term currentTerm;
 
-            int cSubTerms = jesus.nextInt(ed.minSubTerm, ed.maxSubTerm);
-            int power = jesus.nextInt(cSubTerms, ed.maxPow);
-
-
-            int *powers = new int[cSubTerms];
-            createListOfInts(powers, cSubTerms, power, &jesus); //тази функция разпределя степенти по многочлените
+            createListOfInts(powers, cSubTerms, power, &jesus); //С‚Р°Р·Рё С„СѓРЅРєС†РёСЏ СЂР°Р·РїСЂРµРґРµР»СЏ СЃС‚РµРїРµРЅС‚Рё РїРѕ РјРЅРѕРіРѕС‡Р»РµРЅРёС‚Рµ
 
 
             bool firstTime = true;
@@ -76,11 +74,6 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
 
         Term currentTerm;
 
-        int cSubTerms = jesus.nextInt(ed.minSubTerm, ed.maxSubTerm);
-        int power = jesus.nextInt(cSubTerms, ed.maxPow);
-
-
-		int *powers = new int[cSubTerms];
         createListOfInts(powers, cSubTerms, power, &jesus);
 
         bool firstTime = true;
@@ -112,10 +105,10 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
                 char letter = ed.letters[choice];
                 Number coef = jesus.nextNumber(ed.cf);
 
-            currentTerm.coef = jesus.nextNumber(ed.transformCF); //избира се коефициента пред скобата
+            currentTerm.coef = jesus.nextNumber(ed.transformCF); //РёР·Р±РёСЂР° СЃРµ РєРѕРµС„РёС†РёРµРЅС‚Р° РїСЂРµРґ СЃРєРѕР±Р°С‚Р°
 			delete powers;
-            e1.addTerm(currentTerm, false); //от едната страна скобата се добавя както си е, а от другата
-            e2.addTerm(currentTerm, true); //в нормален
+            e1.addTerm(currentTerm, false); //РѕС‚ РµРґРЅР°С‚Р° СЃС‚СЂР°РЅР° СЃРєРѕР±Р°С‚Р° СЃРµ РґРѕР±Р°РІСЏ РєР°РєС‚Рѕ СЃРё Рµ, Р° РѕС‚ РґСЂСѓРіР°С‚Р°
+            e2.addTerm(currentTerm, true); //РІ РЅРѕСЂРјР°Р»РµРЅ
 
                 Monomial mono(coef, letter);
                 poly.monos.push_back(mono);
@@ -128,7 +121,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
         }
 
         currentTerm.coef = jesus.nextNumber(ed.transformCF);
-
+        delete powers;
         e1.addTerm(currentTerm, true);
         e2.addTerm(currentTerm, false);
     }
