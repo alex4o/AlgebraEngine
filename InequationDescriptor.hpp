@@ -4,9 +4,8 @@
 #include "CoefDescriptor.hpp"
 #include "RootDescriptor.hpp"
 
-class InequationDescriptor
+struct InequationDescriptor
 {
-public:
     CoefDescriptor cf, transformCF;
     RootDescriptor rd;
     char letter;

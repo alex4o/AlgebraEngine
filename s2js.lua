@@ -50,12 +50,12 @@ type_c = {
   bool = "boolean",
   char = "byte",
 }
-json = false
+bind = false
 -- json output
 t = {}
-if json then
+if bind then
 for k,struct in pairs(structs) do
-  --print(struct[2])
+  print("value_object<" .. struct[2] .. '>("' .. struct[2] .. '")')
   t[struct[2]] = {}
   for k,prop in pairs(struct[3]) do
     local ti
@@ -63,65 +63,49 @@ for k,struct in pairs(structs) do
       if k == 1 then
         ti = var
       else
-        local prop = '{"type":"'..type..'", "var": "' ..var..'"}'
-        table.insert(t[struct[2]],prop)
-        --print(prop)
+        print('.field("' .. var .. '",&' .. struct[2] .. '::' .. var .. ')')
+        
       end
+
     end
+
   end
+  print("----------")
+
 end
 
-for k,v in pairs(t) do
+--[[for k,v in pairs(t) do
   handler = io.open(arg[2]..k..".js","w")
   array = "module.exports = ["..table.concat(v,',').."]"
   handler:write(array)
   print("Saveing "..k..".js at "..arg[2])
   
 end
+]]
 
 else
---web idl
-
+--json
 
 for k,struct in pairs(structs) do
+  print("var " .. struct[2] .. '= {')
   t[struct[2]] = {}
-  type_c[struct[2]] = k
   for k,prop in pairs(struct[3]) do
-    local ti --tyepof prop
+    local ti
     for k,var in pairs(prop) do
       if k == 1 then
         ti = var
       else
-        --print(ti)
-        local pres = type_c[ti]
-        print(type(prop[k+1]))
-        if lpeg.match(number^1,type(k+1)) ~= nill then
-          pres = pres .. "["..prop[k+1].."]"..' '..var..';'
-          
-          --print(prop)
-        else
-          pres = pres..' '..var..';'
-        end
-        table.insert(t[struct[2]],pres)
+        print(var .. ': 0,') 
       end
+
     end
+
   end
+  print("----------")
+
 end
 
-for k,v in pairs(t) do
-  handler = io.open(arg[2]..k..".idl","w")
-  array = "interface "..k.." {\n"..table.concat(v,'\n').."\n}"
-  print(array)
-  print("Saveing "..k..".idl at "..arg[2])
-  
-end
+
 end
 
-ffi.cdef[[
-  struct a{
-    int b;
-  }
-]]
-
-a = ffi.new('struct a', 12)
 

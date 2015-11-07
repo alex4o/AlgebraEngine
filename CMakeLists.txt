@@ -7,6 +7,12 @@ if(WIN32)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 endif(WIN32)
 
+if(${CMAKE_SYSTEM_NAME} STREQUAL Emscripten)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --bind -g -Os --memory-init-file 0 -std=c++11")
+
+endif(${CMAKE_SYSTEM_NAME} STREQUAL Emscripten)
+
 set(SOURCE_FILES
     Fraction.hpp
     Monomial.cpp
@@ -38,8 +44,11 @@ set(SOURCE_FILES
     Equation.hpp)
 
 
+add_library(AlgebraEngineStatic STATIC ${SOURCE_FILES})
 add_library(AlgebraEngine SHARED ${SOURCE_FILES})
+
+
 add_executable(AEEXEC main.cpp)
-TARGET_LINK_LIBRARIES(AEEXEC AlgebraEngine)
+TARGET_LINK_LIBRARIES(AEEXEC AlgebraEngineStatic)
 
 install(TARGETS AlgebraEngine DESTINATION /lib64 )

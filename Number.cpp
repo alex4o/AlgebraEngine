@@ -114,7 +114,7 @@ Number parseNum(string s)
     }
     if(c.fraction.down==1)
     {
-        c.type=natural || rational;
+        c.type=natural | rational;
         c.null=false;
         return c;
     }
