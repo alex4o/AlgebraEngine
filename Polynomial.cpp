@@ -39,9 +39,8 @@ Polynomial operator+(const Polynomial &p1, const Polynomial &p2) {
     while(idx1<lim1) v.push_back(p1.monos[idx1++]);
     while(idx2<lim2) v.push_back(p2.monos[idx2++]);
 
-    Polynomial result(v, v[0].totalPower);
-
-    return result;
+    if(v.size() > 0) return Polynomial(v, v[0].totalPower);
+	return Polynomial();
 }
 
 Polynomial multByMono(const Polynomial &p, const Monomial &m)
