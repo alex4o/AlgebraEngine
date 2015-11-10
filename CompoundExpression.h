@@ -4,12 +4,12 @@
 #include "Expression.hpp"
 
 
-const char polynomial = 0; // a simple polynomial
+const char polynomial = 0; // a simple polynomial, power field used for numerical power
 const char fraction = 1; // children[0]/children[1]
 const char product = 2; // <- equivalent of Term; children[0]*children[1]*.....
 const char sum = 8; 
 const char flog = 3; //log(children[0], children[1])
-const char power = 9; // exp(children[0], children[1])
+const char fpower = 9; // exp(children[0], children[1])
 
 const char fsin = 4; // f(children[0]), rad
 const char fcos = 5;
@@ -45,7 +45,7 @@ public:
 	int nNodes;
 	Node* nodes;
 
-	void print();
+	void print(stringstream& ss);
 };
 
 #endif

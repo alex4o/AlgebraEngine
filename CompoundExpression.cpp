@@ -12,7 +12,27 @@ void Node::print(bool isFirst, stringstream& ss)
 	}
 
 	char t = type&typeMask;
-	if (t == polynomial) poly->print(ss, isFirst);
+	if (t == polynomial)
+	{
+		if (power->isNatural)
+		{
+			if(power->fraction.up==1)poly->print(ss, isFirst);
+			else
+			{
+				ss << "(";
+				poly->print(ss, false);
+				ss << ")^" << power->fraction.up;
+			}
+		}
+		else
+		{
+			ss << "root(";
+			poly->print(ss, false);
+			ss << ")";
+			if (power->fraction.up > 1) ss << "^" << power->fraction.up;
+		}
+		
+	}
 	else if (t == fraction)
 	{
 		if (nChildren < 2) ss << "error/error";
@@ -57,5 +77,16 @@ void Node::print(bool isFirst, stringstream& ss)
 		ss << ", ";
 		children[1].print(true, ss);
 		ss << ") ";
+	}
+	else if (t == fpower)
+	{
+		if (nChildren < 2) ss << "error^error";
+		else
+		{
+			children[0].print(isFirst, ss);
+			ss << "^(";
+			children[1].print(true, ss);
+			ss << ")";
+		}
 	}
 }
