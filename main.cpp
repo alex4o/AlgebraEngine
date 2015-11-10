@@ -12,6 +12,7 @@ using namespace std;
 #include "Generator.hpp"
 #include "Interface.hpp"
 #include "Inequation.hpp"
+#include "CompoundExpression.h"
 
 int parse(string s)
 {
