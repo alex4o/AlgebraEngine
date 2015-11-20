@@ -384,6 +384,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CompoundExpression.h" />
+    <ClInclude Include="..\Node.h" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Fraction.hpp" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Monomial.hpp" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Number.hpp" />
@@ -405,6 +406,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Interface.hpp" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Equation.hpp" />
     <ClCompile Include="..\CompoundExpression.cpp" />
+    <ClCompile Include="..\Node.cpp" />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Monomial.cpp" />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Number.cpp" />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Polynomial.cpp" />

@@ -98,6 +98,12 @@ public:
     void negate();
     void clear();
 
+	bool isNegative()
+	{
+		if (monos.empty()) return false;
+		else return monos[0].getSign() == '-';
+	}
+
     void multByNumber(Number& n);
 };
 
