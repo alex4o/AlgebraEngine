@@ -81,8 +81,17 @@ public:
 
     void print(stringstream& ss, bool style)
     {
-        if(style || monos[0].getSign()=='-')ss<<' '<<monos[0].getSign()<<' ';
-        monos[0].print(ss, true);
+		if (style || monos[0].getSign() == '-')
+		{
+			if (style)
+			{
+				ss << ' ' << monos[0].getSign() << ' ';
+				monos[0].print(ss, true);
+			}
+			else monos[0].print(ss, false);
+		}
+		else monos[0].print(ss, false);
+        
         for(int i = 1; i < monos.size(); i++)
         {
             ss<<' '<<monos[i].getSign()<<' ';

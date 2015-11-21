@@ -26,7 +26,7 @@ Node::Node(char t)
 Node::Node(Polynomial* p)
 {
 	type = polynomial;
-	if (p->isNegative()) type &= 1 << 7;
+	if (p->isNegative()) type &= 1 << 6;
 	poly = p;
 	
 	nChildren = 0;
@@ -38,7 +38,7 @@ Node::Node(Polynomial* p)
 Node::Node(Polynomial* p, Number& pow, bool isNegative)
 {
 	type = polynomial;
-	if (isNegative) type &= 1 << 7;
+	if (isNegative) type &= 6 << 7;
 	poly = p;
 
 	nChildren = 0;
@@ -58,109 +58,20 @@ char Node::getSign()
 	return '+';
 }
 
-void Node::print(bool isFirst, stringstream& ss)
+char Node::getVisualSign()
 {
-	char trigTest = type&trigMask;
-	if (trigTest >= fsin && trigMask <= fcotg)
+	if (getType() == polynomial)
 	{
-		ss << fLookUp[trigMask] << "(";
-		if (nChildren == 0) ss << "error) ";
-		else children[0]->print(false, ss);
-		return;
+		if (getSign() == '-') return '-';
+		else if (type&(1 << 6)) return '-';
+		else return '+';
 	}
+	return getSign();
+}
 
-	char t = getType();
-	if (t == letter)
-	{
-		if (isFirst)
-		{
-			power->print(true, false, ss);
-			ss << letterLookUp[nChildren];
-		}
-		else
-		{
-			ss << power->getSign() << " ";
-			power->print(true, true, ss);
-			ss << letterLookUp[nChildren];
-		}
-	}
-	if (t == polynomial)
-	{
-		if (power->isNatural)
-		{
-			if (power->fraction.up == 1)poly->print(ss, !isFirst);
-			else
-			{
-				ss << "(";
-				poly->print(ss, false);
-				ss << ")^" << power->fraction.up;
-			}
-		}
-		else
-		{
-			ss << "root(";
-			poly->print(ss, false);
-			ss << ")";
-			if (power->fraction.up > 1) ss << "^" << power->fraction.up;
-		}
-
-	}
-	else if (t == fraction)
-	{
-		if (nChildren < 2) ss << "error/error";
-		else
-		{
-			children[0]->print(false, ss);
-			ss << "/";
-			children[1]->print(false, ss);
-		}
-	}
-	else if (t == product)
-	{
-		if (nChildren < 2) ss << "error*error";
-		else
-		{
-			for (int i = 0; i < nChildren; i++)
-			{
-				ss << "(";
-				children[i]->print(false, ss);
-				ss << ")";
-				if (i < nChildren - 1) ss << "*";
-			}
-		}
-	}
-	else if (t == sum)
-	{
-		if (nChildren < 2) ss << "error + error";
-		else
-		{
-			for (int i = 0; i < nChildren; i++)
-			{
-				children[i]->print(i == 0, ss);
-				if (i < nChildren - 1) ss << " " << children[i + 1]->getSign() << " ";
-			}
-		}
-	}
-	else if (t == flog)
-	{
-		if (nChildren < 2) ss << "log(error, error)";
-		ss << fLookUp[flog] << "(";
-		children[0]->print(true, ss);
-		ss << ", ";
-		children[1]->print(true, ss);
-		ss << ") ";
-	}
-	else if (t == fpower)
-	{
-		if (nChildren < 2) ss << "error^error";
-		else
-		{
-			children[0]->print(isFirst, ss);
-			ss << "^(";
-			children[1]->print(true, ss);
-			ss << ")";
-		}
-	}
+void Node::print(bool isFirst, bool attachSign, stringstream& ss)
+{
+	printArr[type&typeMask](this, isFirst, attachSign, ss);
 }
 
 void Node::resize()
@@ -298,5 +209,27 @@ void divRec(Node* &dest, Node* src, bool compact)
 	newNode->children[1] = dest;
 	if (src->getSign() != dest->getType()) newNode->type |= 1 << 7;
 
+	dest = newNode;
+}
+
+void add(Node* &dest, Node* src, bool compact)
+{
+	if (compact)
+	{
+		if (src->getType() == sum) // и двете звена са суми, затова просто преписваме децата
+		{// не се сменя корена
+			int spaceNeeded = src->nChildren - dest->capacity + dest->nChildren;
+			if (spaceNeeded > 0) dest->resize(dest->capacity + spaceNeeded);
+			for (int i = 0; i < src->nChildren; i++)
+			{
+				dest->children[dest->nChildren + i] = src->children[i];
+			}
+			dest->nChildren += src->nChildren;
+		}
+	}
+
+	Node* newNode = new Node(sum);
+	newNode->children[0] = dest;
+	newNode->children[1] = src;
 	dest = newNode;
 }
