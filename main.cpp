@@ -25,59 +25,76 @@ int parse(string s)
     return n;
 }
 
+void printSigns(Node** arr, int n)
+{
+	cout << "signs: ";
+	for (int i = 0; i < n; i++) cout << arr[i]->getSign() << " ";
+	cout << endl;
+}
+
+void printSigns(Node** arr, int n, stringstream& ss)
+{
+	ss << "signs: ";
+	for (int i = 0; i < n; i++) ss << arr[i]->getSign() << " ";
+	ss << endl;
+}
+
 int main()
 {
-    ExpressionDescriptor ed;
-    ed.minTerms=2;
-    ed.maxTerms=3;
+	initPrintFunctions();
 
-    ed.factored=false;
-    ed.letters[0]='a';
-    ed.letters[1]='b';
-    ed.letters[2]='c';
-    ed.cLetters=1;
+	Polynomial** p = new Polynomial*[4];
+	string s;
 
-    ed.minLetters=1;
-    ed.maxLetters=2;
+	for (int i = 0; i < 4; i++)
+	{
+		getline(cin, s);
+		p[i] = new Polynomial(s);
+	}
 
-    ed.cf.pNatural=100;
-    ed.cf.pNegative=40;
-    ed.cf.pIrational=0;
-    ed.cf.pRational=0;
-    ed.cf.upHigh=3;
-    ed.cf.upLow=1;
-    ed.cf.downHigh=5;
-    ed.cf.downLow=1;
+	cout << endl;
 
-    ed.transformCF.pNatural=100;
-    ed.transformCF.pIrational=0;
-    ed.transformCF.pRational=0;
-    ed.transformCF.upHigh=5;
-    ed.transformCF.upLow=1;
-    ed.transformCF.downHigh=7;
-    ed.transformCF.downLow=1;
-    ed.transformCF.pNegative=50;
+	Number pow(1);
 
-    ed.minSubTerm=1;
-    ed.maxSubTerm=2;
+	stringstream ss;
 
-    ed.maxPow=2;
+	Node** nodes = new Node*[4];
+	for (int i = 0; i < 4; i++) nodes[i] = new Node(p[i], pow, i<1);
+	printSigns(nodes, 4);
+
+	add(nodes[0], nodes[1], true);
+	simplifySumSign(nodes[0]);
+
+	ss << "0+1 = ";
+	nodes[0]->print(true, false, ss);
+	ss << endl << endl;
 
 
-    while(true)
-    {
-        MultiResult mr = getExpressions(ed, 10);
-        for(int i = 0; i < mr.count; i++)
-        {
-            cout<<mr.ptrProblem[i]<<endl;
-            cout<<mr.ptrSolution[i]<<endl;
-            cout<<"-----\n";
-        }
 
+	ss << "2+3 = ";
+	add(nodes[2], nodes[3], true);
+	simplifySumSign(nodes[2]);
 
-        free(mr.problem);
-        free(mr.solution);
-        getchar();
-    }
+	nodes[2]->print(true, false, ss);
+	ss << endl << endl;
 
+	ss << "0+2 = ";
+	add(nodes[0], nodes[2], true);
+	simplifySumSign(nodes[0]);
+
+	nodes[0]->print(true, false, ss);
+
+	ss << endl << endl << " after doMath: ";
+	doSumMath(nodes[0], 4);
+	nodes[0]->print(true, false, ss);
+	ss << endl << endl;
+
+	cout << ss.str() <<endl;
+
+	system("pause");
+	
+	/*CompoundExpression ce(nodes, 4);
+
+	ce.print(ss);
+	cout << ss.str();*/
 }

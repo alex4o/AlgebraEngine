@@ -116,7 +116,7 @@
     <PreLinkEvent>
       <Message>Auto build dll exports</Message>
       <Command>setlocal
-cd D:\Programs\Programming\cmake-3.4.0-rc3-win32-x86\bin
+cd D:\Code\C++\Projects\AlgebraEngine\build
 if %errorlevel% neq 0 goto :cmEnd
 D:\Programs\Programming\cmake-3.4.0-rc3-win32-x86\bin\cmake.exe -E __create_def D:/Code/C++/Projects/AlgebraEngine/build/AlgebraEngine.dir/$(Configuration)//exportall.def D:/Code/C++/Projects/AlgebraEngine/build/AlgebraEngine.dir/Debug//objects.txt
 if %errorlevel% neq 0 goto :cmEnd
@@ -177,7 +177,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PreLinkEvent>
       <Message>Auto build dll exports</Message>
       <Command>setlocal
-cd D:\Programs\Programming\cmake-3.4.0-rc3-win32-x86\bin
+cd D:\Code\C++\Projects\AlgebraEngine\build
 if %errorlevel% neq 0 goto :cmEnd
 D:\Programs\Programming\cmake-3.4.0-rc3-win32-x86\bin\cmake.exe -E __create_def D:/Code/C++/Projects/AlgebraEngine/build/AlgebraEngine.dir/$(Configuration)//exportall.def D:/Code/C++/Projects/AlgebraEngine/build/AlgebraEngine.dir/Release//objects.txt
 if %errorlevel% neq 0 goto :cmEnd
@@ -238,7 +238,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PreLinkEvent>
       <Message>Auto build dll exports</Message>
       <Command>setlocal
-cd D:\Programs\Programming\cmake-3.4.0-rc3-win32-x86\bin
+cd D:\Code\C++\Projects\AlgebraEngine\build
 if %errorlevel% neq 0 goto :cmEnd
 D:\Programs\Programming\cmake-3.4.0-rc3-win32-x86\bin\cmake.exe -E __create_def D:/Code/C++/Projects/AlgebraEngine/build/AlgebraEngine.dir/$(Configuration)//exportall.def D:/Code/C++/Projects/AlgebraEngine/build/AlgebraEngine.dir/MinSizeRel//objects.txt
 if %errorlevel% neq 0 goto :cmEnd
@@ -298,7 +298,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <PreLinkEvent>
       <Message>Auto build dll exports</Message>
       <Command>setlocal
-cd D:\Programs\Programming\cmake-3.4.0-rc3-win32-x86\bin
+cd D:\Code\C++\Projects\AlgebraEngine\build
 if %errorlevel% neq 0 goto :cmEnd
 D:\Programs\Programming\cmake-3.4.0-rc3-win32-x86\bin\cmake.exe -E __create_def D:/Code/C++/Projects/AlgebraEngine/build/AlgebraEngine.dir/$(Configuration)//exportall.def D:/Code/C++/Projects/AlgebraEngine/build/AlgebraEngine.dir/RelWithDebInfo//objects.txt
 if %errorlevel% neq 0 goto :cmEnd
@@ -384,7 +384,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CompoundExpression.h" />
-    <ClInclude Include="..\Node.h" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Fraction.hpp" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Monomial.hpp" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Number.hpp" />
@@ -405,9 +404,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\7klas.hpp" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Interface.hpp" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Equation.hpp" />
+    <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Node.h" />
     <ClCompile Include="..\CompoundExpression.cpp" />
-    <ClCompile Include="..\Node.cpp" />
-    <ClCompile Include="..\Node_print.cpp" />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Monomial.cpp" />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Number.cpp" />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Polynomial.cpp" />
@@ -416,6 +414,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Generator.cpp" />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\RNG.cpp" />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Interface.cpp" />
+    <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:/Code/C++/Projects/AlgebraEngine/build/ZERO_CHECK.vcxproj">

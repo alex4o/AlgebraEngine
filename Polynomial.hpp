@@ -34,6 +34,11 @@ public:
         monos.push_back(Monomial(n));
     }
 
+	int doNothingTest()
+	{
+		return 4;
+	}
+
     Polynomial(std::string s)
     {
         int idx = 0;
@@ -81,6 +86,11 @@ public:
 
     void print(stringstream& ss, bool style)
     {
+		if (isZero())
+		{
+			ss << '0';
+			return;
+		}
 		if (style || monos[0].getSign() == '-')
 		{
 			if (style)
@@ -106,6 +116,13 @@ public:
 
     void negate();
     void clear();
+
+	bool isZero()
+	{
+		if (monos.size() == 0) return true;
+		if (monos.size() > 1) return false;
+		return monos[0].totalPower == 0 && monos[0].coef.null;
+	}
 
 	bool isNegative()
 	{

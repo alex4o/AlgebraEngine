@@ -17,6 +17,8 @@ private:
 	Node* findNodeForSum(Node* start);
 public:	
 
+	CompoundExpression(Node** nodes, int n);
+
 	void print(stringstream& ss);
 	void addNode(Node* node, bool calc); //calc - дали да смята(ако е възможно)
 	void multByNode(Node* node, bool spread); //дали да смята(ако е възможно)

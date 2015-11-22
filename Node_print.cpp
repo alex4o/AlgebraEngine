@@ -182,7 +182,7 @@ void printTrig(Node* node, bool isFirst, bool attachSign, stringstream& ss)
 	}
 	ss << "(";
 	if (node->nChildren == 1) ss << "error";
-	else node->children[0]->print(true, ss);
+	else node->children[0]->print(true, false, ss);
 	ss << ")";
 	return;
 }

@@ -25,13 +25,10 @@
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\CompoundExpression.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Node.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Node_print.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,10 +93,10 @@
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Equation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CompoundExpression.h">
+    <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Node.h">
+    <ClInclude Include="..\CompoundExpression.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

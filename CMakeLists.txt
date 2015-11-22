@@ -41,7 +41,9 @@ set(SOURCE_FILES
     7klas.hpp
     Interface.hpp
     Interface.cpp
-    Equation.hpp)
+    Equation.hpp
+	Node.h
+	Node.cpp)
 
 
 add_library(AlgebraEngineStatic STATIC ${SOURCE_FILES})
