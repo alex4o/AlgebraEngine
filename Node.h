@@ -1,11 +1,11 @@
-#ifndef NODE
+п»ї#ifndef NODE
 #define NODE
 
 #include "Polynomial.hpp"
 
 const int initialNodeCapacity = 5;
 
-const char polynomial = 0; // просто полином, power се ползва за числова степен
+const char polynomial = 0; // РїСЂРѕСЃС‚Рѕ РїРѕР»РёРЅРѕРј, power СЃРµ РїРѕР»Р·РІР° Р·Р° С‡РёСЃР»РѕРІР° СЃС‚РµРїРµРЅ
 const char fraction = 1; // children[0]/children[1]
 const char product = 2; // <- children[0]*children[1]*.....
 const char sum = 8;
@@ -22,7 +22,7 @@ const char fcosd = 5 + 16;
 const char ftgd = 6 + 16;
 const char fcotgd = 7 + 16;
 
-const char letter = 10; //overload-ва nChildren и го ползва като код за буква, ползвай letterLookUp; power -> коефициент
+const char letter = 10; //overload-РІР° nChildren Рё РіРѕ РїРѕР»Р·РІР° РєР°С‚Рѕ РєРѕРґ Р·Р° Р±СѓРєРІР°, РїРѕР»Р·РІР°Р№ letterLookUp; power -> РєРѕРµС„РёС†РёРµРЅС‚
 
 const char typeMask = 63;
 const char trigMask = 15;
@@ -42,20 +42,20 @@ public:
 
 	void resize();
 	void resize(int newSize);
-	void flipChildren(); // сменя children[0] и children[1]
+	void flipChildren(); // СЃРјРµРЅСЏ children[0] Рё children[1]
 	void flipSign();
 
 	void print(bool isFirst, bool attachSign, stringstream& ss);
 
 	char getType();
-	char getSign(); // реалния знак, т.е. коеф. +/-1 пред нещото
-	char getVisualSign(); // какъв знак трябва да се покаже, когато звеното не е първо
+	char getSign(); // СЂРµР°Р»РЅРёСЏ Р·РЅР°Рє, С‚.Рµ. РєРѕРµС„. +/-1 РїСЂРµРґ РЅРµС‰РѕС‚Рѕ
+	char getVisualSign(); // РєР°РєСЉРІ Р·РЅР°Рє С‚СЂСЏР±РІР° РґР° СЃРµ РїРѕРєР°Р¶Рµ, РєРѕРіР°С‚Рѕ Р·РІРµРЅРѕС‚Рѕ РЅРµ Рµ РїСЉСЂРІРѕ
 
 	Node();
-	Node(char t); //само създава масива и някои други задължителни работи
-	Node(Polynomial* p); //действието е събиране
+	Node(char t); //СЃР°РјРѕ СЃСЉР·РґР°РІР° РјР°СЃРёРІР° Рё РЅСЏРєРѕРё РґСЂСѓРіРё Р·Р°РґСЉР»Р¶РёС‚РµР»РЅРё СЂР°Р±РѕС‚Рё
+	Node(Polynomial* p); //РґРµР№СЃС‚РІРёРµС‚Рѕ Рµ СЃСЉР±РёСЂР°РЅРµ
 	Node(Polynomial* p, bool isNegative);
-	Node(Polynomial* p, Number& pow, bool isNegative); //когато има степен излиза (....) затова знака трябва да е изрично споменат
+	Node(Polynomial* p, Number& pow, bool isNegative); //РєРѕРіР°С‚Рѕ РёРјР° СЃС‚РµРїРµРЅ РёР·Р»РёР·Р° (....) Р·Р°С‚РѕРІР° Р·РЅР°РєР° С‚СЂСЏР±РІР° РґР° Рµ РёР·СЂРёС‡РЅРѕ СЃРїРѕРјРµРЅР°С‚
 
 	/*~Node();*/
 };
@@ -66,15 +66,15 @@ static printFunction printArr[32];
 bool cmp(Node* n1, Node* n2);
 
 void add(Node* &dest, Node* src, bool compact);
-void mult(Node* &dest, Node* src, bool compact); // dest *= src; сменя типа на dest на product, ако е необходимо
-void divide(Node* &dest, Node* src, bool compact); // dest /= src; сменя типа на dest на fraction, ако е необходимо
+void mult(Node* &dest, Node* src, bool compact); // dest *= src; СЃРјРµРЅСЏ С‚РёРїР° РЅР° dest РЅР° product, Р°РєРѕ Рµ РЅРµРѕР±С…РѕРґРёРјРѕ
+void divide(Node* &dest, Node* src, bool compact); // dest /= src; СЃРјРµРЅСЏ С‚РёРїР° РЅР° dest РЅР° fraction, Р°РєРѕ Рµ РЅРµРѕР±С…РѕРґРёРјРѕ
 void divRec(Node* &dest, Node* src, bool compact); // dest = src/dest
 
-void simplifyProductSign(Node* prod); //свежда броя на минусите(които обаче не се виждат) до 0 или 1
-void simplifyFractionSign(Node* frac); //свежда броя на минусите(които обаче не се виждат) до 0 или 1
-void simplifySumSign(Node* s); //ако броя на минусите е по-голям, сменя знака
+void simplifyProductSign(Node* prod); //СЃРІРµР¶РґР° Р±СЂРѕСЏ РЅР° РјРёРЅСѓСЃРёС‚Рµ(РєРѕРёС‚Рѕ РѕР±Р°С‡Рµ РЅРµ СЃРµ РІРёР¶РґР°С‚) РґРѕ 0 РёР»Рё 1
+void simplifyFractionSign(Node* frac); //СЃРІРµР¶РґР° Р±СЂРѕСЏ РЅР° РјРёРЅСѓСЃРёС‚Рµ(РєРѕРёС‚Рѕ РѕР±Р°С‡Рµ РЅРµ СЃРµ РІРёР¶РґР°С‚) РґРѕ 0 РёР»Рё 1
+void simplifySumSign(Node* s); //Р°РєРѕ Р±СЂРѕСЏ РЅР° РјРёРЅСѓСЃРёС‚Рµ Рµ РїРѕ-РіРѕР»СЏРј, СЃРјРµРЅСЏ Р·РЅР°РєР°
 
-void doSumMath(Node* &s, int maxGroupSize); //maxGroupSize - колко най-много елемента да обединим
+void doSumMath(Node* &s, int maxGroupSize); //maxGroupSize - РєРѕР»РєРѕ РЅР°Р№-РјРЅРѕРіРѕ РµР»РµРјРµРЅС‚Р° РґР° РѕР±РµРґРёРЅРёРј
 
 void printLetter(Node* node, bool isFirst, bool attachSign, stringstream& ss);
 void printPoly(Node* node, bool isFirst, bool attachSign, stringstream& ss);

@@ -1,4 +1,4 @@
-#ifndef CExpression
+п»ї#ifndef CExpression
 #define CExpression
 
 #include "Node.h"
@@ -20,10 +20,10 @@ public:
 	CompoundExpression(Node** nodes, int n);
 
 	void print(stringstream& ss);
-	void addNode(Node* node, bool calc); //calc - дали да смята(ако е възможно)
-	void multByNode(Node* node, bool spread); //дали да смята(ако е възможно)
-	void divideByNode(Node* node, bool spread); //текущ/нов, spread не се ползва в момента
-	void divideByNodeRec(Node* node); //нов/текущ
+	void addNode(Node* node, bool calc); //calc - РґР°Р»Рё РґР° СЃРјСЏС‚Р°(Р°РєРѕ Рµ РІСЉР·РјРѕР¶РЅРѕ)
+	void multByNode(Node* node, bool spread); //РґР°Р»Рё РґР° СЃРјСЏС‚Р°(Р°РєРѕ Рµ РІСЉР·РјРѕР¶РЅРѕ)
+	void divideByNode(Node* node, bool spread); //С‚РµРєСѓС‰/РЅРѕРІ, spread РЅРµ СЃРµ РїРѕР»Р·РІР° РІ РјРѕРјРµРЅС‚Р°
+	void divideByNodeRec(Node* node); //РЅРѕРІ/С‚РµРєСѓС‰
 };
 
 #endif

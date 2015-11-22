@@ -1,4 +1,4 @@
-#include "Node.h"
+п»ї#include "Node.h"
 
 Node::Node()
 {
@@ -141,13 +141,13 @@ void Node::flipSign()
 }
 
 void mult(Node* &dest, Node* src, bool compact) // dest = dest*src
-{												// dest - звеното, върху което прилагаме операцията. Може да сочи към друго след операцията
-	if (compact)								// src - звеното модификатор. Не се променя
-	{											// compact - дали да остане визуално 1 елемент(ако е възможно)
+{												// dest - Р·РІРµРЅРѕС‚Рѕ, РІСЉСЂС…Сѓ РєРѕРµС‚Рѕ РїСЂРёР»Р°РіР°РјРµ РѕРїРµСЂР°С†РёСЏС‚Р°. РњРѕР¶Рµ РґР° СЃРѕС‡Рё РєСЉРј РґСЂСѓРіРѕ СЃР»РµРґ РѕРїРµСЂР°С†РёСЏС‚Р°
+	if (compact)								// src - Р·РІРµРЅРѕС‚Рѕ РјРѕРґРёС„РёРєР°С‚РѕСЂ. РќРµ СЃРµ РїСЂРѕРјРµРЅСЏ
+	{											// compact - РґР°Р»Рё РґР° РѕСЃС‚Р°РЅРµ РІРёР·СѓР°Р»РЅРѕ 1 РµР»РµРјРµРЅС‚(Р°РєРѕ Рµ РІСЉР·РјРѕР¶РЅРѕ)
 		if (dest->getType() == product)
 		{
-			if (src->getType() == product) // и двете звена са произведения, затова просто преписваме децата
-			{// не се сменя корена
+			if (src->getType() == product) // Рё РґРІРµС‚Рµ Р·РІРµРЅР° СЃР° РїСЂРѕРёР·РІРµРґРµРЅРёСЏ, Р·Р°С‚РѕРІР° РїСЂРѕСЃС‚Рѕ РїСЂРµРїРёСЃРІР°РјРµ РґРµС†Р°С‚Р°
+			{// РЅРµ СЃРµ СЃРјРµРЅСЏ РєРѕСЂРµРЅР°
 				int spaceNeeded = src->nChildren - dest->capacity + dest->nChildren;
 				if (spaceNeeded > 0) dest->resize(dest->capacity + spaceNeeded);
 				for (int i = 0; i < src->nChildren; i++)
@@ -156,24 +156,24 @@ void mult(Node* &dest, Node* src, bool compact) // dest = dest*src
 				}
 				dest->nChildren += src->nChildren;
 
-				if (src->getSign() == '-') dest->flipSign(); //знаците
+				if (src->getSign() == '-') dest->flipSign(); //Р·РЅР°С†РёС‚Рµ
 				return;
 			}
-			else if (src->getType() == fraction) // умножаваме с дроб, затова сменяме типа
-			{// тук всъщност сменяме корена, но визуално остава 1 елемент
+			else if (src->getType() == fraction) // СѓРјРЅРѕР¶Р°РІР°РјРµ СЃ РґСЂРѕР±, Р·Р°С‚РѕРІР° СЃРјРµРЅСЏРјРµ С‚РёРїР°
+			{// С‚СѓРє РІСЃСЉС‰РЅРѕСЃС‚ СЃРјРµРЅСЏРјРµ РєРѕСЂРµРЅР°, РЅРѕ РІРёР·СѓР°Р»РЅРѕ РѕСЃС‚Р°РІР° 1 РµР»РµРјРµРЅС‚
 				Node* newNode = new Node(fraction);
-				newNode->children[0] = dest; // преписваме числителя
-				newNode->children[1] = new Node(*(src->children[1])); // и знаменателя(той не се променя)
-				mult(newNode->children[0], src->children[0], true); // умножаваме двата числителя
+				newNode->children[0] = dest; // РїСЂРµРїРёСЃРІР°РјРµ С‡РёСЃР»РёС‚РµР»СЏ
+				newNode->children[1] = new Node(*(src->children[1])); // Рё Р·РЅР°РјРµРЅР°С‚РµР»СЏ(С‚РѕР№ РЅРµ СЃРµ РїСЂРѕРјРµРЅСЏ)
+				mult(newNode->children[0], src->children[0], true); // СѓРјРЅРѕР¶Р°РІР°РјРµ РґРІР°С‚Р° С‡РёСЃР»РёС‚РµР»СЏ
 
-				if (dest->getSign() != src->getSign()) newNode->type |= (char)(1 << 7); //оправяме знаците
+				if (dest->getSign() != src->getSign()) newNode->type |= (char)(1 << 7); //РѕРїСЂР°РІСЏРјРµ Р·РЅР°С†РёС‚Рµ
 				simplifyFractionSign(newNode);
 				dest = newNode;
-				return; //няма смисъл да отива и на другата процедура за знаци
+				return; //РЅСЏРјР° СЃРјРёСЃСЉР» РґР° РѕС‚РёРІР° Рё РЅР° РґСЂСѓРіР°С‚Р° РїСЂРѕС†РµРґСѓСЂР° Р·Р° Р·РЅР°С†Рё
 			}
-			else // единствено можем да добавим src в масива на произведението
-			{ //не сменяме корене
-				if (dest->capacity > dest->nChildren) dest->children[(dest->nChildren)++] = new Node(*src); //проверки за място
+			else // РµРґРёРЅСЃС‚РІРµРЅРѕ РјРѕР¶РµРј РґР° РґРѕР±Р°РІРёРј src РІ РјР°СЃРёРІР° РЅР° РїСЂРѕРёР·РІРµРґРµРЅРёРµС‚Рѕ
+			{ //РЅРµ СЃРјРµРЅСЏРјРµ РєРѕСЂРµРЅРµ
+				if (dest->capacity > dest->nChildren) dest->children[(dest->nChildren)++] = new Node(*src); //РїСЂРѕРІРµСЂРєРё Р·Р° РјСЏСЃС‚Рѕ
 				else
 				{
 					dest->resize(dest->capacity + 1);
@@ -187,12 +187,12 @@ void mult(Node* &dest, Node* src, bool compact) // dest = dest*src
 		}
 		else if (dest->getType() == fraction)
 		{
-			if (src->getType() == fraction) //ако и двете са дроби, умножаваме им числителите и знаменателите
+			if (src->getType() == fraction) //Р°РєРѕ Рё РґРІРµС‚Рµ СЃР° РґСЂРѕР±Рё, СѓРјРЅРѕР¶Р°РІР°РјРµ РёРј С‡РёСЃР»РёС‚РµР»РёС‚Рµ Рё Р·РЅР°РјРµРЅР°С‚РµР»РёС‚Рµ
 			{
 				mult(dest->children[0], src->children[0], true);
 				mult(dest->children[1], src->children[1], true);
 			}
-			else mult(dest->children[0], src, true); // иначе просто умножаваме числителя
+			else mult(dest->children[0], src, true); // РёРЅР°С‡Рµ РїСЂРѕСЃС‚Рѕ СѓРјРЅРѕР¶Р°РІР°РјРµ С‡РёСЃР»РёС‚РµР»СЏ
 
 			if (dest->getSign() != src->getSign()) dest->type |= 1 << 7;
 			else dest->type = fraction;
@@ -202,7 +202,7 @@ void mult(Node* &dest, Node* src, bool compact) // dest = dest*src
 			return;
 		}
 		else if (src->getType() == product || src->getType() == fraction)
-		{ // ако src е "по-хубав" от dest, просто ги сменяме
+		{ // Р°РєРѕ src Рµ "РїРѕ-С…СѓР±Р°РІ" РѕС‚ dest, РїСЂРѕСЃС‚Рѕ РіРё СЃРјРµРЅСЏРјРµ
 			Node* old = dest;
 			dest = new Node(*src);
 			mult(dest, old, true);
@@ -210,12 +210,12 @@ void mult(Node* &dest, Node* src, bool compact) // dest = dest*src
 		}
 	}
 
-	Node* newNode = new Node(product);  // общия случай
-	newNode->children[0] = new Node(*src);			// правим си ново звено за произведение
-	newNode->children[1] = new Node(*dest);		// и там си записваме двата аргумента
+	Node* newNode = new Node(product);  // РѕР±С‰РёСЏ СЃР»СѓС‡Р°Р№
+	newNode->children[0] = new Node(*src);			// РїСЂР°РІРёРј СЃРё РЅРѕРІРѕ Р·РІРµРЅРѕ Р·Р° РїСЂРѕРёР·РІРµРґРµРЅРёРµ
+	newNode->children[1] = new Node(*dest);		// Рё С‚Р°Рј СЃРё Р·Р°РїРёСЃРІР°РјРµ РґРІР°С‚Р° Р°СЂРіСѓРјРµРЅС‚Р°
 	newNode->nChildren = 2;					
 	simplifyProductSign(newNode);
-	dest = newNode; // новото звено измества dest
+	dest = newNode; // РЅРѕРІРѕС‚Рѕ Р·РІРµРЅРѕ РёР·РјРµСЃС‚РІР° dest
 	
 }
 
@@ -270,12 +270,12 @@ void divRec(Node* &dest, Node* src, bool compact)
 
 void add(Node* &dest, Node* src, bool compact)
 {
-	bool flag = dest->getSign() != src->getSign(); //дали трябва да обръщаме знаците
+	bool flag = dest->getSign() != src->getSign(); //РґР°Р»Рё С‚СЂСЏР±РІР° РґР° РѕР±СЂСЉС‰Р°РјРµ Р·РЅР°С†РёС‚Рµ
 
 	if (compact)
 	{
-		if (src->getType() == sum) // и двете звена са суми, затова просто преписваме децата
-		{// не се сменя корена
+		if (src->getType() == sum) // Рё РґРІРµС‚Рµ Р·РІРµРЅР° СЃР° СЃСѓРјРё, Р·Р°С‚РѕРІР° РїСЂРѕСЃС‚Рѕ РїСЂРµРїРёСЃРІР°РјРµ РґРµС†Р°С‚Р°
+		{// РЅРµ СЃРµ СЃРјРµРЅСЏ РєРѕСЂРµРЅР°
 			int spaceNeeded = src->nChildren - dest->capacity + dest->nChildren;
 			if (spaceNeeded > 0) dest->resize(dest->capacity + spaceNeeded);
 			for (int i = 0; i < src->nChildren; i++)
@@ -297,9 +297,9 @@ void add(Node* &dest, Node* src, bool compact)
 }
 
 void simplifyProductSign(Node* prod)
-{ //може и да променим знака на самото звено
-	int* negCompIdx = new int[prod->nChildren]; //отрицателни елемнти, които са съставни(sum, product, fraction)
-	int* negSimpIdx = new int[prod->nChildren]; //отрицателни елементи, които са прости(polynomial, power, log, trig, letter)
+{ //РјРѕР¶Рµ Рё РґР° РїСЂРѕРјРµРЅРёРј Р·РЅР°РєР° РЅР° СЃР°РјРѕС‚Рѕ Р·РІРµРЅРѕ
+	int* negCompIdx = new int[prod->nChildren]; //РѕС‚СЂРёС†Р°С‚РµР»РЅРё РµР»РµРјРЅС‚Рё, РєРѕРёС‚Рѕ СЃР° СЃСЉСЃС‚Р°РІРЅРё(sum, product, fraction)
+	int* negSimpIdx = new int[prod->nChildren]; //РѕС‚СЂРёС†Р°С‚РµР»РЅРё РµР»РµРјРµРЅС‚Рё, РєРѕРёС‚Рѕ СЃР° РїСЂРѕСЃС‚Рё(polynomial, power, log, trig, letter)
 
 	int idx1 = 0;
 	int idx2 = 0;
@@ -421,21 +421,21 @@ void doSumMath(Node* &s, int maxGroupSize)
 
 	Node** newChildren = new Node*[newSize];
 
-	int cnt = 0; //брой ненулеви полиноми
+	int cnt = 0; //Р±СЂРѕР№ РЅРµРЅСѓР»РµРІРё РїРѕР»РёРЅРѕРјРё
 
 	for (int i = 0; i < nNewPoly; i++)
 	{
 		if (i == nNewPoly - 1)
 		{
-			int start = (nNewPoly - 1)*maxGroupSize; //откъде почват полиномите за последната група
+			int start = (nNewPoly - 1)*maxGroupSize; //РѕС‚РєСЉРґРµ РїРѕС‡РІР°С‚ РїРѕР»РёРЅРѕРјРёС‚Рµ Р·Р° РїРѕСЃР»РµРґРЅР°С‚Р° РіСЂСѓРїР°
 
 			polys[cnt] = new Polynomial(*(s->children[start]->poly));
-			if (s->children[start]->getSign() == '-') polys[cnt]->negate(); //знакова коректност
+			if (s->children[start]->getSign() == '-') polys[cnt]->negate(); //Р·РЅР°РєРѕРІР° РєРѕСЂРµРєС‚РЅРѕСЃС‚
 
 			for (int j = start + 1; j < nPoly; j++)
 			{
 				Polynomial tmp = *(s->children[j]->poly);
-				if (s->children[j]->getSign() == '-') tmp.negate(); //знакова коректност
+				if (s->children[j]->getSign() == '-') tmp.negate(); //Р·РЅР°РєРѕРІР° РєРѕСЂРµРєС‚РЅРѕСЃС‚
 				*polys[cnt] = *polys[cnt] + tmp;
 			}
 
@@ -457,7 +457,7 @@ void doSumMath(Node* &s, int maxGroupSize)
 		for (int j = 1; j < maxGroupSize; j++)
 		{
 			Polynomial tmp = *(s->children[i*maxGroupSize + j]->poly);
-			if (s->children[i*maxGroupSize + j]->getSign() == '-') tmp.negate(); //знакова коректност
+			if (s->children[i*maxGroupSize + j]->getSign() == '-') tmp.negate(); //Р·РЅР°РєРѕРІР° РєРѕСЂРµРєС‚РЅРѕСЃС‚
 			*polys[cnt] = *polys[cnt] + tmp;
 		}
 
@@ -493,9 +493,9 @@ void doSumMath(Node* &s, int maxGroupSize)
 	}
 	if (actualSize == 1)
 	{
-		Node* last; //единствения останал елемент
-		if (cnt == 0) last = s->children[s->nChildren - 1]; // и той не е полином => е последния елемент от оригиналния масив
-		else last = newChildren[0]; // и той е полином => първия елемнт от новия масив
+		Node* last; //РµРґРёРЅСЃС‚РІРµРЅРёСЏ РѕСЃС‚Р°РЅР°Р» РµР»РµРјРµРЅС‚
+		if (cnt == 0) last = s->children[s->nChildren - 1]; // Рё С‚РѕР№ РЅРµ Рµ РїРѕР»РёРЅРѕРј => Рµ РїРѕСЃР»РµРґРЅРёСЏ РµР»РµРјРµРЅС‚ РѕС‚ РѕСЂРёРіРёРЅР°Р»РЅРёСЏ РјР°СЃРёРІ
+		else last = newChildren[0]; // Рё С‚РѕР№ Рµ РїРѕР»РёРЅРѕРј => РїСЉСЂРІРёСЏ РµР»РµРјРЅС‚ РѕС‚ РЅРѕРІРёСЏ РјР°СЃРёРІ
 
 		if (s->getSign() == '-') last->flipSign();
 
@@ -517,8 +517,8 @@ void doSumMath(Node* &s, int maxGroupSize)
 	simplifySumSign(s);
 }
 
-// Грозен код за принтиране
-// Преминавай само в краен случай
+// Р“СЂРѕР·РµРЅ РєРѕРґ Р·Р° РїСЂРёРЅС‚РёСЂР°РЅРµ
+// РџСЂРµРјРёРЅР°РІР°Р№ СЃР°РјРѕ РІ РєСЂР°РµРЅ СЃР»СѓС‡Р°Р№
 void initPrintFunctions()
 {
 	printArr[letter] = printLetter;
@@ -549,7 +549,7 @@ void printLetter(Node* node, bool isFirst, bool attachSign, stringstream& ss)
 
 void printPoly(Node* node, bool isFirst, bool attachSign, stringstream& ss)
 {
-	if (isFirst && attachSign) attachSign = false; // няма как хем да трябва да слепваме и да сме първи
+	if (isFirst && attachSign) attachSign = false; // РЅСЏРјР° РєР°Рє С…РµРј РґР° С‚СЂСЏР±РІР° РґР° СЃР»РµРїРІР°РјРµ Рё РґР° СЃРјРµ РїСЉСЂРІРё
 
 	if (attachSign)
 	{
@@ -634,7 +634,7 @@ void printSum(Node* node, bool isFirst, bool attachSign, stringstream& ss)
 	else if (isFirst && node->getVisualSign() == '-') ss << '-';
 	char sign = node->getSign();
 
-	bool flag = sign == '-' || !attachSign; //дали е в скоби
+	bool flag = sign == '-' || !attachSign; //РґР°Р»Рё Рµ РІ СЃРєРѕР±Рё
 
 	if (flag) ss << "(";
 
