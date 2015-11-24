@@ -274,18 +274,109 @@ void add(Node* &dest, Node* src, bool compact)
 
 	if (compact)
 	{
-		if (src->getType() == sum) // и двете звена са суми, затова просто преписваме децата
-		{// не се сменя корена
-			int spaceNeeded = src->nChildren - dest->capacity + dest->nChildren;
-			if (spaceNeeded > 0) dest->resize(dest->capacity + spaceNeeded);
-			for (int i = 0; i < src->nChildren; i++)
-			{
-				Node* child =  dest->children[dest->nChildren + i] = new Node(*(src->children[i]));
-				if (flag) child->flipSign();
+		if (dest->getType() == sum)
+		{
+			if (src->getType() == sum) // и двете звена са суми, затова просто преписваме децата
+			{// не се сменя корена
+				int spaceNeeded = src->nChildren - dest->capacity + dest->nChildren;
+				if (spaceNeeded > 0) dest->resize(dest->capacity + spaceNeeded);
+				for (int i = 0; i < src->nChildren; i++)
+				{
+					Node* child = dest->children[dest->nChildren + i] = new Node(*(src->children[i]));
+					if (flag) child->flipSign();
+				}
+				dest->nChildren += src->nChildren;
+				return;
 			}
-			dest->nChildren += src->nChildren;
+			else if (src->getType() == fraction)
+			{ //правим сумата ни числител на дроб, умножаваме я по другия знаменател
+				Node* newNode = new Node(fraction);
+
+				bool flag = src->getType() == '-'; //дали е изваждане
+
+				Node* top = newNode->children[0] = new Node(sum);
+				newNode->children[1] = new Node(*(src->children[1]));
+
+				top->children[0] = dest;
+				top->nChildren = 2;
+
+				if (flag) src->children[1]->flipSign();
+				mult(dest, src->children[1], false);
+				if (flag) src->children[1]->flipSign();
+
+				top->children[1] = new Node(*(src->children[0]));
+
+				dest = newNode;
+				simplifySign(dest);
+				return;
+			}
+		}
+		else if (dest->getType() == fraction)
+		{
+			if (src->getType() == sum)
+			{
+				Node* old = dest;
+				dest = new Node(*src);
+				add(dest, old, true);
+				return;
+			}
+			if (src->getType() == fraction)
+			{
+				Node* top_dest = dest->children[0];
+				Node* bottom_dest = new Node(*(dest->children[1]));
+
+				Node* top_src = new Node(*(src->children[0]));
+				Node* bottom_src = new Node(*(src->children[1]));
+
+				if (src->getSign() == '-') top_src->flipSign();
+				if (dest->getSign() == '-') top_src->flipSign();
+
+				mult(dest->children[1], bottom_src, true);
+				
+				Node* newTop = new Node(sum);
+				newTop->nChildren = 2;
+
+				mult(top_dest, bottom_src, true);
+				mult(bottom_dest, top_src, true);
+
+				newTop->children[0] = top_dest;
+				newTop->children[1] = bottom_dest;
+
+				dest->children[0] = newTop;
+				return;
+			}
+			
+			Node* oldTop = dest->children[0];
+			Node* top = dest->children[0] = new Node(sum);
+			
+			top->children[0] = oldTop;
+			top->children[1] = new Node(*src);
+			top->nChildren = 2;
+
+			if (dest->getSign() == '-') top->children[1]->flipSign();
+
+			mult(top->children[1], dest->children[1], true);
+
+			dest->children[0] = top;
+
+			simplifySign(dest);
 			return;
 		}
+		else if (src->getType() == fraction)
+		{
+			Node* old = dest;
+			dest = new Node(*src);
+			add(dest, old, true);
+			return;
+		}
+		else if (src->getType() == sum)
+		{
+			Node* old = dest;
+			dest = new Node(*src);
+			add(dest, old, true);
+			return;
+		}
+		
 	}
 
 	Node* newNode = new Node(sum);
@@ -296,8 +387,18 @@ void add(Node* &dest, Node* src, bool compact)
 	dest = newNode;
 }
 
+void simplifySign(Node* node)
+{
+	char t = node->getType();
+	if (t == sum) simplifySumSign(node);
+	else if (t == product) simplifyProductSign(node);
+	else if (t == fraction) simplifyFractionSign(node);
+}
+
 void simplifyProductSign(Node* prod)
 { //може и да променим знака на самото звено
+	if (prod->getType() != product) return;
+
 	int* negCompIdx = new int[prod->nChildren]; //отрицателни елемнти, които са съставни(sum, product, fraction)
 	int* negSimpIdx = new int[prod->nChildren]; //отрицателни елементи, които са прости(polynomial, power, log, trig, letter)
 
@@ -355,6 +456,8 @@ void simplifyProductSign(Node* prod)
 
 void simplifyFractionSign(Node* frac)
 {
+	if (frac->getType() != fraction) return;
+
 	Node* top = frac->children[0];
 	Node* bottom = frac->children[1];
 
@@ -363,12 +466,10 @@ void simplifyFractionSign(Node* frac)
 
 	int negCnt = 0;
 
-	if (t_type == product) simplifyProductSign(top);
-	else if (t_type == fraction) simplifyFractionSign(top);
+	simplifySign(top);
 	if (top->type >> 7) negCnt++;
 
-	if (b_type == product) simplifyProductSign(bottom);
-	else if (b_type == fraction) simplifyFractionSign(bottom);
+	simplifySign(bottom);
 	if (bottom->type >> 7) negCnt++;
 
 	if (negCnt == 0) return;
@@ -387,6 +488,8 @@ void simplifyFractionSign(Node* frac)
 
 void simplifySumSign(Node* s)
 {
+	if (s->getType() != sum) return;
+
 	int cntNeg = 0;
 	for (int i = 0; i < s->nChildren; i++) if (s->children[0]->getSign() == '-') cntNeg++;
 	
@@ -515,6 +618,122 @@ void doSumMath(Node* &s, int maxGroupSize)
 	s->nChildren = actualSize;
 
 	simplifySumSign(s);
+}
+
+void doProductMath(Node* &p, int maxGroupSize)
+{
+	if (maxGroupSize < 2) return;
+
+	sort(p->children, p->children + p->nChildren, cmp);
+
+	int nPoly = 0;
+	int lim = p->nChildren;
+	while (nPoly < lim && p->children[nPoly]->getType() == polynomial) nPoly++;
+
+	if (nPoly < 2) return;
+	if (maxGroupSize>nPoly) maxGroupSize = nPoly;
+
+	int nNewPoly = nPoly / maxGroupSize + (nPoly%maxGroupSize != 0);
+	Polynomial** polys = new Polynomial*[nNewPoly];
+
+	int newSize = p->nChildren - (nPoly - nNewPoly);
+
+	Node** newChildren = new Node*[newSize];
+
+	int cnt = 0; //брой ненулеви полиноми
+
+	for (int i = 0; i < nNewPoly; i++)
+	{
+		if (i == nNewPoly - 1)
+		{
+			int start = (nNewPoly - 1)*maxGroupSize; //откъде почват полиномите за последната група
+
+			polys[cnt] = new Polynomial(*(p->children[start]->poly));
+			if (p->children[start]->getSign() == '-') polys[cnt]->negate(); //знакова коректност
+
+			for (int j = start + 1; j < nPoly; j++)
+			{
+				Polynomial tmp = *(p->children[j]->poly);
+				if (p->children[j]->getSign() == '-') tmp.negate(); //знакова коректност
+				*polys[cnt] = (*polys[cnt]) * tmp;
+			}
+
+			if (polys[cnt]->isOne())
+			{
+				delete polys[cnt];
+				continue;
+			}
+
+			bool neg = polys[cnt]->isNegative();
+			if (neg) polys[cnt]->negate();
+
+			newChildren[cnt] = new Node(polys[cnt], neg);
+			cnt++;
+			continue;
+		}
+
+		polys[cnt] = new Polynomial(*(p->children[i*maxGroupSize]->poly));
+		for (int j = 1; j < maxGroupSize; j++)
+		{
+			Polynomial tmp = *(p->children[i*maxGroupSize + j]->poly);
+			if (p->children[i*maxGroupSize + j]->getSign() == '-') tmp.negate(); //знакова коректност
+			*polys[cnt] = (*polys[cnt]) * tmp;
+		}
+
+		if (polys[cnt]->isOne())
+		{
+			delete polys[cnt];
+			continue;
+		}
+
+		bool neg = polys[cnt]->isNegative();
+		if (neg) polys[cnt]->negate();
+
+		newChildren[cnt] = new Node(polys[cnt], neg);
+		cnt++;
+	}
+
+	int actualSize = newSize - (nNewPoly - cnt);
+
+	if (actualSize == 0)
+	{
+		delete p->power;
+		delete p->children;
+		p->power = 0;
+		p->children = 0;
+
+		delete p;
+		delete newChildren;
+		delete polys;
+
+		Polynomial* pr = new Polynomial(Number(1));
+		p = new Node(pr);
+		return;
+	}
+	if (actualSize == 1)
+	{
+		Node* last; //единствения останал елемент
+		if (cnt == 0) last = p->children[p->nChildren - 1]; // и той не е полином => е последния елемент от оригиналния масив
+		else last = newChildren[0]; // и той е полином => първия елемнт от новия масив
+
+		if (p->getSign() == '-') last->flipSign();
+
+		delete p;
+		delete newChildren;
+		delete polys;
+
+		p = last;
+		return;
+	}
+
+	int idx = cnt;
+	for (int i = nPoly; i < p->nChildren; i++) newChildren[idx++] = p->children[i];
+
+	delete* p->children;
+	p->children = newChildren;
+	p->nChildren = actualSize;
+
+	simplifyProductSign(p);
 }
 
 // Грозен код за принтиране

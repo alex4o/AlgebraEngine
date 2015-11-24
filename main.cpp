@@ -59,35 +59,37 @@ int main()
 	stringstream ss;
 
 	Node** nodes = new Node*[4];
-	for (int i = 0; i < 4; i++) nodes[i] = new Node(p[i], pow, i<1);
+	for (int i = 0; i < 4; i++) nodes[i] = new Node(p[i], pow, i>2);
 	printSigns(nodes, 4);
 
 	add(nodes[0], nodes[1], true);
-	simplifySumSign(nodes[0]);
+	//simplifyProductSign(nodes[0]);
+	//doProductMath(nodes[0], 2);
 
-	ss << "0+1 = ";
+	ss << "0 + 1 = ";
 	nodes[0]->print(true, false, ss);
 	ss << endl << endl;
 
 
 
-	ss << "2+3 = ";
+	ss << "3 + 0 = ";
+	add(nodes[3], nodes[0], true);
+	//simplifyProductSign(nodes[2]);
+	//doProductMath(nodes[2], 2);
+
+	nodes[3]->print(true, false, ss);
+	ss << endl << endl;
+
+	ss << "2 + 3 = ";
 	add(nodes[2], nodes[3], true);
-	simplifySumSign(nodes[2]);
+	//simplifyProductSign(nodes[0]);
 
 	nodes[2]->print(true, false, ss);
-	ss << endl << endl;
 
-	ss << "0+2 = ";
-	add(nodes[0], nodes[2], true);
-	simplifySumSign(nodes[0]);
-
-	nodes[0]->print(true, false, ss);
-
-	ss << endl << endl << " after doMath: ";
-	doSumMath(nodes[0], 4);
-	nodes[0]->print(true, false, ss);
-	ss << endl << endl;
+	//ss << endl << endl << " after doMath: ";
+	//doProductMath(nodes[0], 4);
+	//nodes[0]->print(true, false, ss);
+	//ss << endl << endl;
 
 	cout << ss.str() <<endl;
 

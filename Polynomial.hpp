@@ -124,6 +124,12 @@ public:
 		return monos[0].totalPower == 0 && monos[0].coef.null;
 	}
 
+	bool isOne()
+	{
+		if (monos.size() != 1) return false;
+		return monos[0].isOne();
+	}
+
 	bool isNegative()
 	{
 		if (monos.empty()) return false;

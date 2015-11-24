@@ -70,11 +70,13 @@ void mult(Node* &dest, Node* src, bool compact); // dest *= src; сменя ти
 void divide(Node* &dest, Node* src, bool compact); // dest /= src; сменя типа на dest на fraction, ако е необходимо
 void divRec(Node* &dest, Node* src, bool compact); // dest = src/dest
 
+void simplifySign(Node* node); //интерфейс за избягване на грешки
 void simplifyProductSign(Node* prod); //свежда броя на минусите(които обаче не се виждат) до 0 или 1
 void simplifyFractionSign(Node* frac); //свежда броя на минусите(които обаче не се виждат) до 0 или 1
 void simplifySumSign(Node* s); //ако броя на минусите е по-голям, сменя знака
 
 void doSumMath(Node* &s, int maxGroupSize); //maxGroupSize - колко най-много елемента да обединим
+void doProductMath(Node* &p, int maxGroupSize); //maxGroupSize - колко най-много елемента да обединим
 
 void printLetter(Node* node, bool isFirst, bool attachSign, stringstream& ss);
 void printPoly(Node* node, bool isFirst, bool attachSign, stringstream& ss);

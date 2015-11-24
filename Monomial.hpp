@@ -43,6 +43,12 @@ public:
         if(coef.fraction.up<0) return '-';
         return '+';
     }
+
+	bool isOne()
+	{
+		if (simples.size()>0) return false;
+		return coef == 1;
+	}
 };
 
 Monomial operator*(const Monomial &m1, const Monomial &m2);
