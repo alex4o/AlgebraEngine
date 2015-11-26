@@ -30,6 +30,8 @@ const char trigMask = 15;
 const string fLookUp[] = { "", "", "", "log", "sin", "cos", "tg", "cotg" };
 const string letterLookUp[127];
 
+static string dbgString;
+
 class Node
 {
 public:
@@ -46,13 +48,17 @@ public:
 	void flipSign();
 
 	void print(bool isFirst, bool attachSign, stringstream& ss);
+	void dbgPrint();
 
 	char getType();
 	char getSign(); // реалния знак, т.е. коеф. +/-1 пред нещото
 	char getVisualSign(); // какъв знак трябва да се покаже, когато звеното не е първо
 
+	int getMaxPower();
+
 	Node();
 	Node(char t); //само създава масива и някои други задължителни работи
+	Node(Node &src);
 	Node(Polynomial* p); //действието е събиране
 	Node(Polynomial* p, bool isNegative);
 	Node(Polynomial* p, Number& pow, bool isNegative); //когато има степен излиза (....) затова знака трябва да е изрично споменат
@@ -65,6 +71,8 @@ static printFunction printArr[32];
 
 bool cmp(Node* n1, Node* n2);
 
+void halfCopy(Node* dest, Node* src); // копира само децата
+
 void add(Node* &dest, Node* src, bool compact);
 void mult(Node* &dest, Node* src, bool compact); // dest *= src; сменя типа на dest на product, ако е необходимо
 void divide(Node* &dest, Node* src, bool compact); // dest /= src; сменя типа на dest на fraction, ако е необходимо
@@ -75,6 +83,7 @@ void simplifyProductSign(Node* prod); //свежда броя на минуси�
 void simplifyFractionSign(Node* frac); //свежда броя на минусите(които обаче не се виждат) до 0 или 1
 void simplifySumSign(Node* s); //ако броя на минусите е по-голям, сменя знака
 
+void doMathRec(Node* &node, int maxGroupSize);
 void doSumMath(Node* &s, int maxGroupSize); //maxGroupSize - колко най-много елемента да обединим
 void doProductMath(Node* &p, int maxGroupSize); //maxGroupSize - колко най-много елемента да обединим
 

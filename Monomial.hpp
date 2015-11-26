@@ -49,6 +49,19 @@ public:
 		if (simples.size()>0) return false;
 		return coef == 1;
 	}
+
+	bool equals(Monomial& m)
+	{
+		if (simples.size() != m.simples.size()) return false;
+		if (!coef.equals(m.coef)) return false;
+
+		for (int i = 0; i < simples.size(); i++)
+		{
+			if (!simples[i].equals(m.simples[i])) return false;
+		}
+
+		return true;
+	}
 };
 
 Monomial operator*(const Monomial &m1, const Monomial &m2);

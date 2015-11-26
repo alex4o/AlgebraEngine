@@ -16,6 +16,11 @@ public:
     Simple(char c, int p);
 
     Simple(std::string s, int* idx);
+
+	bool equals(Simple& si)
+	{
+		return letter == si.letter && pow == si.pow;
+	}
 };
 
 bool cmpSimple(Simple s1, Simple s2);

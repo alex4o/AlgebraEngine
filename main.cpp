@@ -13,6 +13,7 @@ using namespace std;
 #include "Interface.hpp"
 #include "Inequation.hpp"
 #include "CompoundExpression.h"
+#include "FracEquation.h"
 
 int parse(string s)
 {
@@ -43,60 +44,33 @@ int main()
 {
 	initPrintFunctions();
 
-	Polynomial** p = new Polynomial*[4];
-	string s;
+	CoefDescriptor cd;
+	cd.downHigh = 1;
+	cd.downLow = 1;
 
-	for (int i = 0; i < 4; i++)
-	{
-		getline(cin, s);
-		p[i] = new Polynomial(s);
-	}
+	cd.upHigh = 5;
+	cd.upLow = 1;
 
-	cout << endl;
+	cd.pNatural = 100;
+	cd.pIrational = 0;
+	cd.pRational = 0;
+	cd.pNegative = 50;
 
-	Number pow(1);
+	vector<Number> roots;
+	roots.push_back(Number(10));
+	roots.push_back(Number(3));
+
+	vector<Number> bads;
+	bads.push_back(Number(3));
+	bads.push_back(Number(4));
+
+	FracEquation* eq = new FracEquation(cd, 'x');
+	eq->construct2(roots, bads, 2);
 
 	stringstream ss;
+	eq->print(ss);
+	ss << endl;
 
-	Node** nodes = new Node*[4];
-	for (int i = 0; i < 4; i++) nodes[i] = new Node(p[i], pow, i>2);
-	printSigns(nodes, 4);
-
-	add(nodes[0], nodes[1], true);
-	//simplifyProductSign(nodes[0]);
-	//doProductMath(nodes[0], 2);
-
-	ss << "0 + 1 = ";
-	nodes[0]->print(true, false, ss);
-	ss << endl << endl;
-
-
-
-	ss << "3 + 0 = ";
-	add(nodes[3], nodes[0], true);
-	//simplifyProductSign(nodes[2]);
-	//doProductMath(nodes[2], 2);
-
-	nodes[3]->print(true, false, ss);
-	ss << endl << endl;
-
-	ss << "2 + 3 = ";
-	add(nodes[2], nodes[3], true);
-	//simplifyProductSign(nodes[0]);
-
-	nodes[2]->print(true, false, ss);
-
-	//ss << endl << endl << " after doMath: ";
-	//doProductMath(nodes[0], 4);
-	//nodes[0]->print(true, false, ss);
-	//ss << endl << endl;
-
-	cout << ss.str() <<endl;
-
+	cout << endl << endl << ss.str();
 	system("pause");
-	
-	/*CompoundExpression ce(nodes, 4);
-
-	ce.print(ss);
-	cout << ss.str();*/
 }

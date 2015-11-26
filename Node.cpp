@@ -36,6 +36,24 @@ Node::Node(char t)
 	}
 }
 
+Node::Node(Node& src)
+{
+	type = src.type;
+	power = src.power;
+	nChildren = src.nChildren;
+	capacity = src.capacity;
+	poly = src.poly;
+
+	if (capacity <= 0)
+	{
+		children = 0;
+		return;
+	}
+	
+	children = new Node*[capacity];
+	for (int i = 0; i < nChildren; i++) children[i] = new Node(*src.children[i]);
+}
+
 Node::Node(Polynomial* p)
 {
 	type = polynomial;
@@ -100,9 +118,43 @@ char Node::getVisualSign()
 	return getSign();
 }
 
+int Node::getMaxPower()
+{
+	if (getType() == sum)
+	{
+		int max = 0;
+		for (int i = 0; i < nChildren; i++)
+		{
+			int cand = children[i]->getMaxPower();
+			if (cand>max) max = cand;
+		}
+		return max;
+	}
+	if (getType() == product)
+	{
+		int pow = 0;
+		for (int i = 0; i < nChildren; i++) pow += children[i]->getMaxPower();
+		return pow;
+	}
+	if (getType() == polynomial)
+	{
+		if (power == 0) return poly->getMaxPower();
+		if (power->isNatural()) return poly->getMaxPower()*power->fraction.up;
+		return 0;
+	} // връщаме 0 ако е не е алгебричен тип
+	return 0;
+}
+
 void Node::print(bool isFirst, bool attachSign, stringstream& ss)
 {
 	printArr[type&typeMask](this, isFirst, attachSign, ss);
+}
+
+void Node::dbgPrint()
+{
+	stringstream ss;
+	print(true, false, ss);
+	cout << ss.str() << endl;
 }
 
 void Node::resize()
@@ -387,6 +439,8 @@ void add(Node* &dest, Node* src, bool compact)
 	dest = newNode;
 }
 
+
+
 void simplifySign(Node* node)
 {
 	char t = node->getType();
@@ -413,8 +467,7 @@ void simplifyProductSign(Node* prod)
 			char t = current->getType();
 			if (t == sum || t == product || t == fraction)
 			{
-				if (t == product) simplifyProductSign(current);
-				if (t == fraction) simplifyFractionSign(current);
+				simplifySign(current);
 
 				if(current->type>>7) negCompIdx[idx1++] = i;
 			}
@@ -502,6 +555,41 @@ void simplifySumSign(Node* s)
 bool cmp(Node* n1, Node* n2)
 {
 	return n1->getType() < n2->getType();
+}
+
+void halfCopy(Node* dest, Node* src)
+{
+	dest = new Node(*src);
+
+	for (int i = 0; i < src->nChildren; i++)
+	{
+
+	}
+}
+
+void doMathRec(Node* &node, int maxGroupSize)
+{
+	char t = node->getType();
+	//cout << "current: ";
+	//node->dbgPrint();
+
+	if (!(t==sum || t==product || t==fraction)) return; //достигнат е елементарен тип, рекусията е в дъно
+
+	for (int i = 0; i < node->nChildren; i++) doMathRec(node->children[i], maxGroupSize);
+	if (t == sum)
+	{
+		//cout << "\before sum: ";
+		//node->dbgPrint();
+		doSumMath(node, maxGroupSize);
+		//cout << "\tsum result: ";
+		//node->dbgPrint();
+	}
+	else if (t == product)
+	{
+		doProductMath(node, maxGroupSize);
+		//cout << "\tproduct result: ";
+		//node->dbgPrint();
+	}
 }
 
 void doSumMath(Node* &s, int maxGroupSize)

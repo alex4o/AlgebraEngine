@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Monomial.cpp">
@@ -28,7 +28,10 @@
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\CompoundExpression.cpp">
+    <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\CompoundExpression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\FracEquation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,7 +99,10 @@
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CompoundExpression.h">
+    <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\CompoundExpression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\FracEquation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

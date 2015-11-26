@@ -34,6 +34,21 @@ public:
         monos.push_back(Monomial(n));
     }
 
+	Polynomial(char ltr, Number& root)
+	{
+		Monomial first, second(root);
+
+		Simple s(ltr, 1);
+
+		first.simples.push_back(s);
+		first.totalPower = 1;
+		first.coef = Number(1);
+
+		second.coef.fraction.up *= -1;
+		monos.push_back(first);
+		monos.push_back(second);
+	}
+
 	int doNothingTest()
 	{
 		return 4;
@@ -134,6 +149,22 @@ public:
 	{
 		if (monos.empty()) return false;
 		else return monos[0].getSign() == '-';
+	}
+
+	int getMaxPower()
+	{
+		if (monos.size() == 0) return 0;
+		return monos[0].totalPower;
+	}
+
+	bool equals(Polynomial* p)
+	{
+		if (monos.size() != p->monos.size()) return false;
+		for (int i = 0; i < monos.size(); i++)
+		{
+			if (!monos[i].equals(p->monos[i])) return false;
+		}
+		return true;
 	}
 
     void multByNumber(Number& n);

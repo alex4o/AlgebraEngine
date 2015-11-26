@@ -9,14 +9,16 @@ class CompoundExpression
 {
 private:
 	int capacity;
-	int nNodes;
-	Node** nodes;
+	
 
 	void resize();
 
 	Node* findNodeForSum(Node* start);
 public:	
+	int nNodes;
+	Node** nodes;
 
+	CompoundExpression();
 	CompoundExpression(Node** nodes, int n);
 
 	void print(stringstream& ss);

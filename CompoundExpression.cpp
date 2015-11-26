@@ -1,5 +1,12 @@
 ﻿#include "CompoundExpression.h"
 
+CompoundExpression::CompoundExpression()
+{
+	capacity = initialCoExCapacity;
+	nodes = new Node*[capacity];
+	nNodes = 0;
+}
+
 CompoundExpression::CompoundExpression(Node** nodes, int n)
 {
 	capacity = nNodes = n;
@@ -12,7 +19,7 @@ void CompoundExpression::print(stringstream& ss)
 	for (int i = 0; i < nNodes; i++)
 	{
 		nodes[i]->print(i == 0, i>0, ss);
-		if (i < nNodes - 1) ss << " " + nodes[i + 1]->getSign()<<" ";
+		//if (i < nNodes - 1) ss <<nodes[i + 1]->getSign()<<" ";
 	}
 }
 
