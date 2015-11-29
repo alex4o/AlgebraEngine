@@ -52,8 +52,8 @@ set(SOURCE_FILES
 	CompoundInequation.cpp)
 
 
-add_library(AlgebraEngineStatic STATIC ${SOURCE_FILES})
 add_library(AlgebraEngine SHARED ${SOURCE_FILES})
+add_library(AlgebraEngineStatic STATIC ${SOURCE_FILES})
 
 
 add_executable(AEEXEC main.cpp)
