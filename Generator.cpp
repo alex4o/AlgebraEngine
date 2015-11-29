@@ -113,7 +113,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
         }
 
         currentTerm.coef = jesus.nextNumber(ed.transformCF);
-        delete* powers;
+        delete powers;
         e1.addTerm(currentTerm, true);
         e2.addTerm(currentTerm, false);
     }
