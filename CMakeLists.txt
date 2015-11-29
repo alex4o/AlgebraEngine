@@ -44,11 +44,11 @@ set(SOURCE_FILES
     Equation.hpp)
 
 
-add_library(AlgebraEngineStatic STATIC ${SOURCE_FILES})
 add_library(AlgebraEngine SHARED ${SOURCE_FILES})
+add_library(AlgebraEngineStatic STATIC ${SOURCE_FILES})
 
 
 add_executable(AEEXEC main.cpp)
-TARGET_LINK_LIBRARIES(AEEXEC AlgebraEngineStatic)
+TARGET_LINK_LIBRARIES(AEEXEC AlgebraEngine)
 
 install(TARGETS AlgebraEngine DESTINATION /lib64 )
