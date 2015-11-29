@@ -58,7 +58,7 @@ Node* CompoundExpression::findNodeForSum(Node* start)
 
 void CompoundExpression::addNode(Node* node, bool calc)
 {
-	if (!calc || (node->type)&typeMask!=polynomial)
+	if (!calc || node->getType()==polynomial)
 	{
 		if (nNodes == capacity) resize();
 		nodes[nNodes++] = node;
@@ -66,7 +66,7 @@ void CompoundExpression::addNode(Node* node, bool calc)
 	}
 	else
 	{
-		Node* k;
+		Node* k = 0;
 		for (int i = 0; i < nNodes; i++)
 		{
 			k = findNodeForSum(nodes[i]);

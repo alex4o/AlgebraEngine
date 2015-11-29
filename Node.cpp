@@ -1051,7 +1051,7 @@ void printTrig(Node* node, bool isFirst, bool attachSign, stringstream& ss)
 	}
 	else if (isFirst && node->getSign() == '-') ss << "-";
 
-	ss << fLookUp[trigMask];
+	ss << fLookUp[node->type&trigMask];
 	if (node->power)
 	{
 		if (node->power->fraction.up != 1 || node->power->fraction.down != 1)

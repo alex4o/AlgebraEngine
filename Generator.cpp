@@ -17,9 +17,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
         for(int i = 0; i < cTerms; i++)
         {
             Term currentTerm;
-
             createListOfInts(powers, cSubTerms, power, &jesus); //тази функция разпределя степенти по многочлените
-
 
             bool firstTime = true;
 
@@ -52,20 +50,15 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
 
                     Monomial mono(coef, letter);
                     poly.monos.push_back(mono);
-
                 }
-
                 currentTerm.polys.push_back(poly);
                 currentTerm.powers.push_back(cPower);
             }
 
             currentTerm.coef = jesus.nextNumber(ed.transformCF);
-
-
             e1.addTerm(currentTerm, false);
             e2.addTerm(currentTerm, true);
         }
-
     }
     else
     {
@@ -91,7 +84,6 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
             }
 
             Polynomial poly;
-
             for (int k = 0; k < cLetters; k++)//Letters
             {
                 if(k>=ed.cLetters)
@@ -121,7 +113,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
         }
 
         currentTerm.coef = jesus.nextNumber(ed.transformCF);
-        delete powers;
+        delete* powers;
         e1.addTerm(currentTerm, true);
         e2.addTerm(currentTerm, false);
     }

@@ -10,9 +10,9 @@
 class FracEquation
 {
 private:
-	int badIdx = -1; // показва до коя стойност не са използвани
+	int badIdx; // показва до коя стойност не са използвани
 	void initGenerator();
-	bool genInit = false;
+	bool genInit;
 
 public:
 	CompoundExpression* left, *right;

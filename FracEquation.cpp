@@ -7,6 +7,9 @@ FracEquation::FracEquation()
 	right = new CompoundExpression();
 
 	rnj = new RNJ();
+
+	badIdx = -1;
+	genInit = false;
 }
 
 FracEquation::FracEquation(CoefDescriptor &cd)
@@ -17,6 +20,9 @@ FracEquation::FracEquation(CoefDescriptor &cd)
 	right = new CompoundExpression();
 
 	rnj = new RNJ();
+
+	badIdx = -1;
+	genInit = false;
 }
 
 FracEquation::FracEquation(CoefDescriptor &cd, char letter)
@@ -27,6 +33,9 @@ FracEquation::FracEquation(CoefDescriptor &cd, char letter)
 	right = new CompoundExpression();
 
 	rnj = new RNJ();
+
+	badIdx = -1;
+	genInit = false;
 }
 
 void FracEquation::initGenerator()
