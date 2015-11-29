@@ -7,9 +7,9 @@ struct CoefDescriptor
     int pRational;
     int pIrational;
 
-    int pNegative;
-
     int upLow, upHigh, downLow, downHigh;
+
+	int pNegative;
 };
 
 #endif

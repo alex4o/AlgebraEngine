@@ -104,6 +104,12 @@ public:
         if(fraction.up<0) return '-';
         return '+';
     }
+
+	bool equals(Number& n)
+	{
+		if (type != n.type) return false;
+		return fraction.up == n.fraction.up && fraction.down == n.fraction.down;
+	}
 };
 
 Number operator+(const Number &n1, const Number &n2);

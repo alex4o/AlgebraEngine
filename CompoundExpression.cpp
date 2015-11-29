@@ -1,92 +1,143 @@
-#include "CompoundExpression.h"
+﻿#include "CompoundExpression.h"
 
-void Node::print(bool isFirst, stringstream& ss)
+CompoundExpression::CompoundExpression()
 {
-	char trigTest = type&trigMask;
-	if (trigTest >= fsin && trigMask <= fcotg)
+	capacity = initialCoExCapacity;
+	nodes = new Node*[capacity];
+	nNodes = 0;
+}
+
+CompoundExpression::CompoundExpression(Node** nodes, int n)
+{
+	capacity = nNodes = n;
+	this->nodes = new Node*[n];
+	for (int i = 0; i < n; i++) this->nodes[i] = nodes[i];
+}
+
+void CompoundExpression::print(stringstream& ss)
+{
+	for (int i = 0; i < nNodes; i++)
 	{
-		ss << fLookUp[trigMask] << "(";
-		if (nChildren == 0) ss << "error) ";
-		else children[0].print(false, ss);
+		nodes[i]->print(i == 0, i>0, ss);
+		//if (i < nNodes - 1) ss <<nodes[i + 1]->getSign()<<" ";
+	}
+}
+
+void CompoundExpression::resize()
+{
+	Node** newArr = new Node*[capacity * 2];
+	for (int i = 0; i < capacity; i++) newArr[i] = nodes[i];
+	capacity *= 2;
+
+	Node** old = nodes;
+	nodes = newArr;
+	delete old;
+}
+
+Node* CompoundExpression::findNodeForSum(Node* start)
+{
+	char t = start->getType();
+	if (t == polynomial) return start;
+	if (t == sum)
+	{
+		int lim = start->nChildren;
+		for (int i = 0; i < lim; i++)
+		{
+			Node* cand = findNodeForSum(start->children[i]);
+			if (cand != 0) return cand;
+		}
+	}
+	return 0;
+}
+
+void CompoundExpression::addNode(Node* node, bool calc)
+{
+	if (!calc || (node->type)&typeMask!=polynomial)
+	{
+		if (nNodes == capacity) resize();
+		nodes[nNodes++] = node;
 		return;
 	}
+	else
+	{
+		Node* k;
+		for (int i = 0; i < nNodes; i++)
+		{
+			k = findNodeForSum(nodes[i]);
+			if (k != 0) break;
+		}
+		if (k)
+		{
+			Polynomial p = *(k->poly);
+			p = p + *(node->poly);
+		}
+		else
+		{
+			if (nNodes == capacity) resize();
+			nodes[nNodes++] = node;
+			return;
+		}
+	}
+}
 
-	char t = type&typeMask;
-	if (t == polynomial)
+void CompoundExpression::multByNode(Node* node, bool spread)
+{
+	if (!spread)
 	{
-		if (power->isNatural)
+		Node** arr = new Node*[nNodes];
+		for (int i = 0; i < nNodes; i++) arr[i] = nodes[i];
+		nodes[0] = new Node(product);
+
+		nodes[0]->children[0] = node;
+		if (nNodes == 1) nodes[0]->children[1] = arr[0];
+		else
 		{
-			if(power->fraction.up==1)poly->print(ss, isFirst);
-			else
+			Node* s = nodes[0]->children[1] = new Node(sum);
+			s->resize(nNodes);
+			for (int i = 0; i < nNodes; i++) s->children[i] = arr[i];
+		}
+	}
+	else
+	{
+		for (int i = 0; i < nNodes; i++)
+		{
+			if (nodes[i]->getType() == polynomial)
 			{
-				ss << "(";
-				poly->print(ss, false);
-				ss << ")^" << power->fraction.up;
+				if (node->type == polynomial)
+				{
+					Polynomial* p1 = nodes[i]->poly;
+					Polynomial* p2 = node->poly;
+					*p1 = (*p1)*(*p2);
+					continue;
+				}
 			}
-		}
-		else
-		{
-			ss << "root(";
-			poly->print(ss, false);
-			ss << ")";
-			if (power->fraction.up > 1) ss << "^" << power->fraction.up;
-		}
-		
-	}
-	else if (t == fraction)
-	{
-		if (nChildren < 2) ss << "error/error";
-		else
-		{
-			children[0].print(false, ss);
-			ss << "/";
-			children[1].print(false, ss);
+
+			Node* current = nodes[i];
+			Node* newNode = nodes[i] = new Node(product);
+			newNode->children[0] = node;
+			newNode->children[1] = current;
 		}
 	}
-	else if (t == product)
+}
+
+void CompoundExpression::divideByNode(Node* node, bool spread)
+{
+	for (int i = 0; i < nNodes; i++)
 	{
-		if (nChildren < 2) ss << "error*error";
-		else
-		{
-			for (int i = 0; i < nChildren; i++)
-			{
-				ss << "(";
-				children[i].print(false, ss);
-				ss << ")";
-				if (i < nChildren - 1) ss << "*";
-			}
-		}
+		Node* current = nodes[i];
+		Node* newNode = nodes[i] = new Node(fraction);
+		newNode->children[0] = current;
+		newNode->children[1] = node;
 	}
-	else if (t == sum)
+}
+
+void CompoundExpression::divideByNodeRec(Node* node)
+{
+	for (int i = 0; i < nNodes; i++)
 	{
-		if (nChildren < 2) ss << "error + error";
-		else
-		{
-			for (int i = 0; i < nChildren; i++)
-			{
-				children[i].print(i==0, ss);
-				if (i < nChildren - 1) ss << " + ";
-			}
-		}
-	}
-	else if (t == flog)
-	{
-		if (nChildren < 2) ss << "log(error, error)";
-		ss << fLookUp[flog] << "(";
-		children[0].print(true, ss);
-		ss << ", ";
-		children[1].print(true, ss);
-		ss << ") ";
-	}
-	else if (t == fpower)
-	{
-		if (nChildren < 2) ss << "error^error";
-		else
-		{
-			children[0].print(isFirst, ss);
-			ss << "^(";
-			children[1].print(true, ss);
-			ss << ")";
-		}
+		Node* current = nodes[i];
+		Node* newNode = nodes[i] = new Node(fraction);
+		newNode->children[1] = current;
+		newNode->children[0] = node;
 	}
 }

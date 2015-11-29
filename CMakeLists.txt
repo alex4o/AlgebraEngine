@@ -41,7 +41,13 @@ set(SOURCE_FILES
     7klas.hpp
     Interface.hpp
     Interface.cpp
-    Equation.hpp)
+    Equation.hpp
+	Node.h
+	Node.cpp
+	CompoundExpression.h
+	CompoundExpression.cpp
+	FracEquation.h
+	FracEquation.cpp)
 
 
 add_library(AlgebraEngine SHARED ${SOURCE_FILES})

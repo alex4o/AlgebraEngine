@@ -34,6 +34,26 @@ public:
         monos.push_back(Monomial(n));
     }
 
+	Polynomial(char ltr, Number& root)
+	{
+		Monomial first, second(root);
+
+		Simple s(ltr, 1);
+
+		first.simples.push_back(s);
+		first.totalPower = 1;
+		first.coef = Number(1);
+
+		second.coef.fraction.up *= -1;
+		monos.push_back(first);
+		monos.push_back(second);
+	}
+
+	int doNothingTest()
+	{
+		return 4;
+	}
+
     Polynomial(std::string s)
     {
         int idx = 0;
@@ -81,8 +101,22 @@ public:
 
     void print(stringstream& ss, bool style)
     {
-        ss<<' '<<monos[0].getSign()<<' ';
-        monos[0].print(ss, true);
+		if (isZero())
+		{
+			ss << '0';
+			return;
+		}
+		if (style || monos[0].getSign() == '-')
+		{
+			if (style)
+			{
+				ss << ' ' << monos[0].getSign() << ' ';
+				monos[0].print(ss, true);
+			}
+			else monos[0].print(ss, false);
+		}
+		else monos[0].print(ss, false);
+        
         for(int i = 1; i < monos.size(); i++)
         {
             ss<<' '<<monos[i].getSign()<<' ';
@@ -97,6 +131,41 @@ public:
 
     void negate();
     void clear();
+
+	bool isZero()
+	{
+		if (monos.size() == 0) return true;
+		if (monos.size() > 1) return false;
+		return monos[0].totalPower == 0 && monos[0].coef.null;
+	}
+
+	bool isOne()
+	{
+		if (monos.size() != 1) return false;
+		return monos[0].isOne();
+	}
+
+	bool isNegative()
+	{
+		if (monos.empty()) return false;
+		else return monos[0].getSign() == '-';
+	}
+
+	int getMaxPower()
+	{
+		if (monos.size() == 0) return 0;
+		return monos[0].totalPower;
+	}
+
+	bool equals(Polynomial* p)
+	{
+		if (monos.size() != p->monos.size()) return false;
+		for (int i = 0; i < monos.size(); i++)
+		{
+			if (!monos[i].equals(p->monos[i])) return false;
+		}
+		return true;
+	}
 
     void multByNumber(Number& n);
 };
