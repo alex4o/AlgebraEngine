@@ -20,16 +20,18 @@ public:
 
     Interval(Number& num, char inf_pos, bool closed)
     {
-        if(inf_pos==0)
+        if(inf_pos==0) // (num, +inf)
         {
             left = num;
             posInf = true;
+			negInf = false;
             type=closed;
         }
-        else
+        else // (-inf, num)
         {
             right = num;
             negInf = true;
+			posInf = false;
             type=closed*2;
         }
     }

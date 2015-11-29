@@ -34,6 +34,7 @@ public:
 	}
 
 	Polynomial generatePoly(int power, char letter);
+	Polynomial generatePoly(CoefDescriptor& cd, int power, char letter);
 	SPolynomial generateSPoly(int power, char letter);
 	Equation generateEquation(EquationDescriptor ed);
 	Equation generateEquation(EquationDescriptor ed, RNJ& jesus);

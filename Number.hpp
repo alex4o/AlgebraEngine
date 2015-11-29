@@ -110,6 +110,13 @@ public:
 		if (type != n.type) return false;
 		return fraction.up == n.fraction.up && fraction.down == n.fraction.down;
 	}
+
+	bool operator<(const Number& n) const
+	{
+		int top = fraction.up*n.fraction.down - n.fraction.up*fraction.down;
+		int bottom = fraction.down*n.fraction.down;
+		return (top ^ bottom)&(1<<31);
+	}
 };
 
 Number operator+(const Number &n1, const Number &n2);
@@ -117,7 +124,10 @@ Number operator-(const Number &n1, const Number &n2);
 Number operator*(const Number &n1, const Number &n2);
 Number operator/(const Number &n1, const Number &n2);
 
-
+static bool cmpNum(Number* n1, Number* n2)
+{
+	return (*n1) < (*n2);
+}
 
 Number parseNum(std::string s);
 #endif

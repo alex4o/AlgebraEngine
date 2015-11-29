@@ -447,6 +447,14 @@ void simplifySign(Node* node)
 	if (t == sum) simplifySumSign(node);
 	else if (t == product) simplifyProductSign(node);
 	else if (t == fraction) simplifyFractionSign(node);
+	else if (t == polynomial)
+	{
+		if (node->poly->isNegative())
+		{
+			node->poly->negate();
+			node->flipSign();
+		}
+	}
 }
 
 void simplifyProductSign(Node* prod)
@@ -824,6 +832,45 @@ void doProductMath(Node* &p, int maxGroupSize)
 	simplifyProductSign(p);
 }
 
+void splitNode(Node* dest, Node* &src, CoefDescriptor& cd, Generator* gen, char letter)
+{
+	char t = dest->getType();
+	if (t == polynomial)
+	{
+		Polynomial* part = new Polynomial();
+		*part = gen->generatePoly(cd, dest->poly->getMaxPower(), letter);
+
+		Polynomial* orig = dest->poly;
+
+		bool flag = dest->getSign() == '+';
+
+		if(flag) part->negate();
+		*orig = (*orig) + (*part);
+		if(flag) part->negate();
+
+		src = new Node(part);
+		return;
+	}
+
+	if (t == fraction)
+	{
+		if (dest->children[0]->getType() != polynomial) doMathRec(dest->children[0], 100);
+
+		Polynomial* orig = dest->children[0]->poly;
+
+		Polynomial* part = new Polynomial();
+		*part = gen->generatePoly(cd, orig->getMaxPower(), letter);
+
+		part->negate();
+		*orig = (*orig) + (*part);
+		part->negate();
+
+		src = new Node(fraction);
+		src->children[0] = new Node(part);
+		src->children[1] = new Node(*(dest->children[1]));
+	}
+}
+
 // Грозен код за принтиране
 // Преминавай само в краен случай
 void initPrintFunctions()
@@ -925,9 +972,11 @@ void printFraction(Node* node, bool isFirst, bool attachSign, stringstream& ss)
 	if (node->nChildren < 2) ss << "error/error; chldren = "<<node->nChildren;
 	else
 	{
+		ss << "\\frac{";
 		node->children[0]->print(true, false, ss);
-		ss << "/";
+		ss << "}{";
 		node->children[1]->print(true, false, ss);
+		ss << "}";
 	}
 }
 

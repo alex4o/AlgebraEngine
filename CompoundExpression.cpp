@@ -34,6 +34,12 @@ void CompoundExpression::resize()
 	delete old;
 }
 
+int CompoundExpression::findPolyIdx()
+{
+	for (int i = 0; i < nNodes; i++) if (nodes[i]->getType() == polynomial) return i;
+	return -1;
+}
+
 Node* CompoundExpression::findNodeForSum(Node* start)
 {
 	char t = start->getType();
@@ -139,5 +145,45 @@ void CompoundExpression::divideByNodeRec(Node* node)
 		Node* newNode = nodes[i] = new Node(fraction);
 		newNode->children[1] = current;
 		newNode->children[0] = node;
+	}
+}
+
+void CompoundExpression::removeZero()
+{
+	bool flag = false;
+	int cntNZ = 0;
+
+	for (int i = 0; i < nNodes; i++)
+	{
+		Node* current = nodes[i];
+		if (current->getType() == polynomial)
+		{
+			if (current->poly->isZero())
+			{
+				flag = true;
+			}
+			else cntNZ++;
+		}
+		else cntNZ++;
+	}
+
+	if (flag)
+	{
+		Node** newArr = new Node*[cntNZ];
+		int idx = 0;
+		for (int i = 0; i < nNodes; i++)
+		{
+			Node* current = nodes[i];
+			if (current->getType() == polynomial)
+			{
+				if (current->poly->isZero()) continue;
+			}
+
+			newArr[idx++] = nodes[i];
+		}
+
+		delete nodes;
+		nodes = newArr;
+		nNodes = cntNZ;
 	}
 }

@@ -154,6 +154,20 @@ Polynomial Generator::generatePoly(int power, char letter){
     return result;
 }
 
+Polynomial Generator::generatePoly(CoefDescriptor& cd, int power, char letter)
+{
+	vector<Monomial> vm;
+	for (int i = 0; i <= power; i++)
+	{
+		int p = power - i;
+		if(p) vm.push_back(Monomial(rnGenerator.nextNumber(cd), letter, p));
+		else vm.push_back(Monomial(rnGenerator.nextNumber(cd)));
+	}
+	
+
+	return Polynomial(vm, power);
+}
+
 SPolynomial Generator::generateSPoly(int power, char letter)
 {
     SPolynomial result;

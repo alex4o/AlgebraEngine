@@ -2,6 +2,7 @@
 #define NODE
 
 #include "Polynomial.hpp"
+#include "Generator.hpp"
 
 const int initialNodeCapacity = 5;
 
@@ -86,6 +87,8 @@ void simplifySumSign(Node* s); //ако броя на минусите е по-�
 void doMathRec(Node* &node, int maxGroupSize);
 void doSumMath(Node* &s, int maxGroupSize); //maxGroupSize - колко най-много елемента да обединим
 void doProductMath(Node* &p, int maxGroupSize); //maxGroupSize - колко най-много елемента да обединим
+
+void splitNode(Node* dest, Node* &src, CoefDescriptor& cd, Generator* gen, char letter); // дали на 2 части, сумата на които е оригнала
 
 void printLetter(Node* node, bool isFirst, bool attachSign, stringstream& ss);
 void printPoly(Node* node, bool isFirst, bool attachSign, stringstream& ss);

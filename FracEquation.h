@@ -34,6 +34,8 @@ public:
 	void construct2(vector<Number> &roots, vector<Number> &bads, int maxPow);
 	void addBadValue(Number &badVal);
 
+	void splitToRight();
+
 	void mangle();
 
 	void modOneSide();
@@ -41,9 +43,17 @@ public:
 
 	void modBothSides();
 
+	void addPoly(bool choice);
+	void addNumberToFraction(bool choice);
+	void splitPoly(Node* &pnode, bool sideToAdd);
+	void findAndSplitPoly();
+	void mergeFractions(bool choice);
+
 	void balanceSides();
 
 	void print(stringstream& ss);
+	void printSolutions(stringstream& ss);
+	void dbgPrint();
 };
 
 // намира p и q в (x-p)/(x-a) + (x-q)/(x-b) = 0, където x1 и х2 са корени

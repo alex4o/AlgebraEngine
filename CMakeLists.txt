@@ -47,7 +47,9 @@ set(SOURCE_FILES
 	CompoundExpression.h
 	CompoundExpression.cpp
 	FracEquation.h
-	FracEquation.cpp)
+	FracEquation.cpp
+	CompoundInequation.h
+	CompoundInequation.cpp)
 
 
 add_library(AlgebraEngineStatic STATIC ${SOURCE_FILES})

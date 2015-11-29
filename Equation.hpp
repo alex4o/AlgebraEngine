@@ -73,8 +73,8 @@ public:
 
 
     void createMod(int power, RootDescriptor& _rd, bool nice)
-    { //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ WIP
-        rd=_rd; // пїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    { // не работи
+        rd=_rd; 
         SPolynomial seed;
         seed.coef[0]=1;
 
@@ -123,7 +123,7 @@ public:
     }
 
     void balance()
-    { //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    { 
         int len1 = left.getLen();
         int len2 = right.getLen();
 
@@ -134,8 +134,8 @@ public:
             {
                 int idx = jesus.nextInt(0, left.terms.size()-1);
                 Term extract = left.terms[idx];
-                left.terms.erase(left.terms.begin()+idx); //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
-                extract.coef*=-1; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+                left.terms.erase(left.terms.begin()+idx); 
+                extract.coef*=-1; 
                 right.terms.push_back(extract);
             }
         }
@@ -169,7 +169,7 @@ public:
     }
 
     void printRoots(stringstream& ss)
-    {//пїЅ пїЅпїЅпїЅпїЅ
+    {
         if(rtype==2) ss<<letter<<"\\in R";
         else if(rtype==1) ss<<letter<<"\\in \\varnothing";
         int last = roots.size()-1;

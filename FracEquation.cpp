@@ -75,7 +75,7 @@ void FracEquation::construct2(vector<Number> &roots, vector<Number> &bads, int m
 {
 	this->roots = roots;
 	this->badValues = bads;
-	badIdx = bads.size();
+	badIdx = bads.size() - 1;
 
 	this->maxVisualPower = maxPow;
 
@@ -112,6 +112,27 @@ void FracEquation::addBadValue(Number &n)
 {
 	badValues.push_back(n);
 	badIdx++;
+}
+
+void FracEquation::splitToRight()
+{
+	for (int i = 0; i < left->nNodes; i++)
+	{
+		Node* newNode;
+		splitNode(left->nodes[i], newNode, cd, &gen, letter);
+		if (newNode != 0)
+		{
+			newNode->flipSign();
+			simplifySign(newNode);
+			right->addNode(newNode, false);
+			simplifySign(left->nodes[i]);
+		}
+	}
+
+	if (right->nNodes > 1)
+	{
+		right->removeZero();
+	}
 }
 
 void FracEquation::modSide(bool choice)
@@ -161,7 +182,7 @@ void FracEquation::modSide(bool choice)
 
 	Node* newNode = new Node(fraction);
 	Polynomial* top = new Polynomial();
-	*top = gen.generatePoly(maxVisualPower-nodePow, letter);
+	*top = gen.generatePoly(1, letter);
 
 	Polynomial* bottom = new Polynomial(letter, badValues[badIdx--]);
 
@@ -208,6 +229,115 @@ void FracEquation::modSide(bool choice)
 	ce->addNode(newNode, false);
 }
 
+void FracEquation::addPoly(bool choice)
+{
+	Polynomial* poly = new Polynomial();
+	*poly = gen.generatePoly(cd, 1, letter);
+
+	CompoundExpression* chosenSide = left;
+	if (choice) chosenSide = right;
+
+	Node* &chosenNode = chosenSide->nodes[rnj->nextInt(0, chosenSide->nNodes - 1)];
+
+	Node* newNode = new Node(poly);
+	newNode->flipSign();
+
+	add(chosenNode, newNode, true);
+	doMathRec(chosenNode, 100);
+	simplifySign(chosenNode);
+
+	newNode->flipSign();
+
+	simplifySign(newNode);
+	chosenSide->addNode(newNode, false);
+
+	cout << "before splitPoly: ";
+	dbgPrint();
+
+	splitPoly(chosenSide->nodes[chosenSide->nNodes-1], !choice);
+}
+
+void FracEquation::addNumberToFraction(bool choice)
+{
+	CompoundExpression* chosenSide = left;
+	if (choice) chosenSide = right;
+
+	Number* num = new Number();
+	*num = rnj->nextInt(1, 10);
+
+	Polynomial* poly = new Polynomial(*num);
+
+	Node* newNode = new Node(poly);
+	newNode->flipSign();
+
+	Node* chosen;
+
+	while (true)
+	{
+		int k = rnj->nextInt(0, chosenSide->nNodes-1);
+		chosen = chosenSide->nodes[k];
+		if (chosen->getType() == fraction) break;
+	}
+
+	add(chosen, newNode, true);
+	doMathRec(chosen, 100);
+
+	newNode->flipSign();
+	simplifySign(newNode);
+	
+	int idx = chosenSide->findPolyIdx();
+
+	if (idx != 0)
+	{
+		add(chosenSide->nodes[idx], newNode, true);
+		doSumMath(chosenSide->nodes[idx], 100);
+		return;
+	}
+
+	chosenSide->addNode(newNode, false);
+}
+
+void FracEquation::splitPoly(Node* &pnode, bool sideToAdd)
+{
+	Node* newNode;
+	splitNode(pnode, newNode, cd, &gen, letter);
+
+	CompoundExpression* chosen = left;
+	if (sideToAdd) chosen = right;
+
+	newNode->flipSign();
+	simplifySign(newNode);
+	chosen->addNode(newNode, false);
+}
+
+void FracEquation::mergeFractions(bool choice)
+{
+	CompoundExpression* chosenSide = left;
+	if (choice) chosenSide = right;
+
+	int args[2];
+	int idx = 0;
+	for (int i = 0; i < chosenSide->nNodes; i++)
+	{
+		Node* current = chosenSide->nodes[i];
+		if (current->getType() == fraction)
+		{
+			args[idx++] = i;
+			if (idx == 2) break;
+		}
+	}
+
+	if (idx != 2) return;
+
+	add(chosenSide->nodes[args[0]], chosenSide->nodes[args[1]], true);
+	doMathRec(chosenSide->nodes[args[0]], 100);
+
+	delete chosenSide->nodes[args[1]];
+
+	for (int i = args[1]; i < chosenSide->nNodes - 1; i++) chosenSide->nodes[i] = chosenSide->nodes[i + 1];
+	chosenSide->nNodes--;
+}
+
 void FracEquation::balanceSides()
 {
 	int totalCount = left->nNodes + right->nNodes;
@@ -218,6 +348,25 @@ void FracEquation::print(stringstream& ss)
 	left->print(ss);
 	ss << " = ";
 	right->print(ss);
+}
+
+void FracEquation::printSolutions(stringstream& ss)
+{
+	for (int i = 0; i < roots.size(); i++)
+	{
+		Number &root = roots[i];
+		if (find(badValues.begin(), badValues.end(), root) != badValues.end()) continue;
+		ss << letter << "_{" << i + 1 << "}=";
+		roots[i].print(false, false, ss);
+		if (i != roots.size()-1)ss << ", ";
+	}
+}
+
+void FracEquation::dbgPrint()
+{
+	stringstream ss;
+	print(ss);
+	cout << ss.str() << endl;
 }
 
 bool solveSystem(Number& p, Number& q, Number& a, Number& b, Number& x1, Number& x2)

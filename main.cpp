@@ -14,6 +14,7 @@ using namespace std;
 #include "Inequation.hpp"
 #include "CompoundExpression.h"
 #include "FracEquation.h"
+#include "CompoundInequation.h"
 
 int parse(string s)
 {
@@ -48,7 +49,7 @@ int main()
 	cd.downHigh = 1;
 	cd.downLow = 1;
 
-	cd.upHigh = 5;
+	cd.upHigh = 3;
 	cd.upLow = 1;
 
 	cd.pNatural = 100;
@@ -57,19 +58,45 @@ int main()
 	cd.pNegative = 50;
 
 	vector<Number> roots;
-	roots.push_back(Number(10));
-	roots.push_back(Number(3));
+	roots.push_back(Number(2));
+	roots.push_back(Number(6));
 
 	vector<Number> bads;
 	bads.push_back(Number(3));
 	bads.push_back(Number(4));
 
-	FracEquation* eq = new FracEquation(cd, 'x');
+	stringstream ss;
+
+	CompoundInequation* ineq = new CompoundInequation();
+	ineq->construct(roots, 1);
+	ineq->getSolutions();
+
+	ineq->print(ss);
+	ss << endl;
+	ineq->printSolutions(ss);
+
+	/*FracEquation* eq = new FracEquation(cd, 'x');
 	eq->construct2(roots, bads, 2);
 
 	stringstream ss;
 	eq->print(ss);
 	ss << endl;
+
+	eq->splitToRight();
+	eq->print(ss);
+	ss << endl;
+
+	eq->addPoly(false);
+	eq->print(ss);
+	ss << endl;
+
+	eq->addNumberToFraction(false);
+	eq->print(ss);
+	ss << endl;
+
+	//eq->mergeFractions(true);
+	//eq->print(ss);
+	//ss << endl;*/
 
 	cout << endl << endl << ss.str();
 	system("pause");

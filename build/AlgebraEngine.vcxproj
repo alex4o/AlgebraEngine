@@ -400,6 +400,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Node.h" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\CompoundExpression.h" />
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\FracEquation.h" />
+    <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\CompoundInequation.h" />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Monomial.cpp"  />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Number.cpp"  />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Polynomial.cpp"  />
@@ -411,6 +412,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\Node.cpp"  />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\CompoundExpression.cpp"  />
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\FracEquation.cpp"  />
+    <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\CompoundInequation.cpp"  />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:/Code/C++/Projects/AlgebraEngine/build/ZERO_CHECK.vcxproj">

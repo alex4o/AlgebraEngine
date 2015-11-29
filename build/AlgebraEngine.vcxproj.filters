@@ -34,6 +34,9 @@
     <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\FracEquation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Code\C++\Projects\AlgebraEngine\CompoundInequation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\Fraction.hpp">
@@ -103,6 +106,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\FracEquation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Code\C++\Projects\AlgebraEngine\CompoundInequation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
