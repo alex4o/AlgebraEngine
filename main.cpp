@@ -68,11 +68,17 @@ int main()
 	stringstream ss;
 
 	CompoundInequation* ineq = new CompoundInequation();
-	ineq->construct(roots, 1);
+	ineq->construct(roots, 2);
+	ineq->cd = cd;
 	ineq->getSolutions();
 
 	ineq->print(ss);
 	ss << endl;
+
+	ineq->findAndSplitPoly(false);
+	ineq->print(ss);
+	ss << endl;
+
 	ineq->printSolutions(ss);
 
 	/*FracEquation* eq = new FracEquation(cd, 'x');

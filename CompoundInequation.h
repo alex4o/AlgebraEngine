@@ -22,6 +22,7 @@ public:
 
 	void construct(vector<Number> &nv, char sign);
 	void getSolutions();
+	void findAndSplitPoly(bool choice);
 
 	void print(stringstream& ss);
 	void printSolutions(stringstream& ss);

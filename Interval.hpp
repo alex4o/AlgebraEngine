@@ -13,6 +13,7 @@ public:
 
     Interval(Number& _left, Number& _right, bool leftClosed, bool rightClosed)
     {
+		negInf = posInf = false;
         left=_left;
         right=_right;
         type=leftClosed + rightClosed*2;
@@ -79,9 +80,12 @@ public:
         if(type&1) ss<<'[';
         else ss<<'(';
 
-        if(negInf) ss<<"-\\infty; ";
+        if(negInf) ss<<"-\\infty";
         else left.print(false, false, ss);
-        if(posInf) ss<<"; +\\infty";
+
+		ss << "; ";
+
+        if(posInf) ss<<"+\\infty";
         else right.print(false, false, ss);
 
         if(type&2) ss<<']';

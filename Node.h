@@ -59,6 +59,7 @@ public:
 
 	Node();
 	Node(char t); //само създава масива и някои други задължителни работи
+	Node(char t, int capacity); // extra feature към горното
 	Node(Node &src);
 	Node(Polynomial* p); //действието е събиране
 	Node(Polynomial* p, bool isNegative);
@@ -89,6 +90,7 @@ void doSumMath(Node* &s, int maxGroupSize); //maxGroupSize - колко най-�
 void doProductMath(Node* &p, int maxGroupSize); //maxGroupSize - колко най-много елемента да обединим
 
 void splitNode(Node* dest, Node* &src, CoefDescriptor& cd, Generator* gen, char letter); // дали на 2 части, сумата на които е оригнала
+void splitPoly(Node* &poly, int rpow, char letter, CoefDescriptor& cd, RNJ* rnj); // разделя полинома на произведение и друг полином
 
 void printLetter(Node* node, bool isFirst, bool attachSign, stringstream& ss);
 void printPoly(Node* node, bool isFirst, bool attachSign, stringstream& ss);

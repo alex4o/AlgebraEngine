@@ -36,6 +36,34 @@ Node::Node(char t)
 	}
 }
 
+Node::Node(char t, int capacity)
+{
+	type = t;
+	nChildren = 0;
+	poly = 0;
+	power = 0;
+	if (t == sum || t == product)
+	{
+		children = new Node*[capacity];
+		this->capacity = capacity;
+	}
+	if (t == polynomial || t == letter)
+	{
+		children = 0;
+		this->capacity = 0;
+	}
+	if (t == fraction || t == fpower || t == flog)
+	{
+		children = new Node*[2];
+		nChildren = this->capacity = 2;
+	}
+	else if ((t >= fsin && t <= fcotg) || (t >= fsind && t <= fcotgd))
+	{
+		children = new Node*[1];
+		nChildren = this->capacity = 1;
+	}
+}
+
 Node::Node(Node& src)
 {
 	type = src.type;
@@ -871,6 +899,33 @@ void splitNode(Node* dest, Node* &src, CoefDescriptor& cd, Generator* gen, char 
 	}
 }
 
+void splitPoly(Node* &poly, int rpow, char letter, CoefDescriptor& cd, RNJ* rnj)
+{
+	if (poly->getType() != polynomial) return;
+	
+	Polynomial** parts = new Polynomial*[rpow];
+	Polynomial prod(Number(1));
+	for (int i = 0; i < rpow; i++)
+	{
+		parts[i] = new Polynomial(letter, rnj->nextNumber(cd));
+		prod = prod * (*parts[i]);
+	}
+
+	Node* prodNode = new Node(product, rpow);
+	for (int i = 0; i < rpow; i++) prodNode->children[i] = new Node(parts[i]);
+	prodNode->nChildren = rpow;
+
+	prod.negate();
+	*(poly->poly) = *(poly->poly) + prod;
+
+	Node* newNode = new Node(sum, 2);
+	newNode->nChildren = 2;
+	newNode->children[0] = poly;
+	newNode->children[1] = prodNode;
+
+	poly = newNode;
+}
+
 // Грозен код за принтиране
 // Преминавай само в краен случай
 void initPrintFunctions()
@@ -990,7 +1045,7 @@ void printSum(Node* node, bool isFirst, bool attachSign, stringstream& ss)
 	else if (isFirst && node->getVisualSign() == '-') ss << '-';
 	char sign = node->getSign();
 
-	bool flag = sign == '-' || !attachSign; //дали е в скоби
+	bool flag = sign == '-' || (!attachSign && !isFirst); //дали е в скоби
 
 	if (flag) ss << "(";
 

@@ -2,6 +2,7 @@
 
 void CompoundInequation::construct(vector<Number> &nv, char sign)
 {
+	letter = 'x';
 	this->sign = sign;
 	roots = nv;
 
@@ -44,7 +45,7 @@ void CompoundInequation::getSolutions()
 
 	sort(points.begin(), points.end(), cmpNum);
 
-	bool isClosed = sign == 2 || sign == 3;
+	bool isClosed = (sign == 1 || sign == 2);
 
 	if (sign <= 1) // по-голямо
 	{
@@ -68,14 +69,36 @@ void CompoundInequation::getSolutions()
 	{
 		if (roots.size() % 2 == 0)
 		{
-			for (int i = 0; i < roots.size(); i += 2) solutions.push_back(Interval(*points[i - 1], *points[i], isClosed, isClosed));
+			for (int i = 0; i < roots.size(); i += 2) solutions.push_back(Interval(*points[i], *points[i+1], isClosed, isClosed));
 		}
 		else
 		{
 			Interval first(*points[0], 1, isClosed);
 			solutions.push_back(first);
-			for (int i = 1; i < roots.size(); i += 2) solutions.push_back(Interval(*points[i - 1], *points[i], isClosed, isClosed));
+			for (int i = 1; i < roots.size(); i += 2) solutions.push_back(Interval(*points[i], *points[i+1], isClosed, isClosed));
 		}
+	}
+}
+
+void CompoundInequation::findAndSplitPoly(bool choice)
+{
+	CompoundExpression* chosenSide = left;
+	if (choice) chosenSide = right;
+
+	int idxChosen = -1;
+	for (int i = 0; i < chosenSide->nNodes; i++)
+	{
+		Node* current = chosenSide->nodes[i];
+		if (current->getType() == polynomial)
+		{
+			idxChosen = i;
+			break;
+		}
+	}
+
+	if (idxChosen!=-1)
+	{
+		splitPoly(chosenSide->nodes[idxChosen], 2, letter, cd, rnj);
 	}
 }
 
