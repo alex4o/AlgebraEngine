@@ -4,6 +4,8 @@
 #include "Monomial.hpp"
 #include <iostream>
 
+#include <assert.h>
+
 class Polynomial
 {
 public:
@@ -94,8 +96,11 @@ public:
         monos[0].print(ss, false);
         for(int i = 1; i < monos.size(); i++)
         {
+			//char origSign = monos[i].getSign();
             ss<<' '<<monos[i].getSign()<<' ';
             monos[i].print(ss, true);
+
+			//assert(origSign == monos[i].getSign());
         }
     }
 
@@ -123,6 +128,13 @@ public:
             monos[i].print(ss, true);
         }
     }
+
+	void dbgPrint()
+	{
+		stringstream ss;
+		print(ss);
+		cout << ss.str() << endl;
+	}
 
     bool empty()
     {

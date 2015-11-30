@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <assert.h>
 class Monomial //Клас за сложен едночлен, от типа х2у3
 {
 public:
@@ -30,7 +31,10 @@ public:
 
     void print(stringstream& ss, bool ignoreSign)
     {
+		int orig = coef.fraction.up;
         coef.print(totalPower!=0, ignoreSign, ss);
+		coef.fraction.up = orig;
+
         for(int i = 0; i < simples.size(); i++)
         {
             if(simples[i].pow==1) ss<<simples[i].letter;

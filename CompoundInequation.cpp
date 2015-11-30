@@ -92,6 +92,8 @@ void CompoundInequation::findAndSplitPoly(bool choice)
 		if (current->getType() == polynomial)
 		{
 			idxChosen = i;
+			cout << "The chosen one is: ";
+			current->dbgPrint();
 			break;
 		}
 	}
@@ -99,6 +101,34 @@ void CompoundInequation::findAndSplitPoly(bool choice)
 	if (idxChosen!=-1)
 	{
 		splitPoly(chosenSide->nodes[idxChosen], 2, letter, cd, rnj);
+		cout << "after splitPoly: ";
+		chosenSide->nodes[idxChosen]->dbgPrint();
+	}
+}
+
+void CompoundInequation::generateAndAddNode()
+{
+	//int pow = rnj->nextInt(2, maxVisualPower);
+	int pow = 2;
+	Polynomial** parts = new Polynomial*[pow];
+
+	//for (int i = 0; i < pow; i++) parts[i] = new Polynomial(letter, rnj->nextNumber(cd));
+	parts[0] = new Polynomial(letter, Number(-1));
+	parts[1] = new Polynomial(letter, Number(2));
+
+	Node* newNode = new Node(product, pow);
+	for (int i = 0; i < pow; i++) newNode->children[i] = new Node(parts[i]);
+	newNode->nChildren = pow;
+
+	if (left->nNodes < right->nNodes)
+	{
+		left->addNode(newNode, true);
+		right->addNode(newNode, false);
+	}
+	else
+	{
+		left->addNode(newNode, false);
+		right->addNode(newNode, true);
 	}
 }
 

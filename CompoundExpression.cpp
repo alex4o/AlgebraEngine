@@ -58,29 +58,25 @@ Node* CompoundExpression::findNodeForSum(Node* start)
 
 void CompoundExpression::addNode(Node* node, bool calc)
 {
-	if (!calc || node->getType()==polynomial)
+	if (!calc)
 	{
 		if (nNodes == capacity) resize();
 		nodes[nNodes++] = node;
 		return;
 	}
-	else
+
+	Node* newNode = new Node(node);
+	doMathRec(newNode, 100);
+
+	for (int i = 0; i < nNodes; i++)
 	{
-		Node* k = 0;
-		for (int i = 0; i < nNodes; i++)
+		Node* &current = nodes[i];
+		char t = current->getType();
+
+		if (t == polynomial || t == sum || t == fraction)
 		{
-			k = findNodeForSum(nodes[i]);
-			if (k != 0) break;
-		}
-		if (k)
-		{
-			Polynomial p = *(k->poly);
-			p = p + *(node->poly);
-		}
-		else
-		{
-			if (nNodes == capacity) resize();
-			nodes[nNodes++] = node;
+			add(current, newNode, true);
+			doMathRec(current, 100);
 			return;
 		}
 	}

@@ -61,6 +61,7 @@ public:
 	Node(char t); //само създава масива и някои други задължителни работи
 	Node(char t, int capacity); // extra feature към горното
 	Node(Node &src);
+	Node(Node* src);
 	Node(Polynomial* p); //действието е събиране
 	Node(Polynomial* p, bool isNegative);
 	Node(Polynomial* p, Number& pow, bool isNegative); //когато има степен излиза (....) затова знака трябва да е изрично споменат

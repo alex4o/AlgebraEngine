@@ -70,12 +70,17 @@ int main()
 	CompoundInequation* ineq = new CompoundInequation();
 	ineq->construct(roots, 2);
 	ineq->cd = cd;
+	ineq->maxVisualPower = 2;
 	ineq->getSolutions();
 
 	ineq->print(ss);
 	ss << endl;
 
-	ineq->findAndSplitPoly(false);
+	ineq->generateAndAddNode();
+	ineq->print(ss);
+	ss << endl;
+
+	ineq->findAndSplitPoly(true);
 	ineq->print(ss);
 	ss << endl;
 

@@ -111,6 +111,11 @@ public:
 		return fraction.up == n.fraction.up && fraction.down == n.fraction.down;
 	}
 
+	void flipSign()
+	{
+		fraction.up *= -1;
+	}
+
 	bool operator<(const Number& n) const
 	{
 		int top = fraction.up*n.fraction.down - n.fraction.up*fraction.down;

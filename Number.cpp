@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Number.hpp"
+#include <assert.h>
 
 using namespace std;
 
@@ -126,6 +127,8 @@ Number parseNum(string s)
 
 void Number::print(bool ignoreOne, bool ignoreSign, stringstream& ss)
 {
+	//int orig = fraction.up;
+
     bool negative = false;
     if(fraction.up<0) negative=true;
 
@@ -137,7 +140,10 @@ void Number::print(bool ignoreOne, bool ignoreSign, stringstream& ss)
         if(negative && !ignoreSign)ss<<"-\\frac{"<<-fraction.up<<"}{"<<fraction.down<<"}";
         else ss<<"\\frac{"<<fraction.up<<"}{"<<fraction.down<<"}";
     }
-    if(ignoreSign && negative) fraction.up*=-1;
+	if (ignoreSign && negative) fraction.up *= -1;
+	//fraction.up = orig;
+
+	//assert(orig == fraction.up);
 }
 
 

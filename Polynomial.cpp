@@ -90,7 +90,7 @@ Polynomial pow(Polynomial p, Number num)
 void Polynomial::negate() {
     for(int i = 0; i < monos.size(); i++)
     {
-        monos[i].coef*=-1;
+        monos[i].coef.flipSign();
     }
 }
 

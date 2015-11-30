@@ -82,6 +82,24 @@ Node::Node(Node& src)
 	for (int i = 0; i < nChildren; i++) children[i] = new Node(*src.children[i]);
 }
 
+Node::Node(Node* src)
+{
+	type = src->type;
+	power = src->power;
+	nChildren = src->nChildren;
+	capacity = src->capacity;
+	poly = src->poly;
+
+	if (capacity <= 0)
+	{
+		children = 0;
+		return;
+	}
+
+	children = new Node*[capacity];
+	for (int i = 0; i < nChildren; i++) children[i] = new Node(src->children[i]);
+}
+
 Node::Node(Polynomial* p)
 {
 	type = polynomial;
@@ -362,7 +380,7 @@ void add(Node* &dest, Node* src, bool compact)
 				if (spaceNeeded > 0) dest->resize(dest->capacity + spaceNeeded);
 				for (int i = 0; i < src->nChildren; i++)
 				{
-					Node* child = dest->children[dest->nChildren + i] = new Node(*(src->children[i]));
+					Node* child = dest->children[dest->nChildren + i] = new Node(src->children[i]);
 					if (flag) child->flipSign();
 				}
 				dest->nChildren += src->nChildren;
@@ -375,7 +393,7 @@ void add(Node* &dest, Node* src, bool compact)
 				bool flag = src->getType() == '-'; //дали е изваждане
 
 				Node* top = newNode->children[0] = new Node(sum);
-				newNode->children[1] = new Node(*(src->children[1]));
+				newNode->children[1] = new Node(src->children[1]);
 
 				top->children[0] = dest;
 				top->nChildren = 2;
@@ -384,7 +402,7 @@ void add(Node* &dest, Node* src, bool compact)
 				mult(dest, src->children[1], false);
 				if (flag) src->children[1]->flipSign();
 
-				top->children[1] = new Node(*(src->children[0]));
+				top->children[1] = new Node(src->children[0]);
 
 				dest = newNode;
 				simplifySign(dest);
@@ -396,17 +414,17 @@ void add(Node* &dest, Node* src, bool compact)
 			if (src->getType() == sum)
 			{
 				Node* old = dest;
-				dest = new Node(*src);
+				dest = new Node(src);
 				add(dest, old, true);
 				return;
 			}
 			if (src->getType() == fraction)
 			{
 				Node* top_dest = dest->children[0];
-				Node* bottom_dest = new Node(*(dest->children[1]));
+				Node* bottom_dest = new Node(dest->children[1]);
 
-				Node* top_src = new Node(*(src->children[0]));
-				Node* bottom_src = new Node(*(src->children[1]));
+				Node* top_src = new Node(src->children[0]);
+				Node* bottom_src = new Node(src->children[1]);
 
 				if (src->getSign() == '-') top_src->flipSign();
 				if (dest->getSign() == '-') top_src->flipSign();
@@ -430,7 +448,7 @@ void add(Node* &dest, Node* src, bool compact)
 			Node* top = dest->children[0] = new Node(sum);
 			
 			top->children[0] = oldTop;
-			top->children[1] = new Node(*src);
+			top->children[1] = new Node(src);
 			top->nChildren = 2;
 
 			if (dest->getSign() == '-') top->children[1]->flipSign();
@@ -445,14 +463,14 @@ void add(Node* &dest, Node* src, bool compact)
 		else if (src->getType() == fraction)
 		{
 			Node* old = dest;
-			dest = new Node(*src);
+			dest = new Node(src);
 			add(dest, old, true);
 			return;
 		}
 		else if (src->getType() == sum)
 		{
 			Node* old = dest;
-			dest = new Node(*src);
+			dest = new Node(src);
 			add(dest, old, true);
 			return;
 		}
@@ -460,8 +478,8 @@ void add(Node* &dest, Node* src, bool compact)
 	}
 
 	Node* newNode = new Node(sum);
-	newNode->children[0] = new Node(*dest);
-	newNode->children[1] = new Node(*src);
+	newNode->children[0] = new Node(dest);
+	newNode->children[1] = new Node(src);
 	//if (flag) newNode->children[1]->flipSign();
 	newNode->nChildren = 2;
 	dest = newNode;
@@ -905,18 +923,36 @@ void splitPoly(Node* &poly, int rpow, char letter, CoefDescriptor& cd, RNJ* rnj)
 	
 	Polynomial** parts = new Polynomial*[rpow];
 	Polynomial prod(Number(1));
-	for (int i = 0; i < rpow; i++)
+	/*for (int i = 0; i < rpow; i++)
 	{
 		parts[i] = new Polynomial(letter, rnj->nextNumber(cd));
 		prod = prod * (*parts[i]);
-	}
+	}*/
+	parts[0] = new Polynomial(letter, Number(3));
+	parts[1] = new Polynomial(letter, Number(-2));
+	prod = *parts[0] * *parts[1];
 
 	Node* prodNode = new Node(product, rpow);
 	for (int i = 0; i < rpow; i++) prodNode->children[i] = new Node(parts[i]);
 	prodNode->nChildren = rpow;
 
+	cout << "\tproduct node: ";
+	prodNode->dbgPrint();
+	cout << "\tcalculated: ";
+	prod.dbgPrint();
+
 	prod.negate();
+
+	cout << "\tcalc after negate: ";
+	prod.dbgPrint();
+
+	cout << "\tpoly: ";
+	poly->poly->dbgPrint();
+
 	*(poly->poly) = *(poly->poly) + prod;
+
+	cout << "\tpoly after add: ";
+	poly->poly->dbgPrint();
 
 	Node* newNode = new Node(sum, 2);
 	newNode->nChildren = 2;

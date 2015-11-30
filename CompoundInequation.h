@@ -23,6 +23,7 @@ public:
 	void construct(vector<Number> &nv, char sign);
 	void getSolutions();
 	void findAndSplitPoly(bool choice);
+	void generateAndAddNode();
 
 	void print(stringstream& ss);
 	void printSolutions(stringstream& ss);
