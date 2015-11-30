@@ -49,7 +49,7 @@ int main()
 	cd.downHigh = 1;
 	cd.downLow = 1;
 
-	cd.upHigh = 3;
+	cd.upHigh = 10;
 	cd.upLow = 1;
 
 	cd.pNatural = 100;

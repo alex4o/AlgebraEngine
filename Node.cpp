@@ -923,36 +923,36 @@ void splitPoly(Node* &poly, int rpow, char letter, CoefDescriptor& cd, RNJ* rnj)
 	
 	Polynomial** parts = new Polynomial*[rpow];
 	Polynomial prod(Number(1));
-	/*for (int i = 0; i < rpow; i++)
+	for (int i = 0; i < rpow; i++)
 	{
 		parts[i] = new Polynomial(letter, rnj->nextNumber(cd));
 		prod = prod * (*parts[i]);
-	}*/
-	parts[0] = new Polynomial(letter, Number(3));
-	parts[1] = new Polynomial(letter, Number(-2));
-	prod = *parts[0] * *parts[1];
+	}
+	//parts[0] = new Polynomial(letter, Number(3));
+	//parts[1] = new Polynomial(letter, Number(-2));
+	//prod = *parts[0] * *parts[1];
 
 	Node* prodNode = new Node(product, rpow);
 	for (int i = 0; i < rpow; i++) prodNode->children[i] = new Node(parts[i]);
 	prodNode->nChildren = rpow;
 
-	cout << "\tproduct node: ";
+	/*cout << "\tproduct node: ";
 	prodNode->dbgPrint();
 	cout << "\tcalculated: ";
-	prod.dbgPrint();
+	prod.dbgPrint();*/
 
 	prod.negate();
 
-	cout << "\tcalc after negate: ";
-	prod.dbgPrint();
+	/*cout << "\tcalc after negate: ";
+	prod.dbgPrint();*/
 
-	cout << "\tpoly: ";
-	poly->poly->dbgPrint();
+	/*cout << "\tpoly: ";
+	poly->poly->dbgPrint();*/
 
 	*(poly->poly) = *(poly->poly) + prod;
 
-	cout << "\tpoly after add: ";
-	poly->poly->dbgPrint();
+	/*cout << "\tpoly after add: ";
+	poly->poly->dbgPrint();*/
 
 	Node* newNode = new Node(sum, 2);
 	newNode->nChildren = 2;
