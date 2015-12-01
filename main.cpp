@@ -43,72 +43,45 @@ void printSigns(Node** arr, int n, stringstream& ss)
 
 int main()
 {
-	initPrintFunctions();
+	ExpressionDescriptor ed;
 
-	CoefDescriptor cd;
-	cd.downHigh = 1;
-	cd.downLow = 1;
+	ed.maxPow = 2;
 
-	cd.upHigh = 10;
-	cd.upLow = 1;
+	ed.letters[0] = 'x';
+	ed.letters[1] = 'y';
+	ed.letters[2] = 'z';
+	ed.cLetters = 3;
 
-	cd.pNatural = 100;
-	cd.pIrational = 0;
-	cd.pRational = 0;
-	cd.pNegative = 50;
+	ed.factored = false;
+	ed.minLetters = 2;
+	ed.maxLetters = 3;
 
-	vector<Number> roots;
-	roots.push_back(Number(2));
-	roots.push_back(Number(6));
+	ed.minTerms = 1;
+	ed.maxTerms = 3;
 
-	vector<Number> bads;
-	bads.push_back(Number(3));
-	bads.push_back(Number(4));
+	ed.cf.pNatural = 50;
+	ed.cf.pRational = 50;
 
-	stringstream ss;
+	ed.cf.upHigh = 10;
+	ed.cf.upLow = 1; 
+	ed.cf.downHigh = 10;
+	ed.cf.downLow = 1;
 
-	CompoundInequation* ineq = new CompoundInequation();
-	ineq->construct(roots, 2);
-	ineq->cd = cd;
-	ineq->maxVisualPower = 2;
-	ineq->getSolutions();
+	ed.transformCF.pNatural = 50;
+	ed.transformCF.pRational = 50;
 
-	ineq->print(ss);
-	ss << endl;
+	ed.transformCF.upHigh = 10;
+	ed.transformCF.upLow = 1;
+	ed.transformCF.downHigh = 10;
+	ed.transformCF.downLow = 1;
 
-	ineq->generateAndAddNode();
-	ineq->print(ss);
-	ss << endl;
+	ed.minSubTerm = 1;
+	ed.maxSubTerm = ed.maxPow;
 
-	ineq->findAndSplitPoly(true);
-	ineq->print(ss);
-	ss << endl;
+	Expression e1, e2;
+	
+	MultiResult mr = getExpressions(ed, 1);
+	cout << mr.problem << endl << mr.solution << endl;
 
-	ineq->printSolutions(ss);
-
-	/*FracEquation* eq = new FracEquation(cd, 'x');
-	eq->construct2(roots, bads, 2);
-
-	stringstream ss;
-	eq->print(ss);
-	ss << endl;
-
-	eq->splitToRight();
-	eq->print(ss);
-	ss << endl;
-
-	eq->addPoly(false);
-	eq->print(ss);
-	ss << endl;
-
-	eq->addNumberToFraction(false);
-	eq->print(ss);
-	ss << endl;
-
-	//eq->mergeFractions(true);
-	//eq->print(ss);
-	//ss << endl;*/
-
-	cout << endl << endl << ss.str();
 	system("pause");
 }
