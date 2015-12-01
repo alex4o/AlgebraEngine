@@ -109,12 +109,18 @@ void CompoundInequation::findAndSplitPoly(bool choice)
 void CompoundInequation::generateAndAddNode()
 {
 	int pow = rnj->nextInt(2, maxVisualPower);
-	//int pow = 2;
+	
 	Polynomial** parts = new Polynomial*[pow];
-
+#ifdef __linux__
+	for (int i = 0; i < pow; i++)
+	{
+		Number tmp = rnj->nextNumber(cd);
+		parts[i] = new Polynomial(letter, tmp);
+	}
+#else
 	for (int i = 0; i < pow; i++) parts[i] = new Polynomial(letter, rnj->nextNumber(cd));
-	//parts[0] = new Polynomial(letter, Number(-1));
-	//parts[1] = new Polynomial(letter, Number(2));
+#endif
+	
 
 	Node* newNode = new Node(product, pow);
 	for (int i = 0; i < pow; i++) newNode->children[i] = new Node(parts[i]);
