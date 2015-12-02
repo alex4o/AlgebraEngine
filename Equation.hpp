@@ -50,7 +50,7 @@ public:
                 sp.power=1;
                 sp.coef[0] = root*-1;
                 sp.coef[1] = 1;
-                if(ed.nice && !root.isNatural()) //ако е nice, х+1/3 става 3х+1
+                if(ed.nice && !root.isNatural()) 
                 {
                     sp.coef[0]*=root.fraction.down;
                     sp.coef[1]*=root.fraction.down;

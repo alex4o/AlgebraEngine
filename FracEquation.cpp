@@ -1,4 +1,4 @@
-#include "FracEquation.h"
+п»ї#include "FracEquation.h"
 
 FracEquation::FracEquation()
 {
@@ -7,7 +7,7 @@ FracEquation::FracEquation()
 	right = new CompoundExpression();
 
 	rnj = new RNJ();
-
+	
 	badIdx = -1;
 	genInit = false;
 }
@@ -20,6 +20,7 @@ FracEquation::FracEquation(CoefDescriptor &cd)
 	right = new CompoundExpression();
 
 	rnj = new RNJ();
+
 
 	badIdx = -1;
 	genInit = false;
@@ -155,7 +156,7 @@ void FracEquation::modSide(bool choice)
 	CompoundExpression* ce = this->left;
 	if (choice) ce = this->right;
 
-	if (ce->nNodes == 1) //имаме само един елемент, не е библейско
+	if (ce->nNodes == 1) // РёРјР° СЃР°РјРѕ РµРґРёРЅ РїРѕР»РёРЅРѕРј Рё РіРѕ РґРµР»РёРј
 	{
 		if (ce->nodes[0]->getType() == polynomial)
 		{
@@ -238,13 +239,25 @@ void FracEquation::modSide(bool choice)
 	ce->addNode(newNode, false);
 }
 
-void FracEquation::addPoly(bool choice)
+bool FracEquation::addPoly(bool choice)
 {
 	Polynomial* poly = new Polynomial();
 	*poly = gen.generatePoly(cd, 1, letter);
 
 	CompoundExpression* chosenSide = left;
 	if (choice) chosenSide = right;
+
+	if (chosenSide->nNodes < 1)
+	{
+		chosenSide->addNode(new Node(poly), false);
+
+		CompoundExpression* otherSide = right;
+		if (choice) otherSide = left;
+
+		otherSide->addNode(new Node(poly, true), false);
+
+		return true;
+	}
 
 	Node* &chosenNode = chosenSide->nodes[rnj->nextInt(0, chosenSide->nNodes - 1)];
 
@@ -263,13 +276,27 @@ void FracEquation::addPoly(bool choice)
 	cout << "before splitPoly: ";
 	dbgPrint();
 
-	splitPoly(chosenSide->nodes[chosenSide->nNodes-1], !choice);
+	splitPolyL(chosenSide->nodes[chosenSide->nNodes-1], !choice);
+	return true;
 }
 
-void FracEquation::addNumberToFraction(bool choice)
+bool FracEquation::addNumberToFraction(bool choice)
 {
 	CompoundExpression* chosenSide = left;
 	if (choice) chosenSide = right;
+
+	if (chosenSide->nNodes == 0) return false;
+
+	vector<int> fractionsIdx;
+	for (int i = 0; i < chosenSide->nNodes; i++)
+	{
+		Node* current = chosenSide->nodes[i];
+		if (current->getType() == fraction) fractionsIdx.push_back(i);
+	}
+
+	if (fractionsIdx.size() == 0) return false;
+
+	int chosenIdx = fractionsIdx[rnj->nextInt(0, fractionsIdx.size() - 1)];
 
 	Number* num = new Number();
 	*num = rnj->nextInt(1, 10);
@@ -277,36 +304,28 @@ void FracEquation::addNumberToFraction(bool choice)
 	Polynomial* poly = new Polynomial(*num);
 
 	Node* newNode = new Node(poly);
-	newNode->flipSign();
+	newNode->flipSign(); // РїСЉСЂРІРѕ РёР·РІР°Р¶РґР°РјРµ РѕС‚ РёР·Р±СЂР°РЅРёСЏ РµР»РµРјРµРЅС‚
 
-	Node* chosen;
-
-	while (true)
-	{
-		int k = rnj->nextInt(0, chosenSide->nNodes-1);
-		chosen = chosenSide->nodes[k];
-		if (chosen->getType() == fraction) break;
-	}
-
-	add(chosen, newNode, true);
-	doMathRec(chosen, 100);
+	add(chosenSide->nodes[chosenIdx], newNode, true);
+	doMathRec(chosenSide->nodes[chosenIdx], 100);
 
 	newNode->flipSign();
 	simplifySign(newNode);
 	
 	int idx = chosenSide->findPolyIdx();
 
-	if (idx != 0)
+	if (idx != -1) // СЃР»РµРґ С‚РѕРІР° РґРѕР±Р°РІСЏРјРµ РєСЉРј РґСЂСѓРі РµР»РµРјРµРЅС‚
 	{
 		add(chosenSide->nodes[idx], newNode, true);
 		doSumMath(chosenSide->nodes[idx], 100);
-		return;
+		return true;
 	}
 
-	chosenSide->addNode(newNode, false);
+	chosenSide->addNode(newNode, false); 
+	return true;
 }
 
-void FracEquation::splitPoly(Node* &pnode, bool sideToAdd)
+bool FracEquation::splitPolyL(Node* &pnode, bool sideToAdd)
 {
 	Node* newNode;
 	splitNode(pnode, newNode, cd, &gen, letter);
@@ -317,12 +336,43 @@ void FracEquation::splitPoly(Node* &pnode, bool sideToAdd)
 	newNode->flipSign();
 	simplifySign(newNode);
 	chosen->addNode(newNode, false);
+	return true;
 }
 
-void FracEquation::mergeFractions(bool choice)
+bool FracEquation::findAndSplitPolySS(bool choice)
 {
 	CompoundExpression* chosenSide = left;
 	if (choice) chosenSide = right;
+
+	if (chosenSide->nNodes == 0) return false;
+
+	int idxChosen = -1;
+	for (int i = 0; i < chosenSide->nNodes; i++)
+	{
+		Node* current = chosenSide->nodes[i];
+		if (current->getType() == polynomial)
+		{
+			idxChosen = i;
+			/*cout << "The chosen one is: ";
+			current->dbgPrint();*/
+			break;
+		}
+	}
+
+	if (idxChosen != -1)
+	{
+		splitPoly(chosenSide->nodes[idxChosen], 2, letter, cd, rnj);
+		return true;
+	}
+	return false;
+}
+
+bool FracEquation::mergeFractions(bool choice)
+{
+	CompoundExpression* chosenSide = left;
+	if (choice) chosenSide = right;
+
+	if (chosenSide->nNodes < 2) return false; // РЅСЏРјР° РєР°Рє РґР° СЃСЉР±РµСЂРµРј 2 РґСЂРѕР±Рё РєР°С‚Рѕ РёРјР°РјРµ РїРѕ-РјР°Р»РєРѕ РѕС‚ РґРІР° РµР»РµРјРµРЅС‚Р°
 
 	int args[2];
 	int idx = 0;
@@ -336,20 +386,72 @@ void FracEquation::mergeFractions(bool choice)
 		}
 	}
 
-	if (idx != 2) return;
+	if (idx != 2) return false;
 
 	add(chosenSide->nodes[args[0]], chosenSide->nodes[args[1]], true);
+
+	cout << "before doMathRec: ";
+	chosenSide->nodes[args[0]]->dbgPrint();
+
 	doMathRec(chosenSide->nodes[args[0]], 100);
+
+	cout << "after doMathRec: ";
+	chosenSide->nodes[args[0]]->dbgPrint();
+	cout << endl;
 
 	delete chosenSide->nodes[args[1]];
 
 	for (int i = args[1]; i < chosenSide->nNodes - 1; i++) chosenSide->nodes[i] = chosenSide->nodes[i + 1];
 	chosenSide->nNodes--;
+	return true;
 }
 
 void FracEquation::balanceSides()
 {
+	left->fixUp();
+	right->fixUp();
+
 	int totalCount = left->nNodes + right->nNodes;
+	int half = totalCount / 2;
+
+	if (left->nNodes > half)
+	{
+		int nTransfer = (left->nNodes - half) / 2;
+		if (nTransfer < 1) return;
+
+		for (int i = 0; i < nTransfer; i++)
+		{
+			int choice = rnj->nextInt(0, left->nNodes - 1);
+			Node* current = left->nodes[choice];
+			for (int j = choice + 1; j < left->nNodes; j++)
+			{
+				left->nodes[j - 1] = left->nodes[j];
+			}
+			left->nNodes--;
+
+			current->flipSign();
+			right->addNode(current, false);
+		}
+	}
+	else if (right->nNodes > half)
+	{
+		int nTransfer = (right->nNodes - half) / 2;
+		if (nTransfer < 1) return;
+
+		for (int i = 0; i < nTransfer; i++)
+		{
+			int choice = rnj->nextInt(0, right->nNodes - 1);
+			Node* current = right->nodes[choice];
+			for (int j = choice + 1; j < right->nNodes; j++)
+			{
+				right->nodes[j - 1] = right->nodes[j];
+			}
+			right->nNodes--;
+
+			current->flipSign();
+			left->addNode(current, false);
+		}
+	}
 }
 
 void FracEquation::print(stringstream& ss)
@@ -380,13 +482,13 @@ void FracEquation::dbgPrint()
 
 bool solveSystem(Number& p, Number& q, Number& a, Number& b, Number& x1, Number& x2)
 {
-	if (a == b) return false; //при еднакви знаменатели нямаме втора степен
+	if (a == b) return false; //Р°РєРѕ СЃР° СЂР°РІРЅРё РЅСЏРјР°РјРµ 2СЂР° СЃС‚РµРїРµРЅ
 	if (a.null)
 	{
 		Number tmp = a;
 		a = b;
 		b = tmp;
-	} // за удобство само b може да е нула(ако и двете са нула първия if връща)
+	} // Р·Р° СѓРґРѕР±СЃС‚РІРѕ СЃР°РјРѕ b РјРѕР¶Рµ РґР° Рµ 0
 
 	Number w = x1*x2;
 	Number z = x1 + x2;
@@ -401,4 +503,60 @@ bool solveSystem(Number& p, Number& q, Number& a, Number& b, Number& x1, Number&
 	q = (b*(2 * z - a - b) - 2 * w) / (b - a);
 	p = (2 * w - a*q) / b;
 	return true;
+}
+
+void generateFracEquation(FracEquation* fe, FracEquationDescriptor& fed)
+{
+	if (fed.genType == 0)
+	{
+		vector<Number> roots;
+		for (int i = 0; i < fed.power; i++) roots.push_back(fe->rnj->nextNumber(fed.rd));
+
+		for (int i = 0; i < fed.power; i++) fe->addBadValue(fe->rnj->nextNumber(fed.rd));
+
+		fe->construct(roots, 2);
+	}
+	else if (fed.genType == 1)
+	{
+		vector<Number> bad;
+		for (int i = 0; i < fed.power; i++) bad.push_back(fe->rnj->nextNumber(fed.rd)); // РќРµРґРѕРїСѓСЃС‚РёРјРё СЃС‚РѕР№РЅРѕСЃС‚Рё
+		vector<Number> roots;
+		for (int i = 0; i < fed.power; i++) roots.push_back(fe->rnj->nextNumber(fed.rd)); // РєРѕСЂРµРЅРё
+
+		fe->construct2(roots, bad, fed.power);
+	}
+
+	int nTransform = fe->rnj->nextInt(fed.minTransformations, fed.maxTransformations);
+	if (nTransform == 0) return;
+
+	for (int i = 0; i < nTransform; i++)
+	{
+		int transformChoice = fe->rnj->nextInt(0, 3);
+
+		cout << "i = " << i << "; choice: " << transformChoice << "; before: ";
+		fe->dbgPrint();
+
+		if (transformChoice == 0) // РґРѕР±Р°РІСЏРјРµ РїРѕР»РёРЅРѕРј РєСЉРј СЃР»СѓС‡Р°РµРЅ РµР»РµРјРµРЅС‚
+		{
+			if(!fe->addPoly(fe->rnj->nextBool())) i--;
+		}
+		else if (transformChoice == 1)
+		{
+			if (!fe->addNumberToFraction(fe->rnj->nextBool())) i--;
+		}
+		else if (transformChoice == 2)
+		{
+			if (!fe->findAndSplitPolySS(fe->rnj->nextBool())) i--;
+		}
+		else
+		{
+			if (!fe->mergeFractions(fe->rnj->nextBool())) i--;
+		}
+
+		cout << "after: ";
+		fe->dbgPrint();
+		cout << endl;
+	}
+
+	fe->balanceSides();
 }

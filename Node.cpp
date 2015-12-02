@@ -85,10 +85,15 @@ Node::Node(Node& src)
 Node::Node(Node* src)
 {
 	type = src->type;
-	power = src->power;
+	power = new Number(*src->power);
 	nChildren = src->nChildren;
 	capacity = src->capacity;
-	poly = src->poly;
+	if (src->getType() == polynomial)
+	{
+		poly = new Polynomial();
+		*poly = *(src->poly);
+	}
+	else poly = 0;
 
 	if (capacity <= 0)
 	{
@@ -135,13 +140,27 @@ Node::Node(Polynomial* p, Number& pow, bool isNegative)
 
 	power = new Number(pow);
 }
-/*
+
 Node::~Node()
 {
-	if(power) delete power;
-	if(children) delete children;
+	if (power)
+	{
+		delete power;
+		power = 0;
+	}
+	if (children)
+	{
+		for (int i = 0; i < nChildren; i++) delete children[i];
+		delete[] children;
+		children = 0;
+	}
+	if (poly)
+	{
+		delete poly;
+		poly = 0;
+	}
 }
-*/
+
 char Node::getType()
 {
 	return type&typeMask;
@@ -250,7 +269,7 @@ void mult(Node* &dest, Node* src, bool compact) // dest = dest*src
 				if (spaceNeeded > 0) dest->resize(dest->capacity + spaceNeeded);
 				for (int i = 0; i < src->nChildren; i++)
 				{
-					dest->children[dest->nChildren + i] = new Node(*(src->children[i]));
+					dest->children[dest->nChildren + i] = new Node(src->children[i]);
 				}
 				dest->nChildren += src->nChildren;
 
@@ -261,7 +280,7 @@ void mult(Node* &dest, Node* src, bool compact) // dest = dest*src
 			{// тук всъщност сменяме корена, но визуално остава 1 елемент
 				Node* newNode = new Node(fraction);
 				newNode->children[0] = dest; // преписваме числителя
-				newNode->children[1] = new Node(*(src->children[1])); // и знаменателя(той не се променя)
+				newNode->children[1] = new Node(src->children[1]); // и знаменателя(той не се променя)
 				mult(newNode->children[0], src->children[0], true); // умножаваме двата числителя
 
 				if (dest->getSign() != src->getSign()) newNode->type |= (char)(1 << 7); //оправяме знаците
@@ -271,7 +290,7 @@ void mult(Node* &dest, Node* src, bool compact) // dest = dest*src
 			}
 			else // единствено можем да добавим src в масива на произведението
 			{ //не сменяме корене
-				if (dest->capacity > dest->nChildren) dest->children[(dest->nChildren)++] = new Node(*src); //проверки за място
+				if (dest->capacity > dest->nChildren) dest->children[(dest->nChildren)++] = new Node(src); //проверки за място
 				else
 				{
 					dest->resize(dest->capacity + 1);
@@ -302,15 +321,15 @@ void mult(Node* &dest, Node* src, bool compact) // dest = dest*src
 		else if (src->getType() == product || src->getType() == fraction)
 		{ // ако src е "по-хубав" от dest, просто ги сменяме
 			Node* old = dest;
-			dest = new Node(*src);
+			dest = new Node(src);
 			mult(dest, old, true);
 			return;
 		}
 	}
 
 	Node* newNode = new Node(product);  // общия случай
-	newNode->children[0] = new Node(*src);			// правим си ново звено за произведение
-	newNode->children[1] = new Node(*dest);		// и там си записваме двата аргумента
+	newNode->children[0] = new Node(src);			// правим си ново звено за произведение
+	newNode->children[1] = new Node(dest);		// и там си записваме двата аргумента
 	newNode->nChildren = 2;					
 	simplifyProductSign(newNode);
 	dest = newNode; // новото звено измества dest
@@ -368,6 +387,16 @@ void divRec(Node* &dest, Node* src, bool compact)
 
 void add(Node* &dest, Node* src, bool compact)
 {
+	if (dest->getType() == polynomial)
+	{
+		if (dest->poly->isZero())
+		{
+			delete dest;
+			dest = new Node(src);
+			return;
+		}
+	}
+
 	bool flag = dest->getSign() != src->getSign(); //дали трябва да обръщаме знаците
 
 	if (compact)
@@ -411,7 +440,7 @@ void add(Node* &dest, Node* src, bool compact)
 		}
 		else if (dest->getType() == fraction)
 		{
-			if (src->getType() == sum)
+			if (src->getType() == sum) // връщаме към горния случай
 			{
 				Node* old = dest;
 				dest = new Node(src);
@@ -623,6 +652,9 @@ void halfCopy(Node* dest, Node* src)
 
 void doMathRec(Node* &node, int maxGroupSize)
 {
+	cout << "doMathRec in: ";
+	node->dbgPrint();
+
 	char t = node->getType();
 	//cout << "current: ";
 	//node->dbgPrint();
@@ -644,6 +676,10 @@ void doMathRec(Node* &node, int maxGroupSize)
 		//cout << "\tproduct result: ";
 		//node->dbgPrint();
 	}
+
+	cout << "doMathRec out: ";
+	node->dbgPrint();
+	cout << endl;
 }
 
 void doSumMath(Node* &s, int maxGroupSize)
@@ -768,9 +804,18 @@ void doProductMath(Node* &p, int maxGroupSize)
 
 	sort(p->children, p->children + p->nChildren, cmp);
 
+	cout << "\tdoProductMath in: ";
+	p->dbgPrint();
+	cout << endl;
+
 	int nPoly = 0;
 	int lim = p->nChildren;
-	while (nPoly < lim && p->children[nPoly]->getType() == polynomial) nPoly++;
+	while (nPoly < lim && p->children[nPoly]->getType() == polynomial)
+	{
+		cout << "\t\tpoly found: ";
+		p->children[nPoly]->dbgPrint();
+		nPoly++;
+	}
 
 	if (nPoly < 2) return;
 	if (maxGroupSize>nPoly) maxGroupSize = nPoly;

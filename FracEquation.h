@@ -1,4 +1,4 @@
-#ifndef FEquation
+﻿#ifndef FEquation
 #define FEquation
 
 #include "CompoundExpression.h"
@@ -6,13 +6,15 @@
 #include "SPolynomial.hpp"
 #include "RNG.hpp"
 #include "Generator.hpp"
+#include "FracEquationDescriptor.h"
 
 class FracEquation
 {
 private:
-	int badIdx; // ������� �� ��� �������� �� �� ����������
+	int badIdx; // къде е първата недопустима стойност
 	void initGenerator();
 	bool genInit;
+	
 
 public:
 	CompoundExpression* left, *right;
@@ -23,7 +25,6 @@ public:
 	CoefDescriptor cd;
 	Generator gen;
 	RNJ* rnj;
-
 	char letter;
 
 	FracEquation();
@@ -36,18 +37,18 @@ public:
 
 	void splitToRight();
 
-	void mangle();
+	void mangle(); // не работи
 
-	void modOneSide();
-	void modSide(bool choice); 
+	void modOneSide(); // не работи
+	void modSide(bool choice);  // работи, но не ползвак
 
-	void modBothSides();
+	void modBothSides(); // не работи
 
-	void addPoly(bool choice);
-	void addNumberToFraction(bool choice);
-	void splitPoly(Node* &pnode, bool sideToAdd);
-	void findAndSplitPoly();
-	void mergeFractions(bool choice);
+	bool addPoly(bool choice); // работи; добавя полином 
+	bool addNumberToFraction(bool choice); // работи
+	bool splitPolyL(Node* &pnode, bool sideToAdd); // намира и прехвърля от другата страна
+	bool findAndSplitPolySS(bool choice); // намира и разделя от същата страна(SS = Same Side)
+	bool mergeFractions(bool choice); // работи, прави гадно
 
 	void balanceSides();
 
@@ -56,7 +57,9 @@ public:
 	void dbgPrint();
 };
 
-// ������ p � q � (x-p)/(x-a) + (x-q)/(x-b) = 0, ������ x1 � �2 �� ������
+// решава за p и q в (x-p)/(x-a) + (x-q)/(x-b) = 0, където x1 и х2 са корени
 bool solveSystem(Number& p, Number& q, Number& a, Number& b, Number& x1, Number& x2);
+
+void generateFracEquation(FracEquation* fe, FracEquationDescriptor& fed);
 
 #endif

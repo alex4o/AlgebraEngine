@@ -14,6 +14,12 @@ CompoundExpression::CompoundExpression(Node** nodes, int n)
 	for (int i = 0; i < n; i++) this->nodes[i] = nodes[i];
 }
 
+CompoundExpression::~CompoundExpression()
+{
+	for (int i = 0; i < nNodes; i++) delete nodes[i];
+	delete[] nodes;
+}
+
 void CompoundExpression::print(stringstream& ss)
 {
 	for (int i = 0; i < nNodes; i++)
@@ -144,11 +150,14 @@ void CompoundExpression::divideByNodeRec(Node* node)
 	}
 }
 
+void CompoundExpression::fixUp()
+{
+	removeZero();
+	for (int i = 0; i < nNodes; i++) simplifySign(nodes[i]);
+}
+
 void CompoundExpression::removeZero()
 {
-	bool flag = false;
-	int cntNZ = 0;
-
 	for (int i = 0; i < nNodes; i++)
 	{
 		Node* current = nodes[i];
@@ -156,30 +165,10 @@ void CompoundExpression::removeZero()
 		{
 			if (current->poly->isZero())
 			{
-				flag = true;
+				for (int j = i + 1; j < nNodes; j++) nodes[j - 1] = nodes[j];
+				nNodes--;
+				delete current;
 			}
-			else cntNZ++;
 		}
-		else cntNZ++;
-	}
-
-	if (flag)
-	{
-		Node** newArr = new Node*[cntNZ];
-		int idx = 0;
-		for (int i = 0; i < nNodes; i++)
-		{
-			Node* current = nodes[i];
-			if (current->getType() == polynomial)
-			{
-				if (current->poly->isZero()) continue;
-			}
-
-			newArr[idx++] = nodes[i];
-		}
-
-		delete nodes;
-		nodes = newArr;
-		nNodes = cntNZ;
 	}
 }

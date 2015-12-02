@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <vector>
 #include <string.h>
 #include <sstream>
@@ -15,6 +15,7 @@ using namespace std;
 #include "CompoundExpression.h"
 #include "FracEquation.h"
 #include "CompoundInequation.h"
+#include "EquationDescriptor.hpp"
 
 int parse(string s)
 {
@@ -45,70 +46,58 @@ int main()
 {
 	initPrintFunctions();
 
-	CoefDescriptor cd;
-	cd.downHigh = 1;
-	cd.downLow = 1;
+	FracEquationDescriptor fed;
 
-	cd.upHigh = 10;
-	cd.upLow = 1;
+	fed.bvd.pNatural = 100;
+	fed.bvd.pRational = 50;
+	fed.bvd.upHigh = 10;
+	fed.bvd.upLow = 1;
 
-	cd.pNatural = 100;
-	cd.pIrational = 0;
-	cd.pRational = 0;
-	cd.pNegative = 50;
+	fed.bvd.downHigh = 1;
+	fed.bvd.downLow = 1;
 
+	fed.cf.pNatural = 100;
+	fed.cf.pRational = 50;
+	fed.cf.upHigh = 10;
+	fed.cf.upLow = 1;
+
+	fed.cf.downHigh = 1;
+	fed.cf.downHigh = 1;
+
+	fed.genType = 1;
+	fed.letter = 'x';
+
+	fed.maxTransformations = 3;
+	fed.maxVisualPower = 2;
+	fed.minTransformations = 1;
+
+	fed.power = 2;
+
+	fed.rd.pNatural = 100;
+	fed.rd.pFraction = 50;
+	fed.rd.upHigh = 5;
+	fed.rd.upLow = 1;
+
+	fed.rd.downHigh = 10;
+	fed.rd.downLow = 1;
+
+	FracEquation* fe = new FracEquation(fed.cf, fed.letter);
+
+	vector<Number> bad;
+	for (int i = 0; i < fed.power; i++) bad.push_back(fe->rnj->nextNumber(fed.rd)); // Недопустими стойности
 	vector<Number> roots;
-	roots.push_back(Number(2));
-	roots.push_back(Number(6));
+	for (int i = 0; i < fed.power; i++) roots.push_back(fe->rnj->nextNumber(fed.rd)); // корени
 
-	vector<Number> bads;
-	bads.push_back(Number(3));
-	bads.push_back(Number(4));
+	fe->construct2(roots, bad, fed.power);
 
-	stringstream ss;
+	cout << "equation at start: ";
+	fe->dbgPrint();
+	cout << endl;
 
-	CompoundInequation* ineq = new CompoundInequation();
-	ineq->construct(roots, 2);
-	ineq->cd = cd;
-	ineq->maxVisualPower = 2;
-	ineq->getSolutions();
+	fe->mergeFractions(false);
+	cout << "equation after merge: ";
+	fe->dbgPrint();
+	cout << endl;
 
-	ineq->print(ss);
-	ss << endl;
-
-	ineq->generateAndAddNode();
-	ineq->print(ss);
-	ss << endl;
-
-	ineq->findAndSplitPoly(true);
-	ineq->print(ss);
-	ss << endl;
-
-	ineq->printSolutions(ss);
-
-	/*FracEquation* eq = new FracEquation(cd, 'x');
-	eq->construct2(roots, bads, 2);
-
-	stringstream ss;
-	eq->print(ss);
-	ss << endl;
-
-	eq->splitToRight();
-	eq->print(ss);
-	ss << endl;
-
-	eq->addPoly(false);
-	eq->print(ss);
-	ss << endl;
-
-	eq->addNumberToFraction(false);
-	eq->print(ss);
-	ss << endl;
-
-	//eq->mergeFractions(true);
-	//eq->print(ss);
-	//ss << endl;*/
-
-	cout << endl << endl << ss.str();
 	system("pause");
 }

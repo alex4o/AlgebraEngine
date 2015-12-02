@@ -20,7 +20,7 @@ extern "C"
 		RNJ jesus;
 
 		Result res;
-		Expression e1,e2;
+		Expression e1, e2;
 		createEquivalentExpressions(e1, e2, ed, jesus);
 		stringstream ss1, ss2;
 		e1.print(ss1);
@@ -37,113 +37,148 @@ extern "C"
 	}
 
 
-MultiResult getEquations(EquationDescriptor ed, int count) {
+	MultiResult getEquations(EquationDescriptor ed, int count) {
 
-	MultiResult mr;
-	mr.count=count;
-	mr.problem= (char*)malloc(4096);
-	mr.solution= (char*)malloc(1024);
+		MultiResult mr;
+		mr.count = count;
+		mr.problem = (char*)malloc(4096);
+		mr.solution = (char*)malloc(1024);
 
-	Generator generator;
+		Generator generator;
 
-	stringstream ssp, sss;
-	char* probIdx = mr.problem;
-	char* solIdx = mr.solution;
-	for(int i = 0; i < count; i++)
-	{
-		Equation eq = generator.generateEquation(ed);
-		eq.print(ssp);
-		eq.printRoots(sss);
+		stringstream ssp, sss;
+		char* probIdx = mr.problem;
+		char* solIdx = mr.solution;
+		for (int i = 0; i < count; i++)
+		{
+			Equation eq = generator.generateEquation(ed);
+			eq.print(ssp);
+			eq.printRoots(sss);
 
-		strcpy(probIdx, ssp.str().c_str());
-		strcpy(solIdx, sss.str().c_str());
+			strcpy(probIdx, ssp.str().c_str());
+			strcpy(solIdx, sss.str().c_str());
 
-		mr.ptrProblem[i]=probIdx;
-		mr.ptrSolution[i]=solIdx;
+			mr.ptrProblem[i] = probIdx;
+			mr.ptrSolution[i] = solIdx;
 
-		probIdx+=strlen((const char*)probIdx)+1;
-		solIdx+=strlen((const char*)solIdx)+1;
+			probIdx += strlen((const char*)probIdx) + 1;
+			solIdx += strlen((const char*)solIdx) + 1;
 
-		ssp.str("");
-		sss.str("");
+			ssp.str("");
+			sss.str("");
+		}
+
+		return mr;
 	}
 
-	return mr;
-}
+	MultiResult getExpressions(ExpressionDescriptor ed, int count) {
+		MultiResult mr;
+		mr.count = count;
+		mr.problem = (char*)malloc(4096);
+		mr.solution = (char*)malloc(1024);
 
-MultiResult getExpressions(ExpressionDescriptor ed, int count) {
-	MultiResult mr;
-	mr.count=count;
-	mr.problem= (char*)malloc(4096);
-	mr.solution= (char*)malloc(1024);
+		RNJ jesus;
 
-	RNJ jesus;
+		stringstream ssp, sss;
+		char* probIdx = mr.problem;
+		char* solIdx = mr.solution;
+		for (int i = 0; i < count; i++)
+		{
+			Expression e1, e2;
+			createEquivalentExpressions(e1, e2, ed, jesus);
 
-	stringstream ssp, sss;
-	char* probIdx = mr.problem;
-	char* solIdx = mr.solution;
-	for(int i = 0; i < count; i++)
-	{
-		Expression e1,e2;
-		createEquivalentExpressions(e1, e2, ed, jesus);
+			e1.print(ssp);
+			e2.print(sss);
 
-		e1.print(ssp);
-		e2.print(sss);
+			strcpy(probIdx, ssp.str().c_str());
+			strcpy(solIdx, sss.str().c_str());
 
-		strcpy(probIdx, ssp.str().c_str());
-		strcpy(solIdx, sss.str().c_str());
+			mr.ptrProblem[i] = probIdx;
+			mr.ptrSolution[i] = solIdx;
 
-		mr.ptrProblem[i]=probIdx;
-		mr.ptrSolution[i]=solIdx;
+			probIdx += strlen((const char*)probIdx) + 1;
+			solIdx += strlen((const char*)solIdx) + 1;
 
-		probIdx+=strlen((const char*)probIdx)+1;
-		solIdx+=strlen((const char*)solIdx)+1;
+			ssp.str("");
+			sss.str("");
+		}
 
-		ssp.str("");
-		sss.str("");
+		return mr;
 	}
 
-	return mr;
-}
+	MultiResult getInequations(InequationDescriptor id, int count) {
+		MultiResult mr;
+		mr.count = count;
+		mr.problem = (char*)malloc(4096);
+		mr.solution = (char*)malloc(1024);
 
+		RNJ jesus;
 
+		Generator generator;
 
+		stringstream ssp, sss;
+		char* probIdx = mr.problem;
+		char* solIdx = mr.solution;
+		for (int i = 0; i < count; i++)
+		{
+			Inequation eq = generator.generateInequation(id);
+			eq.print(ssp);
+			eq.printRoots(sss);
 
+			strcpy(probIdx, ssp.str().c_str());
+			strcpy(solIdx, sss.str().c_str());
 
-MultiResult getInequations(InequationDescriptor id, int count) {
-	MultiResult mr;
-	mr.count=count;
-	mr.problem= (char*)malloc(4096);
-	mr.solution= (char*)malloc(1024);
+			mr.ptrProblem[i] = probIdx;
+			mr.ptrSolution[i] = solIdx;
 
-	RNJ jesus;
+			probIdx += strlen((const char*)probIdx) + 1;
+			solIdx += strlen((const char*)solIdx) + 1;
 
-	Generator generator;
+			ssp.str("");
+			sss.str("");
+		}
 
-	stringstream ssp, sss;
-	char* probIdx = mr.problem;
-	char* solIdx = mr.solution;
-	for(int i = 0; i < count; i++)
-	{
-		Inequation eq = generator.generateInequation(id);
-		eq.print(ssp);
-		eq.printRoots(sss);
-
-		strcpy(probIdx, ssp.str().c_str());
-		strcpy(solIdx, sss.str().c_str());
-
-		mr.ptrProblem[i]=probIdx;
-		mr.ptrSolution[i]=solIdx;
-
-		probIdx+=strlen((const char*)probIdx)+1;
-		solIdx+=strlen((const char*)solIdx)+1;
-
-		ssp.str("");
-		sss.str("");
+		return mr;
 	}
 
-	return mr;
-}
+	MultiResult getFracEquations(FracEquationDescriptor fed, int count)
+	{
+		MultiResult mr;
+		mr.count = count;
+		mr.problem = (char*)malloc(4096);
+		mr.solution = (char*)malloc(1024);
+
+		Generator gen;
+
+		stringstream ssp, sss;
+		char* probIdx = mr.problem;
+		char* solIdx = mr.solution;
+
+		for (int i = 0; i < count; i++)
+		{
+			FracEquation* fe = new FracEquation(fed.cf, fed.letter);
+			generateFracEquation(fe, fed);
+
+			fe->print(ssp);
+			fe->printSolutions(sss);
+
+			strcpy(probIdx, ssp.str().c_str());
+			strcpy(solIdx, sss.str().c_str());
+
+			mr.ptrProblem[i] = probIdx;
+			mr.ptrSolution[i] = solIdx;
+
+			probIdx += strlen((const char*)probIdx) + 1;
+			solIdx += strlen((const char*)solIdx) + 1;
+
+			ssp.str("");
+			sss.str("");
+
+			delete fe;
+		}
+
+		return mr;
+	}
 }
 
 

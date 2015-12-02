@@ -1,5 +1,10 @@
+#ifndef INTERFACE
+#define INTERFACE
+
 #include "ExpressionDescriptor.hpp"
 #include "Generator.hpp"
+#include "FracEquation.h"
+#include "FracEquationDescriptor.h"
 #include <string>
 #include <sstream>
 
@@ -26,7 +31,8 @@ extern "C"
     MultiResult getEquations(EquationDescriptor ed, int count);
     MultiResult getExpressions(ExpressionDescriptor ed, int count);
     MultiResult getInequations(InequationDescriptor id, int count);
+	MultiResult getFracEquations(FracEquationDescriptor fed, int count);
 }
 
-
+#endif
 

@@ -66,7 +66,7 @@ public:
 	Node(Polynomial* p, bool isNegative);
 	Node(Polynomial* p, Number& pow, bool isNegative); //когато има степен излиза (....) затова знака трябва да е изрично споменат
 
-	/*~Node();*/
+	~Node();
 };
 
 typedef void(*printFunction)(Node* node, bool isFirst, bool attachSign, stringstream& ss);

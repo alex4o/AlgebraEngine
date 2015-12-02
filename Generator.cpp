@@ -2,12 +2,10 @@
 
 using namespace std;
 
-
-
 void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed, RNJ& jesus)
 {
-	if (ed.minSubTerm < 1 || ed.minSubTerm > ed.maxPow) ed.minSubTerm = 1; // safeguard
-	if (ed.maxSubTerm < ed.minSubTerm || ed.maxSubTerm > ed.maxPow) ed.maxSubTerm = ed.maxPow;
+	ed.minSubTerm = 1; // safeguard
+	ed.maxSubTerm = ed.maxPow;
 
     int cSubTerms = jesus.nextInt(ed.minSubTerm, ed.maxSubTerm);
     int *powers = new int[cSubTerms];
@@ -231,3 +229,4 @@ Inequation Generator::generateInequation(InequationDescriptor &id) {
 
     return result;
 }
+
