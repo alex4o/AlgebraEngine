@@ -44,60 +44,37 @@ void printSigns(Node** arr, int n, stringstream& ss)
 
 int main()
 {
-	initPrintFunctions();
+	ExpressionDescriptor ed;
+	ed.maxPow = 2;
+	ed.letters[0] = 'x';
+	ed.cLetters = 1;
 
-	FracEquationDescriptor fed;
+	ed.minTerms = 1;
+	ed.maxTerms = 3;
 
-	fed.bvd.pNatural = 100;
-	fed.bvd.pRational = 50;
-	fed.bvd.upHigh = 10;
-	fed.bvd.upLow = 1;
+	ed.cf.pNatural = 100;
+	ed.cf.pRational = 50;
+	ed.cf.upHigh = 10;
+	ed.cf.upLow = 1;
 
-	fed.bvd.downHigh = 1;
-	fed.bvd.downLow = 1;
+	ed.transformCF.pNatural = 100;
+	ed.transformCF.pRational = 50;
+	ed.transformCF.upHigh = 10;
+	ed.transformCF.upLow = 1;
 
-	fed.cf.pNatural = 100;
-	fed.cf.pRational = 50;
-	fed.cf.upHigh = 10;
-	fed.cf.upLow = 1;
+	ed.minLetters = 1;
+	ed.maxLetters = 1;
 
-	fed.cf.downHigh = 1;
-	fed.cf.downHigh = 1;
+	ed.factored = true;
 
-	fed.genType = 1;
-	fed.letter = 'x';
+	MultiResult mr = getExpressions(ed, 3);
 
-	fed.maxTransformations = 3;
-	fed.maxVisualPower = 2;
-	fed.minTransformations = 1;
-
-	fed.power = 2;
-
-	fed.rd.pNatural = 100;
-	fed.rd.pFraction = 50;
-	fed.rd.upHigh = 5;
-	fed.rd.upLow = 1;
-
-	fed.rd.downHigh = 10;
-	fed.rd.downLow = 1;
-
-	FracEquation* fe = new FracEquation(fed.cf, fed.letter);
-
-	vector<Number> bad;
-	for (int i = 0; i < fed.power; i++) bad.push_back(fe->rnj->nextNumber(fed.rd)); // Недопустими стойности
-	vector<Number> roots;
-	for (int i = 0; i < fed.power; i++) roots.push_back(fe->rnj->nextNumber(fed.rd)); // корени
-
-	fe->construct2(roots, bad, fed.power);
-
-	cout << "equation at start: ";
-	fe->dbgPrint();
-	cout << endl;
-
-	fe->mergeFractions(false);
-	cout << "equation after merge: ";
-	fe->dbgPrint();
-	cout << endl;
+	for (int i = 0; i < 3; i++)
+	{
+		cout << mr.ptrProblem[i] << endl;
+		cout << mr.ptrSolution[i] << endl;
+		cout << endl;
+	}
 
 	system("pause");
 }

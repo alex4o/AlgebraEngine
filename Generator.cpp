@@ -12,7 +12,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
     int power = jesus.nextInt(cSubTerms, ed.maxPow);
 
     if(ed.factored==false)
-    {
+    { // задача за опростяване
         int cTerms = jesus.nextInt(ed.minTerms, ed.maxTerms);
 
         for(int i = 0; i < cTerms; i++)
@@ -62,7 +62,7 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
         }
     }
     else
-    {
+    { //задача за разлагане
         ed.minTerms=1;
         ed.maxTerms=1;
 
@@ -98,10 +98,9 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
                 char letter = ed.letters[choice];
                 Number coef = jesus.nextNumber(ed.cf);
 
-            currentTerm.coef = jesus.nextNumber(ed.transformCF); //избира се коефициента пред скобата
-			delete powers;
-            e1.addTerm(currentTerm, false); //от едната страна скобата се добавя както си е, а от другата
-            e2.addTerm(currentTerm, true); //в нормален
+				currentTerm.coef = jesus.nextNumber(ed.transformCF); //избира се коефициента пред скобата
+				e1.addTerm(currentTerm, false); //от едната страна скобата се добавя както си е, а от другата
+				e2.addTerm(currentTerm, true); //в нормален
 
                 Monomial mono(coef, letter);
                 poly.monos.push_back(mono);
@@ -109,14 +108,31 @@ void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescr
             }
 
             currentTerm.polys.push_back(poly);
-            currentTerm.powers.push_back(cPower);
+            currentTerm.powers.push_back(cPower);		
 
         }
+		currentTerm.coef = jesus.nextNumber(ed.transformCF);
 
-        currentTerm.coef = jesus.nextNumber(ed.transformCF);
-        delete powers;
+        delete[] powers;
+
+		e1.free.clear();
+		e1.terms.clear();
+		e2.free.clear();
+		e2.terms.clear();
+
+		/*stringstream ss;
+		ss << "e1 and e2 before add: ";
+		e1.print(ss);
+		ss << endl;
+		e2.print(ss);
+
+		cout << ss.str() << endl;*/	
+
         e1.addTerm(currentTerm, true);
         e2.addTerm(currentTerm, false);
+
+		/*cout << "in func: " << endl;
+		cout << ss.str() << endl;*/
     }
 }
 
