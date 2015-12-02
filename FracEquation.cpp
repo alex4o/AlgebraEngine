@@ -512,8 +512,12 @@ void generateFracEquation(FracEquation* fe, FracEquationDescriptor& fed)
 		vector<Number> roots;
 		for (int i = 0; i < fed.power; i++) roots.push_back(fe->rnj->nextNumber(fed.rd));
 
+#ifdef __linux__
+		Number tmp = fe->rnj->nextNumber(fed.rd);
+		for (int i = 0; i < fed.power; i++) fe->addBadValue(tmp);
+#else
 		for (int i = 0; i < fed.power; i++) fe->addBadValue(fe->rnj->nextNumber(fed.rd));
-
+#endif
 		fe->construct(roots, 2);
 	}
 	else if (fed.genType == 1)
