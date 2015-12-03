@@ -183,8 +183,8 @@ void CompoundInequation::generate(CompoundInequationDescriptor& cind)
 	cd = cind.cf;
 	maxVisualPower = cind.maxVisualPower;
 
-	cout << "orig: ";
-	dbgPrint();
+	/*cout << "orig: ";
+	dbgPrint();*/
 
 	int nTrans = rnj->nextInt(cind.minTrans, cind.maxTrans);
 	for (int i = 0; i < nTrans; i++)
@@ -197,8 +197,8 @@ void CompoundInequation::generate(CompoundInequationDescriptor& cind)
 		left->addNode(newNode, choice || flag);
 		right->addNode(newNode, !choice || flag);
 
-		cout << "step " << i << ": ";
-		dbgPrint();
+		/*cout << "step " << i << ": ";
+		dbgPrint();*/
 	}
 
 	cout << endl;
