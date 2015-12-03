@@ -40,7 +40,7 @@ public:
 	void mangle(); // не работи
 
 	void modOneSide(); // не работи
-	void modSide(bool choice);  // работи, но не ползвак
+	void modSide(bool choice);  // работи, но не ползвай
 
 	void modBothSides(); // не работи
 

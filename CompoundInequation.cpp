@@ -1,5 +1,12 @@
 #include "CompoundInequation.h"
 
+CompoundInequation::CompoundInequation()
+{
+	rnj = new RNJ();
+	left = new CompoundExpression();
+	right = new CompoundExpression();
+}
+
 void CompoundInequation::construct(vector<Number> &nv, char sign)
 {
 	letter = 'x';
@@ -152,5 +159,28 @@ void CompoundInequation::printSolutions(stringstream& ss)
 	{
 		solutions[i].print(ss);
 		if (i != size - 1) ss << " \\cup ";
+	}
+}
+
+void CompoundInequation::generate(CompoundInequationDescriptor& cind)
+{
+	vector<Number> roots;
+	for (int i = 0; i < cind.power; i++) roots.push_back(rnj->nextNumber(cind.rd));
+
+	letter = cind.letter;
+	char sign = (char)rnj->nextInt(0, 3);
+
+	construct(roots, sign);
+	getSolutions();
+
+	int nTrans = rnj->nextInt(cind.minTrans, cind.maxTrans);
+	for (int i = 0; i < nTrans; i++)
+	{
+		int cPower = rnj->nextInt(1, cind.maxVisualPower);
+		Node* newNode = new Node(cPower, letter, rnj, cind.cf);
+		bool choice = rnj->nextBool();
+
+		left->addNode(newNode, choice);
+		right->addNode(newNode, !choice);
 	}
 }

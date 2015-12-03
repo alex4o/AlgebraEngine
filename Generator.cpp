@@ -246,3 +246,7 @@ Inequation Generator::generateInequation(InequationDescriptor &id) {
     return result;
 }
 
+Number Generator::genNumber()
+{
+	return rnGenerator.nextNumber(descriptor);
+}

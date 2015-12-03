@@ -3,6 +3,7 @@
 
 #include "CompoundExpression.h"
 #include "Inequation.hpp"
+#include "CompoundInequationDescriptor.h"
 
 class CompoundInequation
 {
@@ -20,6 +21,8 @@ public:
 
 	char letter;
 
+	CompoundInequation();
+
 	void construct(vector<Number> &nv, char sign);
 	void getSolutions();
 	void findAndSplitPoly(bool choice);
@@ -27,6 +30,8 @@ public:
 
 	void print(stringstream& ss);
 	void printSolutions(stringstream& ss);
+
+	void generate(CompoundInequationDescriptor& cind);
 };
 
 #endif

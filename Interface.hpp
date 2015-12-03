@@ -5,6 +5,8 @@
 #include "Generator.hpp"
 #include "FracEquation.h"
 #include "FracEquationDescriptor.h"
+#include "CompoundInequation.h"
+#include "CompoundInequationDescriptor.h"
 #include <string>
 #include <sstream>
 
@@ -32,6 +34,7 @@ extern "C"
     MultiResult getExpressions(ExpressionDescriptor ed, int count);
     MultiResult getInequations(InequationDescriptor id, int count);
 	MultiResult getFracEquations(FracEquationDescriptor fed, int count);
+	MultiResult getCInequations(CompoundInequationDescriptor cind, int count);
 }
 
 #endif

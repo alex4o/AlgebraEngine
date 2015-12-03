@@ -14,7 +14,6 @@ using namespace std;
 #include "Inequation.hpp"
 #include "CompoundExpression.h"
 #include "FracEquation.h"
-#include "CompoundInequation.h"
 #include "EquationDescriptor.hpp"
 
 int parse(string s)
@@ -47,51 +46,49 @@ int main()
 	initPrintFunctions();
 	FracEquationDescriptor fed;
 
-	fed.bvd.pNatural = 100;
+	fed.bvd.pNatural = 50;
 	fed.bvd.pRational = 50;
 	fed.bvd.upHigh = 10;
 	fed.bvd.upLow = 1;
 
 	fed.bvd.downHigh = 1;
 	fed.bvd.downLow = 1;
+	fed.bvd.pNegative = 50;
 
-	fed.cf.pNatural = 100;
+	fed.cf.pNatural = 50;
 	fed.cf.pRational = 50;
 	fed.cf.upHigh = 7;
 	fed.cf.upLow = 1;
 
+	fed.cf.downLow = 1;
 	fed.cf.downHigh = 1;
-	fed.cf.downHigh = 1;
+	fed.cf.pNegative = 50;
 
-	fed.genType = 1;
+	fed.genType = 0;
 	fed.letter = 'x';
 
-	fed.maxTransformations = 3;
+	fed.maxTransformations = 5;
 	fed.maxVisualPower = 2;
-	fed.minTransformations = 1;
+	fed.minTransformations = 0;
 
 	fed.power = 2;
 
-	fed.rd.pNatural = 100;
+	fed.rd.pNatural = 50;
 	fed.rd.pFraction = 50;
 	fed.rd.upHigh = 7;
 	fed.rd.upLow = 1;
 
 	fed.rd.downHigh = 10;
 	fed.rd.downLow = 1;
+	fed.rd.pNegative = 50;
 
 	/*FracEquation* fe = new FracEquation(fed.cf, 'x');
-
 	cout << "orig: ";
 	fe->dbgPrint();
-
 	fe->addPoly(false);
-
 	cout << "first add: ";
 	fe->dbgPrint();
-
 	fe->addPoly(true);
-
 	cout << "second add: ";
 	fe->dbgPrint();*/
 
