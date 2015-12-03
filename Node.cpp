@@ -85,7 +85,8 @@ Node::Node(Node& src)
 Node::Node(Node* src)
 {
 	type = src->type;
-	power = new Number(*src->power);
+	if(src->power)power = new Number(*src->power);
+	else power = new Number(1);
 	nChildren = src->nChildren;
 	capacity = src->capacity;
 	if (src->getType() == polynomial)
@@ -652,8 +653,8 @@ void halfCopy(Node* dest, Node* src)
 
 void doMathRec(Node* &node, int maxGroupSize)
 {
-	cout << "doMathRec in: ";
-	node->dbgPrint();
+	/*cout << "doMathRec in: ";
+	node->dbgPrint();*/
 
 	char t = node->getType();
 	//cout << "current: ";
@@ -677,9 +678,9 @@ void doMathRec(Node* &node, int maxGroupSize)
 		//node->dbgPrint();
 	}
 
-	cout << "doMathRec out: ";
+	/*cout << "doMathRec out: ";
 	node->dbgPrint();
-	cout << endl;
+	cout << endl;*/
 }
 
 void doSumMath(Node* &s, int maxGroupSize)
@@ -804,16 +805,16 @@ void doProductMath(Node* &p, int maxGroupSize)
 
 	sort(p->children, p->children + p->nChildren, cmp);
 
-	cout << "\tdoProductMath in: ";
+	/*cout << "\tdoProductMath in: ";
 	p->dbgPrint();
-	cout << endl;
+	cout << endl;*/
 
 	int nPoly = 0;
 	int lim = p->nChildren;
 	while (nPoly < lim && p->children[nPoly]->getType() == polynomial)
 	{
-		cout << "\t\tpoly found: ";
-		p->children[nPoly]->dbgPrint();
+		/*cout << "\t\tpoly found: ";
+		p->children[nPoly]->dbgPrint();*/
 		nPoly++;
 	}
 
