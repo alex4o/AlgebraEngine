@@ -164,7 +164,8 @@ Node::Node(int power, char letter, RNJ* rnj, CoefDescriptor& cd)
 
 		if (tmp.fraction.down != 1)
 		{
-			poly->multByNumber(Number(tmp.fraction.down));
+			Number _tmp = Number(tmp.fraction.down);
+			poly->multByNumber(_tmp);
 		}
 
 		type = polynomial;
