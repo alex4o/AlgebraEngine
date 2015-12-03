@@ -45,42 +45,31 @@ int main()
 {
 	initPrintFunctions();
 	CompoundInequationDescriptor cind;
-
 	cind.cf.pNatural = 100;
 	cind.cf.pRational = 50;
 	cind.cf.upHigh = 7;
 	cind.cf.upLow = 1;
-
 	cind.cf.downHigh = 1;
 	cind.cf.downHigh = 1;
-
 	cind.letter = 'x';
-
 	cind.maxTrans = 3;
 	cind.maxVisualPower = 2;
 	cind.minTrans = 1;
-
 	cind.power = 2;
-
 	cind.rd.pNatural = 100;
 	cind.rd.pFraction = 50;
 	cind.rd.upHigh = 7;
 	cind.rd.upLow = 1;
-
 	cind.rd.downHigh = 10;
 	cind.rd.downLow = 1;
-
-
-	int n = 3;
-
-	MultiResult mr = getCInequations(cind, 3);
-
-	for (int i = 0; i < n; i++)
+	int n = 13;
+	MultiResult mr = getCInequations(cind, n);
+	/*for (int i = 0; i < n; i++)
 	{
 		cout << mr.ptrProblem[i] << endl;
 		cout << mr.ptrSolution[i] << endl;
 		cout << endl;
-	}
+	}*/
 
 	system("pause");
 }
