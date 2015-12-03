@@ -142,6 +142,51 @@ Node::Node(Polynomial* p, Number& pow, bool isNegative)
 	power = new Number(pow);
 }
 
+Node::Node(int power, char letter, RNJ* rnj, CoefDescriptor& cd)
+{
+	if (power == 0)
+	{
+		Number tmp = rnj->nextNumber(cd);
+		poly = new Polynomial(tmp);
+
+		type = polynomial;
+		nChildren = 0;
+		capacity = 0;
+		children = 0;
+		this->power = new Number(1);
+
+		simplifySign(this);
+	}
+	if (power == 1)
+	{
+		Number tmp = rnj->nextNumber(cd);
+		poly = new Polynomial(letter, tmp);
+
+		if (tmp.fraction.down != 1)
+		{
+			poly->multByNumber(Number(tmp.fraction.down));
+		}
+
+		type = polynomial;
+		nChildren = 0;
+		capacity = 0;
+		children = 0;
+		this->power = new Number(1);
+
+		simplifySign(this);
+		return;
+	}
+
+	type = product;
+	nChildren = capacity = power;
+	this->power = new Number(1);
+	poly = 0;
+	children = new Node*[power];
+
+	for (int i = 0; i < power; i++) children[i] = new Node(1, letter, rnj, cd);
+	simplifyProductSign(this);
+}
+
 Node::~Node()
 {
 	if (power)

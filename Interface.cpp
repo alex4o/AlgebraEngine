@@ -179,6 +179,43 @@ extern "C"
 
 		return mr;
 	}
+
+	MultiResult getCInequations(CompoundInequationDescriptor cind, int count)
+	{
+		MultiResult mr;
+		mr.count = count;
+		mr.problem = (char*)malloc(4096);
+		mr.solution = (char*)malloc(1024);
+
+		stringstream ssp, sss;
+		char* probIdx = mr.problem;
+		char* solIdx = mr.solution;
+
+		for (int i = 0; i < count; i++)
+		{
+			CompoundInequation* ci = new CompoundInequation();
+			ci->generate(cind);
+
+			ci->print(ssp);
+			ci->printSolutions(sss);
+
+			strcpy(probIdx, ssp.str().c_str());
+			strcpy(solIdx, sss.str().c_str());
+
+			mr.ptrProblem[i] = probIdx;
+			mr.ptrSolution[i] = solIdx;
+
+			probIdx += strlen((const char*)probIdx) + 1;
+			solIdx += strlen((const char*)solIdx) + 1;
+
+			ssp.str("");
+			sss.str("");
+
+			delete ci;
+		}
+
+		return mr;
+	}
 }
 
 

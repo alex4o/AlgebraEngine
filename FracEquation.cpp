@@ -201,19 +201,7 @@ void FracEquation::modSide(bool choice)
 	newNode->children[0] = new Node(top);
 	newNode->children[1] = new Node(bottom);
 
-	if (newNode->children[0]->poly->isNegative())
-	{
-		newNode->children[0]->poly->negate();
-		newNode->children[0]->flipSign();
-	}
-
-	if (newNode->children[1]->poly->isNegative())
-	{
-		newNode->children[1]->poly->negate();
-		newNode->children[1]->flipSign();
-	}
-
-	simplifyFractionSign(newNode);
+	simplifySign(newNode);
 
 	cout << "newNode: ";
 	newNode->dbgPrint();
@@ -534,7 +522,17 @@ void generateFracEquation(FracEquation* fe, FracEquationDescriptor& fed)
 	}
 
 	int nTransform = fe->rnj->nextInt(fed.minTransformations, fed.maxTransformations);
-	if (nTransform == 0) return;
+
+	if (fed.genType == 0)
+	{
+		fe->modSide(false);
+		fe->modSide(false);
+		fe->modSide(false);
+		nTransform--;
+		fe->balanceSides();
+	}
+
+	if (nTransform <= 0) return;
 
 	for (int i = 0; i < nTransform; i++)
 	{

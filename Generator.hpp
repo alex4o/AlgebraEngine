@@ -39,6 +39,7 @@ public:
 	Equation generateEquation(EquationDescriptor ed);
 	Equation generateEquation(EquationDescriptor ed, RNJ& jesus);
 	Inequation generateInequation(InequationDescriptor& id);
+	Number genNumber();
 };
 
 void createEquivalentExpressions(Expression& e1, Expression& e2, ExpressionDescriptor& ed, RNJ& jesus);
