@@ -156,11 +156,11 @@ extern "C"
 
 		for (int i = 0; i < count; i++)
 		{
-			FracEquation* fe = new FracEquation(fed.cf, fed.letter);
-			generateFracEquation(fe, fed);
+			FracEquation fe;
+			generateFracEquation(&fe, fed);
 
-			fe->print(ssp);
-			fe->printSolutions(sss);
+			fe.print(ssp);
+			fe.printSolutions(sss);
 
 			strcpy(probIdx, ssp.str().c_str());
 			strcpy(solIdx, sss.str().c_str());
@@ -178,8 +178,6 @@ extern "C"
 			ssp.clear();
 			sss.str("");
 			sss.clear();
-
-			delete fe;
 		}
 
 		return mr;
@@ -198,11 +196,11 @@ extern "C"
 
 		for (int i = 0; i < count; i++)
 		{
-			CompoundInequation* ci = new CompoundInequation();
-			ci->generate(cind);
+			CompoundInequation ci;
+			ci.generate(cind);
 
-			ci->print(ssp);
-			ci->printSolutions(sss);
+			ci.print(ssp);
+			ci.printSolutions(sss);
 
 			strcpy(probIdx, ssp.str().c_str());
 			strcpy(solIdx, sss.str().c_str());
@@ -221,7 +219,6 @@ extern "C"
 			sss.str("");
 			sss.clear();
 
-			delete ci;
 		}
 
 		return mr;
