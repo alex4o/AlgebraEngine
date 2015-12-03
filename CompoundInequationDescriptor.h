@@ -1,6 +1,10 @@
 #ifndef CInDesc
 #define CInDesc
 
+#include "RootDescriptor.hpp"
+#include "CoefDescriptor.hpp"
+
+
 struct CompoundInequationDescriptor
 {
 	CoefDescriptor cf, transformCF;
