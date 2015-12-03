@@ -3,11 +3,11 @@
 
 struct CoefDescriptor
 {
-    int pNatural;
-    int pRational;
-    int pIrational;
+	int pNatural;
+	int pRational;
+	int pIrational;
 
-    int upLow, upHigh, downLow, downHigh;
+	int upLow, upHigh, downLow, downHigh;
 
 	int pNegative;
 };
