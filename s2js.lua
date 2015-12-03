@@ -101,7 +101,7 @@ for k,struct in pairs(structs) do
     end
 
   end
-  print("----------")
+  print("}----------")
 
 end
 
