@@ -7,6 +7,13 @@ CompoundInequation::CompoundInequation()
 	right = new CompoundExpression();
 }
 
+CompoundInequation::~CompoundInequation()
+{
+	delete left;
+	delete right;
+	delete rnj;
+}
+
 void CompoundInequation::construct(vector<Number> &nv, char sign)
 {
 	letter = 'x';

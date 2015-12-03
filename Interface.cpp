@@ -171,8 +171,13 @@ extern "C"
 			probIdx += strlen((const char*)probIdx) + 1;
 			solIdx += strlen((const char*)solIdx) + 1;
 
+			cout << mr.ptrProblem[i] << endl;
+			cout << mr.ptrSolution[i] << endl;
+
 			ssp.str("");
+			ssp.clear();
 			sss.str("");
+			sss.clear();
 
 			delete fe;
 		}

@@ -23,6 +23,7 @@ public:
 	char letter;
 
 	CompoundInequation();
+	~CompoundInequation();
 
 	void construct(vector<Number> &nv, char sign);
 	void getSolutions();

@@ -39,6 +39,13 @@ FracEquation::FracEquation(CoefDescriptor &cd, char letter)
 	genInit = false;
 }
 
+FracEquation::~FracEquation()
+{
+	delete left;
+	delete right;
+	delete rnj;
+}
+
 void FracEquation::initGenerator()
 {
 	RootDescriptor rd;

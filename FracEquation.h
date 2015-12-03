@@ -33,6 +33,8 @@ public:
 	FracEquation(CoefDescriptor &cd);
 	FracEquation(CoefDescriptor &cd, char letter);
 
+	~FracEquation();
+
 	void construct(vector<Number> &roots, int maxPow);
 	void construct2(vector<Number> &roots, vector<Number> &bads, int maxPow);
 	void addBadValue(Number &badVal);
