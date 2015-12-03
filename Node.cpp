@@ -970,12 +970,8 @@ void splitPoly(Node* &poly, int rpow, char letter, CoefDescriptor& cd, RNJ* rnj)
 	Polynomial prod(Number(1));
 	for (int i = 0; i < rpow; i++)
 	{
-#ifdef __linux__
 		Number tmp = rnj->nextNumber(cd);
-		parts[i] = new Polynomial(letter, tmp);
-#else
-		parts[i] = new Polynomial(letter, rnj->nextNumber(cd));
-#endif		
+		parts[i] = new Polynomial(letter, tmp);	
 		prod = prod * (*parts[i]);
 	}
 	//parts[0] = new Polynomial(letter, Number(3));

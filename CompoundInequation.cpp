@@ -111,15 +111,11 @@ void CompoundInequation::generateAndAddNode()
 	int pow = rnj->nextInt(2, maxVisualPower);
 	
 	Polynomial** parts = new Polynomial*[pow];
-#ifdef __linux__
 	for (int i = 0; i < pow; i++)
 	{
 		Number tmp = rnj->nextNumber(cd);
 		parts[i] = new Polynomial(letter, tmp);
 	}
-#else
-	for (int i = 0; i < pow; i++) parts[i] = new Polynomial(letter, rnj->nextNumber(cd));
-#endif
 	
 
 	Node* newNode = new Node(product, pow);

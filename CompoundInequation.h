@@ -1,5 +1,5 @@
 #ifndef CInequation
-#define CINequation
+#define CInequation
 
 #include "CompoundExpression.h"
 #include "Inequation.hpp"
