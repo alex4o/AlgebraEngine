@@ -113,6 +113,17 @@ void CompoundInequation::findAndSplitPoly(bool choice)
 	}
 }
 
+void CompoundInequation::addPolyBothSides()
+{
+	int cPower = rnj->nextInt(1, maxVisualPower);
+	Node* newNode = new Node(cPower, letter, rnj, cd);
+	bool choice = rnj->nextBool();
+	
+	left->addNode(newNode, true);
+	right->addNode(newNode, true);
+	delete newNode;
+}
+
 void CompoundInequation::generateAndAddNode()
 {
 	int pow = rnj->nextInt(2, maxVisualPower);
@@ -169,14 +180,38 @@ void CompoundInequation::generate(CompoundInequationDescriptor& cind)
 	construct(roots, sign);
 	getSolutions();
 
+	cd = cind.cf;
+	maxVisualPower = cind.maxVisualPower;
+
+	cout << "orig: ";
+	dbgPrint();
+
 	int nTrans = rnj->nextInt(cind.minTrans, cind.maxTrans);
 	for (int i = 0; i < nTrans; i++)
 	{
 		int cPower = rnj->nextInt(1, cind.maxVisualPower);
 		Node* newNode = new Node(cPower, letter, rnj, cind.cf);
 		bool choice = rnj->nextBool();
+		bool flag = cPower == 1;
 
-		left->addNode(newNode, choice);
-		right->addNode(newNode, !choice);
+		left->addNode(newNode, choice || flag);
+		right->addNode(newNode, !choice || flag);
+
+		cout << "step " << i << ": ";
+		dbgPrint();
 	}
+
+	cout << endl;
+
+	left->removeZero();
+	right->removeZero();
+	addPolyBothSides();
+}
+
+void CompoundInequation::dbgPrint()
+{
+	stringstream ss;
+	print(ss);
+	ss << endl;
+	cout << ss.str();
 }

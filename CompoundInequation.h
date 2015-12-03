@@ -27,11 +27,14 @@ public:
 	void construct(vector<Number> &nv, char sign);
 	void getSolutions();
 	void findAndSplitPoly(bool choice);
+	void addPolyBothSides();
 	void generateAndAddNode();
 
 	void print(stringstream& ss);
 	void printSolutions(stringstream& ss);
 
 	void generate(CompoundInequationDescriptor& cind);
+
+	void dbgPrint();
 };
 #endif

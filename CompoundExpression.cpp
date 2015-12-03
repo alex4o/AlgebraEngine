@@ -86,6 +86,10 @@ void CompoundExpression::addNode(Node* node, bool calc)
 			return;
 		}
 	}
+
+	if (nNodes == capacity) resize();
+	nodes[nNodes++] = new Node(node);
+	return;
 }
 
 void CompoundExpression::multByNode(Node* node, bool spread)

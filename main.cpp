@@ -44,57 +44,36 @@ void printSigns(Node** arr, int n, stringstream& ss)
 int main()
 {
 	initPrintFunctions();
-	FracEquationDescriptor fed;
+	CompoundInequationDescriptor cind;
 
-	fed.bvd.pNatural = 150;
-	fed.bvd.pRational = 50;
-	fed.bvd.upHigh = 10;
-	fed.bvd.upLow = 1;
+	cind.cf.pNatural = 100;
+	cind.cf.pRational = 50;
+	cind.cf.upHigh = 7;
+	cind.cf.upLow = 1;
 
-	fed.bvd.downHigh = 1;
-	fed.bvd.downLow = 1;
-	fed.bvd.pNegative = 50;
+	cind.cf.downHigh = 1;
+	cind.cf.downHigh = 1;
 
-	fed.cf.pNatural = 150;
-	fed.cf.pRational = 50;
-	fed.cf.upHigh = 7;
-	fed.cf.upLow = 1;
+	cind.letter = 'x';
 
-	fed.cf.downLow = 1;
-	fed.cf.downHigh = 1;
-	fed.cf.pNegative = 50;
+	cind.maxTrans = 3;
+	cind.maxVisualPower = 2;
+	cind.minTrans = 1;
 
-	fed.genType = 1;
-	fed.letter = 'x';
+	cind.power = 2;
 
-	fed.maxTransformations = 2;
-	fed.maxVisualPower = 2;
-	fed.minTransformations = 0;
+	cind.rd.pNatural = 100;
+	cind.rd.pFraction = 50;
+	cind.rd.upHigh = 7;
+	cind.rd.upLow = 1;
 
-	fed.power = 2;
+	cind.rd.downHigh = 10;
+	cind.rd.downLow = 1;
 
-	fed.rd.pNatural = 150;
-	fed.rd.pFraction = 50;
-	fed.rd.upHigh = 7;
-	fed.rd.upLow = 1;
-
-	fed.rd.downHigh = 10;
-	fed.rd.downLow = 1;
-	fed.rd.pNegative = 50;
-
-	/*FracEquation* fe = new FracEquation(fed.cf, 'x');
-	cout << "orig: ";
-	fe->dbgPrint();
-	fe->addPoly(false);
-	cout << "first add: ";
-	fe->dbgPrint();
-	fe->addPoly(true);
-	cout << "second add: ";
-	fe->dbgPrint();*/
 
 	int n = 3;
 
-	MultiResult mr = getFracEquations(fed, n);
+	MultiResult mr = getCInequations(cind, 3);
 
 	for (int i = 0; i < n; i++)
 	{
