@@ -254,7 +254,7 @@ bool FracEquation::addPoly(bool choice)
 		CompoundExpression* otherSide = right;
 		if (choice) otherSide = left;
 
-		otherSide->addNode(new Node(poly, true), false);
+		otherSide->addNode(new Node(poly, false), false);
 
 		return true;
 	}
@@ -263,6 +263,13 @@ bool FracEquation::addPoly(bool choice)
 
 	Node* newNode = new Node(poly);
 	newNode->flipSign();
+
+	cout << endl << "chosenNode: ";
+	chosenNode->dbgPrint();
+	cout <<"newNode: ";
+	newNode->dbgPrint();
+	cout << endl;
+
 
 	add(chosenNode, newNode, true);
 	doMathRec(chosenNode, 100);
@@ -273,8 +280,8 @@ bool FracEquation::addPoly(bool choice)
 	simplifySign(newNode);
 	chosenSide->addNode(newNode, false);
 
-	cout << "before splitPoly: ";
-	dbgPrint();
+	/*cout << "before splitPoly: ";
+	dbgPrint();*/
 
 	splitPolyL(chosenSide->nodes[chosenSide->nNodes-1], !choice);
 	return true;
@@ -329,6 +336,7 @@ bool FracEquation::splitPolyL(Node* &pnode, bool sideToAdd)
 {
 	Node* newNode;
 	splitNode(pnode, newNode, cd, &gen, letter);
+	simplifySign(pnode);
 
 	CompoundExpression* chosen = left;
 	if (sideToAdd) chosen = right;
@@ -390,14 +398,14 @@ bool FracEquation::mergeFractions(bool choice)
 
 	add(chosenSide->nodes[args[0]], chosenSide->nodes[args[1]], true);
 
-	cout << "before doMathRec: ";
-	chosenSide->nodes[args[0]]->dbgPrint();
+	/*cout << "before doMathRec: ";
+	chosenSide->nodes[args[0]]->dbgPrint();*/
 
 	doMathRec(chosenSide->nodes[args[0]], 100);
 
-	cout << "after doMathRec: ";
+	/*cout << "after doMathRec: ";
 	chosenSide->nodes[args[0]]->dbgPrint();
-	cout << endl;
+	cout << endl;*/
 
 	delete chosenSide->nodes[args[1]];
 
@@ -537,25 +545,20 @@ void generateFracEquation(FracEquation* fe, FracEquationDescriptor& fed)
 	{
 		int transformChoice = fe->rnj->nextInt(0, 3);
 
-		cout << "i = " << i << "; choice: " << transformChoice << "; before: ";
+		cout << "i = " << i << "; choice: " << transformChoice << "; before:\n";
 		fe->dbgPrint();
+
+		//if (!fe->addPoly(fe->rnj->nextBool())) i--;
 
 		if (transformChoice == 0) // добавяме полином към случаен елемент
 		{
 			if(!fe->addPoly(fe->rnj->nextBool())) i--;
 		}
-		else if (transformChoice == 1)
+		else /*if (transformChoice == 1)*/
 		{
 			if (!fe->addNumberToFraction(fe->rnj->nextBool())) i--;
 		}
-		else if (transformChoice == 2)
-		{
-			if (!fe->findAndSplitPolySS(fe->rnj->nextBool())) i--;
-		}
-		else
-		{
-			if (!fe->mergeFractions(fe->rnj->nextBool())) i--;
-		}
+
 
 		cout << "after: ";
 		fe->dbgPrint();
