@@ -1004,7 +1004,7 @@ void splitNode(Node* dest, Node* &src, CoefDescriptor& cd, Generator* gen, char 
 
 		src = new Node(fraction);
 		src->children[0] = new Node(part);
-		src->children[1] = new Node(*(dest->children[1]));
+		src->children[1] = new Node(dest->children[1]);
 	}
 }
 

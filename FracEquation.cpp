@@ -115,7 +115,10 @@ void FracEquation::construct2(vector<Number> &roots, vector<Number> &bads, int m
 		Polynomial* rPoly = new Polynomial();
 		Node* rNode = new Node(rPoly);
 		right->addNode(rNode, false);
+		empty = false;
+		return;
 	}
+	empty = true;
 }
 
 void FracEquation::addBadValue(Number &n)
@@ -306,6 +309,7 @@ bool FracEquation::addNumberToFraction(bool choice)
 
 	newNode->flipSign();
 	simplifySign(newNode);
+	simplifySign(chosenSide->nodes[chosenIdx]);
 	
 	int idx = chosenSide->findPolyIdx();
 
@@ -358,6 +362,46 @@ bool FracEquation::findAndSplitPolySS(bool choice)
 	if (idxChosen != -1)
 	{
 		splitPoly(chosenSide->nodes[idxChosen], 2, letter, cd, rnj);
+		return true;
+	}
+	return false;
+}
+
+bool FracEquation::findAndSplitFraction(bool choice)
+{
+	CompoundExpression* chosenSide = left;
+	CompoundExpression* otherSide = right;
+	if (choice)
+	{
+		chosenSide = right;
+		otherSide = left;
+	}
+
+	if (chosenSide->nNodes == 0) return false;
+
+	int idxChosen = -1;
+	for (int i = 0; i < chosenSide->nNodes; i++)
+	{
+		Node* current = chosenSide->nodes[i];
+		if (current->getType() == fraction)
+		{
+			idxChosen = i;
+			/*cout << "The chosen one is: ";
+			current->dbgPrint();*/
+			break;
+		}
+	}
+
+	if (idxChosen != -1)
+	{
+		Node* newNode;
+		splitNode(chosenSide->nodes[idxChosen], newNode, cd, &gen, letter);
+
+		newNode->flipSign();
+		simplifySign(newNode);
+		otherSide->addNode(newNode, true);
+
+		delete newNode;
 		return true;
 	}
 	return false;
@@ -459,14 +503,23 @@ void FracEquation::print(stringstream& ss)
 
 void FracEquation::printSolutions(stringstream& ss)
 {
+	if (empty)
+	{
+		ss << letter << "\\in DC";
+		return;
+	}
+	int rootCnt = 0;
 	for (int i = 0; i < roots.size(); i++)
 	{
 		Number &root = roots[i];
 		if (find(badValues.begin(), badValues.end(), root) != badValues.end()) continue;
-		ss << letter << "_{" << i + 1 << "}=";
+		ss << letter << "_{" << rootCnt + 1 << "}=";
 		roots[i].print(false, false, ss);
-		if (i != roots.size()-1)ss << ", ";
+		if (i != roots.size() - 1)ss << "; ";
+		rootCnt++;
 	}
+
+	if (rootCnt == 0) ss << letter << "\\in \\varnothing";
 }
 
 void FracEquation::dbgPrint()
@@ -536,20 +589,24 @@ void generateFracEquation(FracEquation* fe, FracEquationDescriptor& fed)
 
 	for (int i = 0; i < nTransform; i++)
 	{
-		int transformChoice = fe->rnj->nextInt(0, 3);
+		int transformChoice = fe->rnj->nextInt(0, 10);
 
 		cout << "i = " << i << "; choice: " << transformChoice << "; before:\n";
 		fe->dbgPrint();
 
 		//if (!fe->addPoly(fe->rnj->nextBool())) i--;
 
-		if (transformChoice == 0) // добавяме полином към случаен елемент
+		if (transformChoice <= 3) // добавяме полином към случаен елемент
 		{
 			if(!fe->addPoly(fe->rnj->nextBool())) i--;
 		}
-		else /*if (transformChoice == 1)*/
+		else if (transformChoice > 3 && transformChoice <= 5)
 		{
 			if (!fe->addNumberToFraction(fe->rnj->nextBool())) i--;
+		}
+		else if (transformChoice > 5)
+		{
+			if (!fe->findAndSplitFraction(fe->rnj->nextBool())) i--;
 		}
 
 

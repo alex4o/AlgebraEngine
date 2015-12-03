@@ -67,7 +67,7 @@ void CompoundExpression::addNode(Node* node, bool calc)
 	if (!calc)
 	{
 		if (nNodes == capacity) resize();
-		nodes[nNodes++] = node;
+		nodes[nNodes++] = new Node(node);
 		return;
 	}
 

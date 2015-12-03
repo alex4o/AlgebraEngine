@@ -1,4 +1,4 @@
-#ifndef EquationHeader
+п»ї#ifndef EquationHeader
 #define EquationHeader
 
 #include "Expression.hpp"
@@ -73,7 +73,7 @@ public:
 
 
     void createMod(int power, RootDescriptor& _rd, bool nice)
-    { // не работи
+    { // РЅРµ СЂР°Р±РѕС‚Рё
         rd=_rd; 
         SPolynomial seed;
         seed.coef[0]=1;

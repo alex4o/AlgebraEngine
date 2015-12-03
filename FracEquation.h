@@ -27,6 +27,8 @@ public:
 	RNJ* rnj;
 	char letter;
 
+	bool empty;
+
 	FracEquation();
 	FracEquation(CoefDescriptor &cd);
 	FracEquation(CoefDescriptor &cd, char letter);
@@ -48,6 +50,7 @@ public:
 	bool addNumberToFraction(bool choice); // работи
 	bool splitPolyL(Node* &pnode, bool sideToAdd); // намира и прехвърля от другата страна
 	bool findAndSplitPolySS(bool choice); // намира и разделя от същата страна(SS = Same Side)
+	bool findAndSplitFraction(bool choice);
 	bool mergeFractions(bool choice); // работи, прави гадно
 
 	void balanceSides();

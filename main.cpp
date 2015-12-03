@@ -46,7 +46,7 @@ int main()
 	initPrintFunctions();
 	FracEquationDescriptor fed;
 
-	fed.bvd.pNatural = 50;
+	fed.bvd.pNatural = 150;
 	fed.bvd.pRational = 50;
 	fed.bvd.upHigh = 10;
 	fed.bvd.upLow = 1;
@@ -55,7 +55,7 @@ int main()
 	fed.bvd.downLow = 1;
 	fed.bvd.pNegative = 50;
 
-	fed.cf.pNatural = 50;
+	fed.cf.pNatural = 150;
 	fed.cf.pRational = 50;
 	fed.cf.upHigh = 7;
 	fed.cf.upLow = 1;
@@ -64,16 +64,16 @@ int main()
 	fed.cf.downHigh = 1;
 	fed.cf.pNegative = 50;
 
-	fed.genType = 0;
+	fed.genType = 1;
 	fed.letter = 'x';
 
-	fed.maxTransformations = 5;
+	fed.maxTransformations = 2;
 	fed.maxVisualPower = 2;
 	fed.minTransformations = 0;
 
 	fed.power = 2;
 
-	fed.rd.pNatural = 50;
+	fed.rd.pNatural = 150;
 	fed.rd.pFraction = 50;
 	fed.rd.upHigh = 7;
 	fed.rd.upLow = 1;
