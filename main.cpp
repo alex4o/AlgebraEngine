@@ -16,7 +16,7 @@ using namespace std;
 #include "FracEquation.h"
 #include "EquationDescriptor.hpp"
 
-int parse(string s)
+/*int parse(string s)
 {
     int n = 0;
     for(int i = 0; i < s.size(); i++)
@@ -25,9 +25,9 @@ int parse(string s)
         n+=s[i]-'0';
     }
     return n;
-}
+}*/
 
-void printSigns(Node** arr, int n)
+/*void printSigns(Node** arr, int n)
 {
 	cout << "signs: ";
 	for (int i = 0; i < n; i++) cout << arr[i]->getSign() << " ";
@@ -39,20 +39,12 @@ void printSigns(Node** arr, int n, stringstream& ss)
 	ss << "signs: ";
 	for (int i = 0; i < n; i++) ss << arr[i]->getSign() << " ";
 	ss << endl;
-}
+}*/
 
 int main()
 {
 	initPrintFunctions();
-	FracEquationDescriptor fed;
-
-	fed.bvd.pNatural = 100;
-	fed.bvd.pRational = 50;
-	fed.bvd.upHigh = 10;
-	fed.bvd.upLow = 1;
-
-	fed.bvd.downHigh = 1;
-	fed.bvd.downLow = 1;
+	CompoundInequationDescriptor fed;
 
 	fed.cf.pNatural = 100;
 	fed.cf.pRational = 50;
@@ -62,14 +54,14 @@ int main()
 	fed.cf.downHigh = 1;
 	fed.cf.downHigh = 1;
 
-	fed.genType = 1;
 	fed.letter = 'x';
 
-	fed.maxTransformations = 3;
+	fed.maxTrans = 3;
 	fed.maxVisualPower = 2;
-	fed.minTransformations = 1;
+	fed.minTrans = 1;
 
 	fed.power = 2;
+	fed.maxVisualPower = 2;
 
 	fed.rd.pNatural = 100;
 	fed.rd.pFraction = 50;
@@ -81,7 +73,7 @@ int main()
 
 	int n = 10;
 
-	MultiResult mr = getFracEquations(fed, n);
+	MultiResult mr = getCInequations(fed, n);
 
 	for (int i = 0; i < n; i++)
 	{
@@ -97,5 +89,5 @@ int main()
 		cout << endl;
 	}*/
 
-	system("pause");
+	//system("pause");
 }

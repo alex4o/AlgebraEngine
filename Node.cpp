@@ -93,11 +93,13 @@ Node::Node(Node* src)
 	{
 		poly = new Polynomial();
 		*poly = *(src->poly);
+		nChildren = 0;
 	}
 	else poly = 0;
 
 	if (capacity <= 0)
 	{
+		capacity = 0;
 		children = 0;
 		return;
 	}
@@ -264,6 +266,7 @@ void Node::print(bool isFirst, bool attachSign, stringstream& ss)
 
 void Node::dbgPrint()
 {
+	return;
 	stringstream ss;
 	print(true, false, ss);
 	cout << ss.str() << endl;

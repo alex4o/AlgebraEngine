@@ -145,39 +145,57 @@ extern "C"
 	{
 		MultiResult mr;
 		mr.count = count;
-		mr.problem = (char*)malloc(4096);
-		mr.solution = (char*)malloc(1024);
-
-		Generator gen;
-
+		
 		stringstream ssp, sss;
-		char* probIdx = mr.problem;
-		char* solIdx = mr.solution;
 
 		for (int i = 0; i < count; i++)
 		{
-			FracEquation fe;
-			generateFracEquation(&fe, fed);
+			try
+			{
+				stringstream ssp, sss;
+				FracEquation fe;
 
-			fe.print(ssp);
-			fe.printSolutions(sss);
+				try
+				{
+					generateFracEquation(&fe, fed);
+				}
+					catch (std::bad_alloc& e)
+				{
+					cout << e.what() << "; ";
+					cout << "bad alloc at generate, stopping loop!\n";
+					cout<<"i = "<< i << endl;
+					mr.count = i -1;
+					break;
+				}
+				
+				
 
-			strcpy(probIdx, ssp.str().c_str());
-			strcpy(solIdx, sss.str().c_str());
+				fe.print(ssp);
+				fe.printSolutions(sss);
+				const char* ss = sss.str().c_str();
+				const char* sp = ssp.str().c_str();
 
-			mr.ptrProblem[i] = probIdx;
-			mr.ptrSolution[i] = solIdx;
+				mr.ptrProblem[i] = (char*)malloc(strlen(sp) + 1);
+				mr.ptrSolution[i] = (char*)malloc(strlen(ss) + 1);;
 
-			probIdx += strlen((const char*)probIdx) + 1;
-			solIdx += strlen((const char*)solIdx) + 1;
+				strcpy(mr.ptrProblem[i], sp);
+				strcpy(mr.ptrSolution[i], ss);
 
-			cout << mr.ptrProblem[i] << endl;
-			cout << mr.ptrSolution[i] << endl;
+				//cout << mr.ptrProblem[i] << endl;
+				//cout << mr.ptrSolution[i] << endl;
 
-			ssp.str("");
-			ssp.clear();
-			sss.str("");
-			sss.clear();
+				//ssp.str("");
+				//ssp.clear();
+				//sss.str("");
+				//sss.clear();
+			}
+			catch (std::bad_alloc& e)
+			{
+				cout << e.what() << "; ";
+				cout << "bad alloc happenned, stopping loop!\n";
+				cout<<"i = "<< i << endl;
+				break;
+			}
 		}
 
 		return mr;
@@ -196,29 +214,37 @@ extern "C"
 
 		for (int i = 0; i < count; i++)
 		{
-			CompoundInequation ci;
-			ci.generate(cind);
+			try
+			{
+				CompoundInequation ci;
+				ci.generate(cind);
 
-			ci.print(ssp);
-			ci.printSolutions(sss);
+				ci.print(ssp);
+				ci.printSolutions(sss);
 
-			strcpy(probIdx, ssp.str().c_str());
-			strcpy(solIdx, sss.str().c_str());
+				strcpy(probIdx, ssp.str().c_str());
+				strcpy(solIdx, sss.str().c_str());
 
-			mr.ptrProblem[i] = probIdx;
-			mr.ptrSolution[i] = solIdx;
+				mr.ptrProblem[i] = probIdx;
+				mr.ptrSolution[i] = solIdx;
 
-			probIdx += strlen((const char*)probIdx) + 1;
-			solIdx += strlen((const char*)solIdx) + 1;
+				probIdx += strlen((const char*)probIdx) + 1;
+				solIdx += strlen((const char*)solIdx) + 1;
 
-			cout << mr.ptrProblem[i] << endl;
-			cout << mr.ptrSolution[i] << endl;
+				cout << mr.ptrProblem[i] << endl;
+				cout << mr.ptrSolution[i] << endl;
 
-			ssp.str("");
-			ssp.clear();
-			sss.str("");
-			sss.clear();
-
+				ssp.str("");
+				ssp.clear();
+				sss.str("");
+				sss.clear();
+			}
+			catch (std::bad_alloc& e)
+			{
+				cout << e.what() << "; ";
+				cout << "bad alloc happenned, stopping loop!\n";
+				break;
+			}
 		}
 
 		return mr;

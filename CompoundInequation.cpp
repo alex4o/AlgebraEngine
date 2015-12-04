@@ -217,6 +217,7 @@ void CompoundInequation::generate(CompoundInequationDescriptor& cind)
 
 void CompoundInequation::dbgPrint()
 {
+	return;
 	stringstream ss;
 	print(ss);
 	ss << endl;

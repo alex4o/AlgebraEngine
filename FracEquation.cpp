@@ -531,6 +531,7 @@ void FracEquation::printSolutions(stringstream& ss)
 
 void FracEquation::dbgPrint()
 {
+	return;
 	stringstream ss;
 	print(ss);
 	cout << ss.str() << endl;
@@ -563,6 +564,7 @@ bool solveSystem(Number& p, Number& q, Number& a, Number& b, Number& x1, Number&
 
 void generateFracEquation(FracEquation* fe, FracEquationDescriptor& fed)
 {
+	fe->cd = fed.cf;
 	if (fed.genType == 0)
 	{
 		vector<Number> roots;
@@ -577,8 +579,14 @@ void generateFracEquation(FracEquation* fe, FracEquationDescriptor& fed)
 		for (int i = 0; i < fed.power; i++) bad.push_back(fe->rnj->nextNumber(fed.rd)); // Недопустими стойности
 		vector<Number> roots;
 		for (int i = 0; i < fed.power; i++) roots.push_back(fe->rnj->nextNumber(fed.rd)); // корени
-
-		fe->construct2(roots, bad, fed.power);
+		try
+		{
+			fe->construct2(roots, bad, fed.power);
+		}
+		catch(std::bad_alloc& e)
+		{
+			cout<<"bad gen\n";
+		}
 	}
 
 	int nTransform = fe->rnj->nextInt(fed.minTransformations, fed.maxTransformations);
@@ -595,32 +603,59 @@ void generateFracEquation(FracEquation* fe, FracEquationDescriptor& fed)
 	if (nTransform <= 0) return;
 
 	for (int i = 0; i < nTransform; i++)
-	{
+	{		
 		int transformChoice = fe->rnj->nextInt(0, 10);
 
-		cout << "i = " << i << "; choice: " << transformChoice << "; before:\n";
-		fe->dbgPrint();
+		cout << "i = " << i << "; choice: "<< transformChoice << endl;
 
 		//if (!fe->addPoly(fe->rnj->nextBool())) i--;
 
 		if (transformChoice <= 3) // добавяме полином към случаен елемент
 		{
-			if(!fe->addPoly(fe->rnj->nextBool())) i--;
+			try
+			{
+				if(!fe->addPoly(fe->rnj->nextBool())) i--;
+			}
+			catch(std::bad_alloc& e)
+			{
+				cout << "bad addpoly"<<endl;
+				break;
+			}
+			
 		}
 		else if (transformChoice > 3 && transformChoice <= 5)
 		{
+			try
+			{
 			if (!fe->addNumberToFraction(fe->rnj->nextBool())) i--;
+		}
+			catch(std::bad_alloc& e)
+			{
+				cout << "bad addAddNumberToFraction"<<endl;
+				break;
+			}
 		}
 		else if (transformChoice > 5)
 		{
+			try
+			{
 			if (!fe->findAndSplitFraction(fe->rnj->nextBool())) i--;
 		}
-
-
-		cout << "after: ";
-		fe->dbgPrint();
-		cout << endl;
+			catch(std::bad_alloc& e)
+			{
+				cout << "bad findAndsplit"<<endl;
+				break;
+			}
+		}
 	}
 
-	fe->balanceSides();
+	try
+	{
+		fe->balanceSides();
+	}
+	catch(std::bad_alloc& e)
+	{
+		cout<<"bad balance\n";
+	}
+	
 }

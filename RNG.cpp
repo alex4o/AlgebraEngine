@@ -1,5 +1,5 @@
 #include "RNG.hpp"
-
+#include <assert.h>
 
 void RNJ::init()
 {
@@ -56,6 +56,7 @@ Number  RNJ::nextNumber(CoefDescriptor& cd)
     }
     else
     {
+	
        return Number();
     }
 }
