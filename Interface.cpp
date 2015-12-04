@@ -41,31 +41,28 @@ extern "C"
 
 		MultiResult mr;
 		mr.count = count;
-		mr.problem = (char*)malloc(4096);
-		mr.solution = (char*)malloc(1024);
 
 		Generator generator;
 
-		stringstream ssp, sss;
-		char* probIdx = mr.problem;
-		char* solIdx = mr.solution;
+		
 		for (int i = 0; i < count; i++)
 		{
+			stringstream ssp, sss;
 			Equation eq = generator.generateEquation(ed);
 			eq.print(ssp);
 			eq.printRoots(sss);
 
-			strcpy(probIdx, ssp.str().c_str());
-			strcpy(solIdx, sss.str().c_str());
+			string ss = sss.str();
+			string sp = ssp.str();
 
-			mr.ptrProblem[i] = probIdx;
-			mr.ptrSolution[i] = solIdx;
+			mr.ptrProblem[i] = (char*)malloc(sp.size() + 1);
+			mr.ptrSolution[i] = (char*)malloc(ss.size() + 1);;
 
-			probIdx += strlen((const char*)probIdx) + 1;
-			solIdx += strlen((const char*)solIdx) + 1;
+			sp.copy(mr.ptrProblem[i], sp.size(), 0);
+			mr.ptrProblem[i][sp.size()] = 0;
 
-			ssp.str("");
-			sss.str("");
+			ss.copy(mr.ptrSolution[i], ss.size(), 0);
+			mr.ptrSolution[i][ss.size()] = 0;
 		}
 
 		return mr;
@@ -74,33 +71,31 @@ extern "C"
 	MultiResult getExpressions(ExpressionDescriptor ed, int count) {
 		MultiResult mr;
 		mr.count = count;
-		mr.problem = (char*)malloc(4096);
-		mr.solution = (char*)malloc(1024);
-
+		
 		RNJ jesus;
 
 		stringstream ssp, sss;
-		char* probIdx = mr.problem;
-		char* solIdx = mr.solution;
 		for (int i = 0; i < count; i++)
 		{
+			stringstream ssp, sss;
 			Expression e1, e2;
 			createEquivalentExpressions(e1, e2, ed, jesus);
 
 			e1.print(ssp);
 			e2.print(sss);
 
-			strcpy(probIdx, ssp.str().c_str());
-			strcpy(solIdx, sss.str().c_str());
+			string ss = sss.str();
+			string sp = ssp.str();
 
-			mr.ptrProblem[i] = probIdx;
-			mr.ptrSolution[i] = solIdx;
+			mr.ptrProblem[i] = (char*)malloc(sp.size() + 1);
+			mr.ptrSolution[i] = (char*)malloc(ss.size() + 1);;
 
-			probIdx += strlen((const char*)probIdx) + 1;
-			solIdx += strlen((const char*)solIdx) + 1;
+			sp.copy(mr.ptrProblem[i], sp.size(), 0);
+			mr.ptrProblem[i][sp.size()] = 0;
 
-			ssp.str("");
-			sss.str("");
+			ss.copy(mr.ptrSolution[i], ss.size(), 0);
+			mr.ptrSolution[i][ss.size()] = 0;
+				
 		}
 
 		return mr;
@@ -109,33 +104,31 @@ extern "C"
 	MultiResult getInequations(InequationDescriptor id, int count) {
 		MultiResult mr;
 		mr.count = count;
-		mr.problem = (char*)malloc(4096);
-		mr.solution = (char*)malloc(1024);
-
+		
 		RNJ jesus;
 
 		Generator generator;
 
-		stringstream ssp, sss;
-		char* probIdx = mr.problem;
-		char* solIdx = mr.solution;
+		
 		for (int i = 0; i < count; i++)
 		{
+			stringstream ssp, sss;
 			Inequation eq = generator.generateInequation(id);
 			eq.print(ssp);
 			eq.printRoots(sss);
 
-			strcpy(probIdx, ssp.str().c_str());
-			strcpy(solIdx, sss.str().c_str());
+			string ss = sss.str();
+			string sp = ssp.str();
 
-			mr.ptrProblem[i] = probIdx;
-			mr.ptrSolution[i] = solIdx;
+			mr.ptrProblem[i] = (char*)malloc(sp.size() + 1);
+			mr.ptrSolution[i] = (char*)malloc(ss.size() + 1);;
 
-			probIdx += strlen((const char*)probIdx) + 1;
-			solIdx += strlen((const char*)solIdx) + 1;
+			sp.copy(mr.ptrProblem[i], sp.size(), 0);
+			mr.ptrProblem[i][sp.size()] = 0;
 
-			ssp.str("");
-			sss.str("");
+			ss.copy(mr.ptrSolution[i], ss.size(), 0);
+			mr.ptrSolution[i][ss.size()] = 0;
+				
 		}
 
 		return mr;
@@ -176,9 +169,11 @@ extern "C"
 				mr.ptrProblem[i] = (char*)malloc(sp.size() + 1);
 				mr.ptrSolution[i] = (char*)malloc(ss.size() + 1);;
 
-				strcpy(mr.ptrProblem[i], sp.c_str());
-				strcpy(mr.ptrSolution[i], ss.c_str());
+				sp.copy(mr.ptrProblem[i], sp.size(), 0);
+				mr.ptrProblem[i][sp.size()] = 0;
 
+				ss.copy(mr.ptrSolution[i], ss.size(), 0);
+				mr.ptrSolution[i][ss.size()] = 0;
 				//cout << mr.ptrProblem[i] << endl;
 				//cout << mr.ptrSolution[i] << endl;
 			}
@@ -216,8 +211,15 @@ extern "C"
 				mr.ptrProblem[i] = (char*)malloc(sp.size() + 1);
 				mr.ptrSolution[i] = (char*)malloc(ss.size() + 1);
 
-				strcpy(mr.ptrProblem[i], ssp.str().c_str());
-				strcpy(mr.ptrSolution[i], sss.str().c_str());
+				sp.copy(mr.ptrProblem[i], sp.size(), 0);
+				mr.ptrProblem[i][sp.size()] = 0;
+
+				ss.copy(mr.ptrSolution[i], ss.size(), 0);
+				mr.ptrSolution[i][ss.size()] = 0;
+
+
+				//strcpy(mr.ptrProblem[i], sp.c_str());
+				//strcpy(mr.ptrSolution[i], ss.c_str());
 
 				cout << mr.ptrProblem[i] << endl;
 				cout << mr.ptrSolution[i] << endl;
@@ -227,7 +229,7 @@ extern "C"
 				cout << e.what() << "; ";
 				cout << "bad alloc happenned, stopping loop!\n";
 				mr.count = i - 1;
-				break;
+				return mr;
 			}
 		}
 
