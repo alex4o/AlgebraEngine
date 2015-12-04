@@ -342,20 +342,16 @@ val valFracEquations(FracEquationDescriptor fed, int count)
 	Generator gen;
 	stringstream ssp, sss;
 
-	char* probIdx = mr.problem;
-	char* solIdx = mr.solution;
 
 	for (int i = 0; i < count; i++)
 	{
 		FracEquation* fe = new FracEquation(fed.cf, fed.letter);
 		generateFracEquation(fe, fed);
-
-		fe->print(ssp);
-		fe->printSolutions(sss);
-
+		
 		val result = val::array();
 		result.set(0,ssp.str());
 		result.set(1,sss.str());
+		mr.set(i,result);
 		mr.set(i,result);
 
 		delete fe;
