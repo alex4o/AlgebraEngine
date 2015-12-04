@@ -305,6 +305,7 @@ val valEquations(EquationDescriptor ed, int count) {
 	for(int i = 0; i < count; i++)
 	{
 		Equation eq = generator.generateEquation(ed);
+
 		eq.print(ssp);
 		eq.printRoots(sss);
 
@@ -338,11 +339,11 @@ val valFracEquations(FracEquationDescriptor fed, int count)
 {
 	val mr = val::array();
 	Generator gen;
-	stringstream ssp, sss;
-
 
 	for (int i = 0; i < count; i++)
 	{
+		stringstream ssp, sss;
+
 		FracEquation* fe = new FracEquation(fed.cf, fed.letter);
 		generateFracEquation(fe, fed);
 		fe.print(ssp);
@@ -449,7 +450,7 @@ EMSCRIPTEN_BINDINGS(interface) {
 		.field("genType",&FracEquationDescriptor::genType)
 		.field("rd",&FracEquationDescriptor::rd)
 		.field("bvd",&FracEquationDescriptor::bvd)
-		.field("cf",&FracEquationDescriptor::cf)
+		.field("cf",&FracEquationDescriptor::cf);
 
 	value_object<CompoundInequationDescriptor>("CompoundInequationDescriptor")
 		.field("cf",&CompoundInequationDescriptor::cf)
@@ -459,7 +460,7 @@ EMSCRIPTEN_BINDINGS(interface) {
 		.field("power",&CompoundInequationDescriptor::power)
 		.field("maxVisualPower",&CompoundInequationDescriptor::maxVisualPower)
 		.field("minTrans",&CompoundInequationDescriptor::minTrans)
-		.field("maxTrans",&CompoundInequationDescriptor::maxTrans)
+		.field("maxTrans",&CompoundInequationDescriptor::maxTrans);
 
 
 	value_object<NewResult>("Result")
