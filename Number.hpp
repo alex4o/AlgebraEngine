@@ -73,7 +73,7 @@ public:
     {
         fraction.up*=k;
         int g = gcd(fraction.up, fraction.down);
-        if(g==1) return;
+        if(g<=1) return;
         fraction.up/=g;
         fraction.down/=g;
         if(fraction.down==1) type = rational | natural;
