@@ -182,7 +182,11 @@ extern "C"
 				cout << e.what() << "; ";
 				cout << "bad alloc happenned, stopping loop!\n";
 				cout<<"i = "<< i << endl;
-				break;
+				mr.count = i;
+				mr.ptrSolution[i] = "Error";
+				mr.ptrProblem[i] = "Error";
+				return mr;
+
 			}
 		}
 
@@ -228,7 +232,9 @@ extern "C"
 			{
 				cout << e.what() << "; ";
 				cout << "bad alloc happenned, stopping loop!\n";
-				mr.count = i - 1;
+				mr.count = i;
+				mr.ptrSolution[i] = "Error";
+				mr.ptrProblem[i] = "Error";
 				return mr;
 			}
 		}
