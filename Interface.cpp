@@ -172,14 +172,14 @@ extern "C"
 
 				fe.print(ssp);
 				fe.printSolutions(sss);
-				const char* ss = sss.str().c_str();
-				const char* sp = ssp.str().c_str();
+				string ss = sss.str();
+				string sp = ssp.str();
 
-				mr.ptrProblem[i] = (char*)malloc(strlen(sp) + 1);
-				mr.ptrSolution[i] = (char*)malloc(strlen(ss) + 1);;
+				mr.ptrProblem[i] = (char*)malloc(sp.lenght() + 1);
+				mr.ptrSolution[i] = (char*)malloc(ss.lenght() + 1);;
 
-				strcpy(mr.ptrProblem[i], sp);
-				strcpy(mr.ptrSolution[i], ss);
+				strcpy(mr.ptrProblem[i], sp.c_str());
+				strcpy(mr.ptrSolution[i], ss.c_str());
 
 				//cout << mr.ptrProblem[i] << endl;
 				//cout << mr.ptrSolution[i] << endl;

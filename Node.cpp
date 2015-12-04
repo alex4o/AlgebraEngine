@@ -620,7 +620,12 @@ void simplifyProductSign(Node* prod)
 		idx1 &= 1;
 	}
 
-	if (idx1 == 0 && idx2 == 0) return;
+	if (idx1 == 0 && idx2 == 0)
+	{
+		delete[] negCompIdx;
+		delete[] negSimpIdx;
+		return;
+	} 
 	if (idx1 && idx2)
 	{
 		prod->children[negCompIdx[0]]->flipSign();
@@ -637,6 +642,9 @@ void simplifyProductSign(Node* prod)
 		prod->children[negSimpIdx[0]]->flipSign();
 		prod->flipSign();
 	}
+
+	delete[] negCompIdx;
+	delete[] negSimpIdx;
 	
 }
 
@@ -809,14 +817,9 @@ void doSumMath(Node* &s, int maxGroupSize)
 
 	if (actualSize == 0)
 	{
-		delete s->power;
-		delete s->children;
-		s->power = 0;
-		s->children = 0;
-
 		delete s;
-		delete newChildren;
-		delete polys;
+		delete[] newChildren;
+		delete[] polys;
 
 		Polynomial* p = new Polynomial();
 		s = new Node(p);
@@ -934,14 +937,9 @@ void doProductMath(Node* &p, int maxGroupSize)
 
 	if (actualSize == 0)
 	{
-		delete p->power;
-		delete p->children;
-		p->power = 0;
-		p->children = 0;
-
 		delete p;
-		delete newChildren;
-		delete polys;
+		delete[] newChildren;
+		delete[] polys;
 
 		Polynomial* pr = new Polynomial(Number(1));
 		p = new Node(pr);
@@ -956,8 +954,8 @@ void doProductMath(Node* &p, int maxGroupSize)
 		if (p->getSign() == '-') last->flipSign();
 
 		delete p;
-		delete newChildren;
-		delete polys;
+		delete[] newChildren;
+		delete[] polys;
 
 		p = last;
 		return;
@@ -966,7 +964,7 @@ void doProductMath(Node* &p, int maxGroupSize)
 	int idx = cnt;
 	for (int i = nPoly; i < p->nChildren; i++) newChildren[idx++] = p->children[i];
 
-	delete* p->children;
+	delete[] p->children;
 	p->children = newChildren;
 	p->nChildren = actualSize;
 

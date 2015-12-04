@@ -129,7 +129,7 @@ Term RNJ::nextTerm(CoefDescriptor &cf, int maxPower, char letter, bool nice, cha
         result.powers.push_back(cPower);
     }
 
-	delete powers;
+	delete[] powers;
     
 	return result;
 }
