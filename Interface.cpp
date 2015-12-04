@@ -254,8 +254,8 @@ using namespace emscripten;
 
 val genRes(stringstream s1, stringstream s2){
 		val result = val::array();
-		result.set(0,ssp.str());
-		result.set(1,sss.str());
+		result.set(0,s1.str());
+		result.set(1,s2.str());
 		return result;	
 }
 
@@ -329,7 +329,7 @@ val valExpressions(ExpressionDescriptor ed, int count) {
 		e1.print(ssp);
 		e2.print(sss);
 		
-		res.set(i, genRes(ssp ,sss));
+		mr.set(i, genRes(ssp ,sss));
 	}
 
 	return mr;
@@ -349,7 +349,7 @@ val valFracEquations(FracEquationDescriptor fed, int count)
 		fe.print(ssp);
 		fe.printSolutions(sss);
 
-		res.set(i, genRes(ssp ,sss));
+		mr.set(i, genRes(ssp ,sss));
 		
 
 		delete fe;
@@ -369,7 +369,7 @@ val valFracEquations(FracEquationDescriptor fed, int count)
 			ci.print(ssp);
 			ci.printSolutions(sss);
 			
-			res.set(i, genRes(ssp ,sss));
+			mr.set(i, genRes(ssp ,sss));
 		}
 
 		return mr;
