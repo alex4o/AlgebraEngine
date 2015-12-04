@@ -146,8 +146,6 @@ extern "C"
 		MultiResult mr;
 		mr.count = count;
 		
-		stringstream ssp, sss;
-
 		for (int i = 0; i < count; i++)
 		{
 			try
@@ -175,19 +173,14 @@ extern "C"
 				string ss = sss.str();
 				string sp = ssp.str();
 
-				mr.ptrProblem[i] = (char*)malloc(sp.lenght() + 1);
-				mr.ptrSolution[i] = (char*)malloc(ss.lenght() + 1);;
+				mr.ptrProblem[i] = (char*)malloc(sp.size() + 1);
+				mr.ptrSolution[i] = (char*)malloc(ss.size() + 1);;
 
 				strcpy(mr.ptrProblem[i], sp.c_str());
 				strcpy(mr.ptrSolution[i], ss.c_str());
 
 				//cout << mr.ptrProblem[i] << endl;
 				//cout << mr.ptrSolution[i] << endl;
-
-				//ssp.str("");
-				//ssp.clear();
-				//sss.str("");
-				//sss.clear();
 			}
 			catch (std::bad_alloc& e)
 			{
@@ -205,44 +198,35 @@ extern "C"
 	{
 		MultiResult mr;
 		mr.count = count;
-		mr.problem = (char*)malloc(4096);
-		mr.solution = (char*)malloc(1024);
-
-		stringstream ssp, sss;
-		char* probIdx = mr.problem;
-		char* solIdx = mr.solution;
-
+				
 		for (int i = 0; i < count; i++)
 		{
 			try
 			{
 				CompoundInequation ci;
 				ci.generate(cind);
+				stringstream ssp, sss;
 
 				ci.print(ssp);
 				ci.printSolutions(sss);
+				
+				string sp = ssp.str();
+				string ss = sss.str();
 
-				strcpy(probIdx, ssp.str().c_str());
-				strcpy(solIdx, sss.str().c_str());
+				mr.ptrProblem[i] = (char*)malloc(sp.size() + 1);
+				mr.ptrSolution[i] = (char*)malloc(ss.size() + 1);
 
-				mr.ptrProblem[i] = probIdx;
-				mr.ptrSolution[i] = solIdx;
-
-				probIdx += strlen((const char*)probIdx) + 1;
-				solIdx += strlen((const char*)solIdx) + 1;
+				strcpy(mr.ptrProblem[i], ssp.str().c_str());
+				strcpy(mr.ptrSolution[i], sss.str().c_str());
 
 				cout << mr.ptrProblem[i] << endl;
 				cout << mr.ptrSolution[i] << endl;
-
-				ssp.str("");
-				ssp.clear();
-				sss.str("");
-				sss.clear();
 			}
 			catch (std::bad_alloc& e)
 			{
 				cout << e.what() << "; ";
 				cout << "bad alloc happenned, stopping loop!\n";
+				mr.count = i - 1;
 				break;
 			}
 		}

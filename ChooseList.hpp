@@ -48,6 +48,11 @@ public:
         external=true;
     }
 
+	~ChooseList()
+	{
+		if (!external) delete jesus;
+	}
+
     bool fill(int cElements)
     {
         if(cElements>1000) return false;

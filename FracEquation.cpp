@@ -170,8 +170,6 @@ void FracEquation::modSide(bool choice)
 	{
 		if (ce->nodes[0]->getType() == polynomial)
 		{
-			int pow = ce->nodes[0]->poly->getMaxPower();
-
 			Node* current = ce->nodes[0];
 
 			Polynomial* part = new Polynomial();

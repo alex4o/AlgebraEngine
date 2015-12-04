@@ -4,6 +4,7 @@ Node::Node()
 {
 	type = 0;
 	nChildren = 0;
+	children = 0;
 	poly = 0;
 	power = 0;
 }
@@ -79,7 +80,7 @@ Node::Node(Node& src)
 	}
 	
 	children = new Node*[capacity];
-	for (int i = 0; i < nChildren; i++) children[i] = new Node(*src.children[i]);
+	for (int i = 0; i < nChildren; i++) children[i] = new Node(src.children[i]);
 }
 
 Node::Node(Node* src)
@@ -116,6 +117,7 @@ Node::Node(Polynomial* p)
 	
 	nChildren = 0;
 	children = 0;
+	capacity = 0;
 
 	power = new Number(1);
 }
@@ -655,9 +657,6 @@ void simplifyFractionSign(Node* frac)
 	Node* top = frac->children[0];
 	Node* bottom = frac->children[1];
 
-	char t_type = top->getType();
-	char b_type = bottom->getType();
-
 	int negCnt = 0;
 
 	simplifySign(top);
@@ -834,8 +833,8 @@ void doSumMath(Node* &s, int maxGroupSize)
 		if (s->getSign() == '-') last->flipSign();
 
 		delete s;
-		delete newChildren;
-		delete polys;
+		delete[] newChildren;
+		delete[] polys;
 
 		s = last;
 		return;		

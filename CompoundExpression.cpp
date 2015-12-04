@@ -108,6 +108,7 @@ void CompoundExpression::multByNode(Node* node, bool spread)
 			s->resize(nNodes);
 			for (int i = 0; i < nNodes; i++) s->children[i] = arr[i];
 		}
+		delete[] arr;
 	}
 	else
 	{
