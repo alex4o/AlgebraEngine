@@ -252,6 +252,13 @@ extern "C"
 
 using namespace emscripten;
 
+val genRes(stringstream s1, stringstream s2){
+		val result = val::array();
+		result.set(0,ssp.str());
+		result.set(1,sss.str());
+		return result;	
+}
+
 val valInequations(InequationDescriptor id, int count) {
 	RNJ jesus;
 	val res = val::array();
@@ -263,10 +270,7 @@ val valInequations(InequationDescriptor id, int count) {
 		Inequation eq = generator.generateInequation(id);
 		eq.print(ssp);
 		eq.printRoots(sss);
-		val result = val::array();
-		result.set(0,ssp.str());
-		result.set(1,sss.str());
-		res.set(i,result);
+		res.set(i, genRes(ssp ,sss));
 	}
 
 	return res;
@@ -304,10 +308,7 @@ val valEquations(EquationDescriptor ed, int count) {
 		eq.print(ssp);
 		eq.printRoots(sss);
 
-		val result = val::array();
-		result.set(0,ssp.str());
-		result.set(1,sss.str());
-		mr.set(i,result);
+		res.set(i, genRes(ssp ,sss));
 
 	}
 
@@ -327,10 +328,7 @@ val valExpressions(ExpressionDescriptor ed, int count) {
 		e1.print(ssp);
 		e2.print(sss);
 		
-		val result = val::array();
-		result.set(0,ssp.str());
-		result.set(1,sss.str());
-		mr.set(i,result);
+		res.set(i, genRes(ssp ,sss));
 	}
 
 	return mr;
@@ -347,24 +345,44 @@ val valFracEquations(FracEquationDescriptor fed, int count)
 	{
 		FracEquation* fe = new FracEquation(fed.cf, fed.letter);
 		generateFracEquation(fe, fed);
+		fe.print(ssp);
+		fe.printSolutions(sss);
+
+		res.set(i, genRes(ssp ,sss));
 		
-		val result = val::array();
-		result.set(0,ssp.str());
-		result.set(1,sss.str());
-		mr.set(i,result);
-		mr.set(i,result);
 
 		delete fe;
 	}
 	return mr;
 }
 
+	val valCInequations(CompoundInequationDescriptor cind, int count)
+	{
+		val mr = val::array();
+		for (int i = 0; i < count; i++)
+		{
+			CompoundInequation ci;
+			ci.generate(cind);
+			stringstream ssp, sss;
+
+			ci.print(ssp);
+			ci.printSolutions(sss);
+			
+			res.set(i, genRes(ssp ,sss));
+		}
+
+		return mr;
+	}
+}
 
 EMSCRIPTEN_BINDINGS(interface) {
 
 	emscripten::function("getInequations", &valInequations);
 	emscripten::function("getExpressions", &valExpressions);
 	emscripten::function("getEquations", &valEquations);
+	emscripten::function("getFracEquations", &valFracEquations);
+	emscripten::function("getCInequations", &valCInequations);
+
 	emscripten::function("oprosti", &valOprosti);
 
 	value_object<InequationDescriptor>("InequationDescriptor")
@@ -421,6 +439,27 @@ EMSCRIPTEN_BINDINGS(interface) {
 		.field("cd",&EquationDescriptor::cd)
 		.field("transformCF",&EquationDescriptor::transformCF)
 		.field("nice",&EquationDescriptor::nice);
+
+	value_object<FracEquationDescriptor>("FracEquationDescriptor")
+		.field("power",&FracEquationDescriptor::power)
+		.field("maxVisualPower",&FracEquationDescriptor::maxVisualPower)
+		.field("minTransformations",&FracEquationDescriptor::minTransformations)
+		.field("maxTransformations",&FracEquationDescriptor::maxTransformations)
+		.field("letter",&FracEquationDescriptor::letter)
+		.field("genType",&FracEquationDescriptor::genType)
+		.field("rd",&FracEquationDescriptor::rd)
+		.field("bvd",&FracEquationDescriptor::bvd)
+		.field("cf",&FracEquationDescriptor::cf)
+
+	value_object<CompoundInequationDescriptor>("CompoundInequationDescriptor")
+		.field("cf",&CompoundInequationDescriptor::cf)
+		.field("transformCF",&CompoundInequationDescriptor::transformCF)
+		.field("rd",&CompoundInequationDescriptor::rd)
+		.field("letter",&CompoundInequationDescriptor::letter)
+		.field("power",&CompoundInequationDescriptor::power)
+		.field("maxVisualPower",&CompoundInequationDescriptor::maxVisualPower)
+		.field("minTrans",&CompoundInequationDescriptor::minTrans)
+		.field("maxTrans",&CompoundInequationDescriptor::maxTrans)
 
 
 	value_object<NewResult>("Result")
