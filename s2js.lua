@@ -50,7 +50,7 @@ type_c = {
   bool = "boolean",
   char = "byte",
 }
-bind = false
+bind = true
 -- json output
 t = {}
 if bind then

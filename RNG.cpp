@@ -13,6 +13,9 @@ void RNJ::init()
 		std::cout<<"init rand\n";
 	#elif _WIN32
         srand(time(0));
+#elif EMSCRIPTEN
+srand(time(0));
+
 #endif
         done=true;
     }

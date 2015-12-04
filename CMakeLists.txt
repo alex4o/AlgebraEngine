@@ -9,7 +9,7 @@ endif(WIN32)
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL Emscripten)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --bind -g -Os --memory-init-file 0 -std=c++11")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s ALLOW_MEMORY_GROWTH=1  --bind -g -Os --memory-init-file 0 -std=c++11")
 
 endif(${CMAKE_SYSTEM_NAME} STREQUAL Emscripten)
 
