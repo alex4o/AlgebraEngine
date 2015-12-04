@@ -1,4 +1,3 @@
-local ffi = require("ffi")
 local lpeg = require("lpeg")
 
 
