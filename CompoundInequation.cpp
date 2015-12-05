@@ -248,8 +248,17 @@ void CompoundInequation::generate(CompoundInequationDescriptor& cind)
 
 		try
 		{
-			left->addNode(newNode, choice || flag);
-			right->addNode(newNode, !choice || flag);
+			if(flag)
+			{
+				if(left->addNode(newNode, true)) right->addNode(newNode, true);
+			}
+			if(choice)
+			{
+				if(left->addNode(newNode, true)) right->addNode(newNode, false);
+			}
+			else if(right->addNode(newNode, true)) left->addNode(newNode, false);
+			//left->addNode(newNode, choice || flag);
+			//right->addNode(newNode, !choice || flag);
 		}
 		catch(std::exception& e)
 		{

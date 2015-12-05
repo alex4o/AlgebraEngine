@@ -24,7 +24,7 @@ public:
 	int findPolyIdx();
 
 	void print(stringstream& ss);
-	void addNode(Node* node, bool calc); //calc - дали да смята(ако е възможно)
+	bool addNode(Node* node, bool calc); //calc - дали да смята(ако е възможно)
 	void multByNode(Node* node, bool spread); //дали да смята(ако е възможно)
 	void divideByNode(Node* node, bool spread); //текущ/нов, spread не се ползва в момента
 	void divideByNodeRec(Node* node); //нов/текущ

@@ -62,7 +62,7 @@ Node* CompoundExpression::findNodeForSum(Node* start)
 	return 0;
 }
 
-void CompoundExpression::addNode(Node* node, bool calc)
+bool CompoundExpression::addNode(Node* node, bool calc)
 {
 	if (!calc)
 	{
@@ -75,9 +75,9 @@ void CompoundExpression::addNode(Node* node, bool calc)
 		catch(std::exception& e)
 		{
 			cout<<e.what()<<"; couldn't add node!";
-			return;
+			return false;
 		}
-		return;
+		return true;
 	}
 
 
@@ -90,7 +90,7 @@ void CompoundExpression::addNode(Node* node, bool calc)
 	catch(std::exception& e)
 	{
 		cout<<e.what()<<"; couldn't add node!";
-		return;
+		return false;
 	}
 
 	for (int i = 0; i < nNodes; i++)
@@ -103,13 +103,13 @@ void CompoundExpression::addNode(Node* node, bool calc)
 			{
 				add(current, newNode, true);
 				doMathRec(current, 100);
-				return;
+				return true;
 			}
 		}	
 		catch(std::exception& e)
 		{
 			cout<<e.what()<<"; couldn't add node with math!";
-			return;
+			return false;
 		}
 	}
 
@@ -121,9 +121,9 @@ void CompoundExpression::addNode(Node* node, bool calc)
 	catch(std::exception& e)
 	{
 		cout<<e.what()<<"; couldn't add node!";
-		return;
+		return false;
 	}
-	return;
+	return true;
 }
 
 void CompoundExpression::multByNode(Node* node, bool spread)
