@@ -1139,7 +1139,7 @@ void printProduct(Node* node, bool isFirst, bool attachSign, stringstream& ss)
 		for (int i = 0; i < node->nChildren; i++)
 		{
 			node->children[i]->print(false, false, ss);
-			if (i < node->nChildren - 1) ss << "*";
+			//if (i < node->nChildren - 1) ss << "*";
 		}
 	}
 }

@@ -203,12 +203,22 @@ extern "C"
 				
 		initPrintFunctions();				
 	
-	for (int i = 0; i < count; i++)
+		for (int i = 0; i < count; i++)
 		{
 			try
 			{
 				CompoundInequation ci;
-				ci.generate(cind);
+				try
+				{		
+					ci.generate(cind);	
+				}
+				catch(std::exception& e)
+				{
+					cout<<e.what()<<" at "<<i<<endl;
+					mr.count = i - 1;
+					return mr;
+				}
+
 				stringstream ssp, sss;
 
 				ci.print(ssp);

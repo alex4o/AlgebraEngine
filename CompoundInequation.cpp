@@ -122,13 +122,40 @@ void CompoundInequation::findAndSplitPoly(bool choice)
 
 void CompoundInequation::addPolyBothSides()
 {
+	Node* newNode;
 	int cPower = rnj->nextInt(1, maxVisualPower);
-	Node* newNode = new Node(cPower, letter, rnj, cd);
+	try
+	{
+	newNode = new Node(cPower, letter, rnj, cd);
+
+	}
+	catch(std::exception& e)
+	{
+		cout<<e.what()<<" at newNode in addPolyBothSides\n";
+		return;
+	}
 	bool choice = rnj->nextBool();
 	
-	left->addNode(newNode, true);
-	right->addNode(newNode, true);
-	delete newNode;
+	try
+	{
+		left->addNode(newNode, true);
+		right->addNode(newNode, true);
+	}
+	catch(std::exception& e)
+	{
+		cout<<e.what()<<" at addNode in addPolyBothSides\n";
+		return;
+	}
+
+	try
+	{
+		delete newNode;
+	}
+	catch(std::exception& e)
+	{
+		cout<<e.what()<<" at delete newNode in addPolyBothSides\n";
+	}
+	
 }
 
 void CompoundInequation::generateAndAddNode()
@@ -184,8 +211,16 @@ void CompoundInequation::generate(CompoundInequationDescriptor& cind)
 	letter = cind.letter;
 	char sign = (char)rnj->nextInt(0, 3);
 
-	construct(roots, sign);
-	getSolutions();
+	try
+	{
+		construct(roots, sign);
+		getSolutions();
+	}
+	catch(std::exception& e)
+	{
+		cout<<e.what()<<" at generate/getSolutions"<<endl;
+		return;
+	}
 
 	cd = cind.cf;
 	maxVisualPower = cind.maxVisualPower;
@@ -197,22 +232,58 @@ void CompoundInequation::generate(CompoundInequationDescriptor& cind)
 	for (int i = 0; i < nTrans; i++)
 	{
 		int cPower = rnj->nextInt(1, cind.maxVisualPower);
-		Node* newNode = new Node(cPower, letter, rnj, cind.cf);
+		Node* newNode;
+		try
+		{
+			newNode = new Node(cPower, letter, rnj, cind.cf);
+		}
+		catch(std::exception& e)
+		{
+			cout<<e.what()<<" at new Node"<<endl;
+			return;
+		}
+		
 		bool choice = rnj->nextBool();
 		bool flag = cPower == 1;
 
-		left->addNode(newNode, choice || flag);
-		right->addNode(newNode, !choice || flag);
-
+		try
+		{
+			left->addNode(newNode, choice || flag);
+			right->addNode(newNode, !choice || flag);
+		}
+		catch(std::exception& e)
+		{
+			cout<<e.what()<<" at addNode\n";
+			return;
+		}
+		
 		/*cout << "step " << i << ": ";
 		dbgPrint();*/
 	}
 
 	cout << endl;
 
-	left->removeZero();
-	right->removeZero();
-	addPolyBothSides();
+	try
+	{
+		left->removeZero();
+		right->removeZero();
+	}
+	catch(std::exception& e)
+	{
+		cout<<e.what()<<" at removeZero\n";
+		return;
+	}
+
+	try
+	{
+		addPolyBothSides();
+	}
+	catch(std::exception& e)
+	{
+		cout<<e.what()<<" at addPolyBothSides\n";
+		return;
+	}
+	
 }
 
 void CompoundInequation::dbgPrint()

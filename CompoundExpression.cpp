@@ -66,29 +66,63 @@ void CompoundExpression::addNode(Node* node, bool calc)
 {
 	if (!calc)
 	{
+		try
+		{
 		if (nNodes == capacity) resize();
 		nodes[nNodes++] = new Node(node);
+
+		}
+		catch(std::exception& e)
+		{
+			cout<<e.what()<<"; couldn't add node!";
+			return;
+		}
 		return;
 	}
 
-	Node* newNode = new Node(node);
-	doMathRec(newNode, 100);
+
+	Node* newNode;
+	try
+	{
+		newNode = new Node(node);
+		doMathRec(newNode, 100);
+	}
+	catch(std::exception& e)
+	{
+		cout<<e.what()<<"; couldn't add node!";
+		return;
+	}
 
 	for (int i = 0; i < nNodes; i++)
 	{
 		Node* &current = nodes[i];
 		char t = current->getType();
-
-		if (t == polynomial || t == sum || t == fraction)
+		try
 		{
-			add(current, newNode, true);
-			doMathRec(current, 100);
+			if (t == polynomial || t == sum || t == fraction)
+			{
+				add(current, newNode, true);
+				doMathRec(current, 100);
+				return;
+			}
+		}	
+		catch(std::exception& e)
+		{
+			cout<<e.what()<<"; couldn't add node with math!";
 			return;
 		}
 	}
 
-	if (nNodes == capacity) resize();
-	nodes[nNodes++] = new Node(node);
+	try
+	{
+		if (nNodes == capacity) resize();
+		nodes[nNodes++] = new Node(node);	
+	}	
+	catch(std::exception& e)
+	{
+		cout<<e.what()<<"; couldn't add node!";
+		return;
+	}
 	return;
 }
 
