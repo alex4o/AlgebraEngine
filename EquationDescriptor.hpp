@@ -2,6 +2,7 @@
 #define EquationDesc
 
 #include "RootDescriptor.hpp"
+#include "CoefDescriptor.hpp"
 
 struct EquationDescriptor
 {

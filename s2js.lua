@@ -44,12 +44,48 @@ structs = match(
     C(ti^1)* space * C(text)* space * br * Ct(Ct(space*var*space)^0) * br*space * sep * space
   )^1),result)
 
+function print_r ( t )  
+    local print_r_cache={}
+    local function sub_print_r(t,indent)
+        if (print_r_cache[tostring(t)]) then
+            print(indent.."*"..tostring(t))
+        else
+            print_r_cache[tostring(t)]=true
+            if (type(t)=="table") then
+                for pos,val in pairs(t) do
+                    if (type(val)=="table") then
+                        print(indent.."["..pos.."] => "..tostring(t).." {")
+                        sub_print_r(val,indent..string.rep(" ",string.len(pos)+8))
+                        print(indent..string.rep(" ",string.len(pos)+6).."}")
+                    elseif (type(val)=="string") then
+                        print(indent.."["..pos..'] => "'..val..'"')
+                    else
+                        print(indent.."["..pos.."] => "..tostring(val))
+                    end
+                end
+            else
+                print(indent..tostring(t))
+            end
+        end
+    end
+    if (type(t)=="table") then
+        print(tostring(t).." {")
+        sub_print_r(t,"  ")
+        print("}")
+    else
+        sub_print_r(t,"  ")
+    end
+    print()
+end
+ 
+
+
 type_c = {
   int = "long",
   bool = "boolean",
   char = "byte",
 }
-bind = true
+bind = false
 -- json output
 t = {}
 if bind then
@@ -69,7 +105,7 @@ for k,struct in pairs(structs) do
     end
 
   end
-  print("----------")
+  print("\n----------")
 
 end
 
@@ -85,26 +121,54 @@ end
 else
 --json
 
-for k,struct in pairs(structs) do
-  print("var " .. struct[2] .. '= {')
-  t[struct[2]] = {}
+t = {}
+
+function print_json(struct, inside)
+  if inside then
+    print('{')
+    
+  else
+    print("var " .. struct[2] .. '= {')
+  end
+
+  
+  t[struct[2]] = struct
+
   for k,prop in pairs(struct[3]) do
     local ti
     for k,var in pairs(prop) do
       if k == 1 then
         ti = var
       else
-        print(var .. ': 0,') 
+
+        if t[ti] == nil then 
+          print("\t" .. var .. ': "' .. ti .. '",') 
+        else
+          print("\t" .. var .. ':') 
+          print_json(t[ti], true)
+        end
       end
 
     end
+  end
+
+  if inside then
+    print('},')
+    
+  else
+    print("}\n\n")
 
   end
-  print("}----------")
 
+
+end
+
+for k,struct in pairs(structs) do
+  print_json(struct)
 end
 
 
 end
 
+--print_r(structs)
 
